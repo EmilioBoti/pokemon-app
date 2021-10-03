@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.HomeFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/title"
+        android:textSize="@dimen/dimen_35"
+        android:textColor="@color/black"
+        android:layout_marginTop="@dimen/dimen_70"
+        >
+
+    </TextView>
+
+    <LinearLayout
+        android:id="@+id/search_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/dimen_30"
+        android:gravity="center"
+        >
+
+        <SearchView
+            android:id="@+id/search"
+            android:layout_width="@dimen/dimen_300"
+            android:layout_height="wrap_content"
+            android:background="@drawable/customborder"
+            >
+
+        </SearchView>
+
+        <ImageButton
+            android:id="@+id/btnSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:src="@drawable/ic_baseline_search_24"
+            android:padding="@dimen/dimen_12.1"
+            android:background="@drawable/border_rigth_top_bottom"
+            android:backgroundTint="@color/blue_search"
+            >
+
+        </ImageButton>
+    </LinearLayout>
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animationView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:lottie_rawRes="@raw/game_east_west"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/search_container"
+        android:layout_marginTop="@dimen/dimen_100"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/animationView"
+        android:layout_centerHorizontal="true"
+        android:text="@string/subTitle"
+        android:layout_marginTop="@dimen/dimen_100"
+        >
+
+    </TextView>
+</RelativeLayout>
