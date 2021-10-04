@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.example.pokemonapp.MainActivity;
 import com.example.pokemonapp.R;
 
 public class HomeFragment extends Fragment {
@@ -32,7 +33,7 @@ public class HomeFragment extends Fragment {
            @Override
            public void onClick(View view){
                callFragment();
-               Toast.makeText(getContext(), searchView.getQuery(), Toast.LENGTH_SHORT).show();
+               //Toast.makeText(getContext(), searchView.getQuery(), Toast.LENGTH_SHORT).show();
            }
         });
 

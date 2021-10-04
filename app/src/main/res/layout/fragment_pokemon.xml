@@ -1,113 +1,181 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bg_fragment"
             >
+
     <LinearLayout
+        android:id="@+id/goBackContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
+        android:background="@color/white"
+        android:elevation="@dimen/dimen_40"
+        android:padding="@dimen/dimen_10">
+
         <ImageButton
             android:id="@+id/goBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_arrow_back_ios_new_24"
             android:backgroundTint="@color/white"
-            >
+            android:src="@drawable/ic_baseline_arrow_back_ios_new_24">
 
         </ImageButton>
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="@dimen/dimen_300"
-        android:layout_height="@dimen/dimen_300"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/borders"
-        android:src="@drawable/pikachu"
-        android:backgroundTint="@color/blue_search"
-        android:layout_marginTop="@dimen/dimen_50"
-        >
-    </ImageView>
-    <LinearLayout
-        android:id="@+id/nameContainer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@id/image"
-        android:layout_centerHorizontal="true"
-        android:paddingTop="@dimen/dimen_20"
-        android:paddingBottom="@dimen/dimen_20"
-        android:paddingLeft="@dimen/dimen_40"
-        android:paddingRight="@dimen/dimen_40"
-        android:layout_marginTop="@dimen/dimen_30"
-        android:background="@drawable/bordername"
-        android:backgroundTint="@color/blue_search"
-        >
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/name"
-            android:textColor="@color/white"
-            android:textSize="@dimen/dimen_20"
-            >
-
-        </TextView>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@id/nameContainer"
-        android:layout_marginTop="@dimen/dimen_30"
-        android:layout_centerHorizontal="true"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/goBackContainer"
         >
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/description"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/dimen_30"
             >
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/type"
-                android:textSize="@dimen/dimen_25"
+            <ImageView
+                android:layout_width="@dimen/dimen_300"
+                android:layout_height="@dimen/dimen_300"
+                android:src="@drawable/pikachu"
+                android:background="@drawable/borders"
+                android:backgroundTint="@color/blue_search"
                 >
-            </TextView>
-        </LinearLayout>
+            </ImageView>
+            <!--Pokemon name layout-->
+            <LinearLayout
+                android:id="@+id/nameContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@id/image"
+                android:layout_centerHorizontal="true"
+                android:paddingTop="@dimen/dimen_20"
+                android:paddingBottom="@dimen/dimen_20"
+                android:paddingLeft="@dimen/dimen_40"
+                android:paddingRight="@dimen/dimen_40"
+                android:layout_marginTop="@dimen/dimen_30"
+                android:background="@drawable/bordername"
+                android:backgroundTint="@color/blue_search"
+                >
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/name"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/dimen_20"
+                    >
+                </TextView>
+            </LinearLayout>
+           <!--Description-->
+            <!--Evolution Session-->
+            <LinearLayout
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_30"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-        <LinearLayout
-            style="@style/description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+                <LinearLayout
+                    android:id="@+id/typePokemon"
+                    style="@style/description"
+                    android:layout_width="@dimen/dimen_130"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
 
-            >
+                    >
+
+                    <TextView
+                        style="@style/titleStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/type"
+                        >
+
+                    </TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/abilitiesPoke"
+                    style="@style/description"
+                    android:layout_width="@dimen/dimen_130"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/titleStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/abilities"
+                        >
+
+                    </TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/expPoke"
+                    style="@style/description"
+                    android:layout_width="@dimen/dimen_130"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/titleStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/BaseExp">
+
+                    </TextView>
+                </LinearLayout>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/abilities"
-                android:textSize="@dimen/dimen_25"
+                style="@style/titleEvolution"
+                android:text="@string/titleEvolution"
                 >
 
             </TextView>
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/BaseExp"
-                android:textSize="@dimen/dimen_25"
+                android:orientation="vertical"
                 >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_launcher_pikachu"
+                    >
+                </ImageView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pikachu"
+                    android:layout_gravity="center"
+                    android:textColor="@color/black"
+                    >
 
-            </TextView>
+                </TextView>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_launcher_pikachu"
+                    >
+                </ImageView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pikachu"
+                    android:layout_gravity="center"
+                    android:textColor="@color/black"
+                    >
+
+                </TextView>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

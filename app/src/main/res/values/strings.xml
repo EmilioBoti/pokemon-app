@@ -11,4 +11,5 @@
     <string name="BaseExp">Base Exp</string>
     <string name="abilities">Abilities</string>
     <string name="name">Pikachu</string>
+    <string name="titleEvolution">Evolutions</string>
 </resources>
