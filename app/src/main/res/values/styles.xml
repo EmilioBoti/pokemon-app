@@ -31,6 +31,7 @@
         <item name="android:layout_marginBottom">@dimen/dimen_10</item>
     </style>
     <style name="itemStyle">
-        <item name="android:textColor">@color/blue_search</item>>
+        <item name="android:textColor">@color/blue_search</item>
+        <item name="android:layout_gravity">center</item>
     </style>
 </resources>

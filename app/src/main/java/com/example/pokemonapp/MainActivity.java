@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         //set up Home View
         callFragment();
 
-        OkHttpClient client = new OkHttpClient();
+        /*OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url("https://pokeapi.co/api/v2/pokemon-form/?offset=20&limit=10")
                 .build();
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 });
 
             }
-        });
+        });*/
 
     }
     private void callFragment(){
