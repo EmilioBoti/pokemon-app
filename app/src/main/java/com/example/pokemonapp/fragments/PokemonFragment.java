@@ -1,6 +1,7 @@
 package com.example.pokemonapp.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,10 +48,52 @@ public class PokemonFragment extends Fragment {
         goBack = view.findViewById(R.id.goBack);
 
         OkHttpClient client = new OkHttpClient();
+
+        Bundle data = getArguments();
+        String input = data.getString("data");
+
         Services services = new Services();
-        
-        TextView t = new TextView(getContext());
-        t.setText("Electric");
+
+        try {
+            Request request = services.getPokemon(input);
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
+
+                }
+
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    if(response.isSuccessful()){
+                        String jsonString = response.body().string();
+                        try {
+                            JSONObject json = new JSONObject(jsonString);
+                            JSONObject obj = json.getJSONObject("pokemon");
+
+                            PokemonFragment.this.getActivity().runOnUiThread(new Runnable(){
+                                @Override
+                                public void run(){
+                                    try {
+                                        namePoke.setText(obj.getString("name"));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
+
+
+
+        }catch (IOException | JSONException e){
+
+        }
+        //Toast.makeText(getContext(), input, Toast.LENGTH_SHORT).show();
 
         //event to go back
         goBack.setOnClickListener(new View.OnClickListener(){

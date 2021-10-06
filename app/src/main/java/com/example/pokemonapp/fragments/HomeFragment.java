@@ -32,18 +32,26 @@ public class HomeFragment extends Fragment {
         btnSearch.setOnClickListener(new View.OnClickListener(){
            @Override
            public void onClick(View view){
-               callFragment();
-               //Toast.makeText(getContext(), searchView.getQuery(), Toast.LENGTH_SHORT).show();
+               callFragment(searchView.getQuery().toString());
            }
         });
 
         return view;
     }
-    private void callFragment(){
+    private void callFragment(String idName){
+
+        //save data of input
+        Bundle dataInput = new Bundle();
+        dataInput.putString("data", idName);
+
         FragmentManager fragmentManager = getParentFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        PokemonFragment pokemonFragment = new PokemonFragment();
+        pokemonFragment.setArguments(dataInput); //send data to PokemonFragment
+
         fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.replace(R.id.fragment_container_view, PokemonFragment.class, null);
+        fragmentTransaction.replace(R.id.fragment_container_view, pokemonFragment, null);
         fragmentTransaction.commit();
     }
     @Override

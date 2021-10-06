@@ -23,11 +23,7 @@ import okhttp3.Callback;
 
 public class Services {
 
-
     public Request getPokemon(String idName) throws IOException, JSONException {
-        String st = "";
-
-        OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
                             .url("https://pokeapi.co/api/v2/pokemon-form/"+idName+"/")
