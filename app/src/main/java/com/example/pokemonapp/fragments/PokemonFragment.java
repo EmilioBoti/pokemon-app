@@ -94,7 +94,6 @@ public class PokemonFragment extends Fragment {
                             JSONObject sprite = json.getJSONObject("sprites");
                             JSONArray types = json.getJSONArray("types");
                             JSONArray abilities = json.getJSONArray("abilities");
-
                             double weight = Double.parseDouble(json.getString("weight"));
 
                             PokemonFragment.this.getActivity().runOnUiThread(new Runnable(){
@@ -109,8 +108,9 @@ public class PokemonFragment extends Fragment {
                                         pokemon.setId(Integer.parseInt(id));
                                         pokemon.setWeight(weight);
 
-                                        setViewData(json);
-                                        
+                                        //Set datas in viewer
+                                        setViewData();
+
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
@@ -146,14 +146,16 @@ public class PokemonFragment extends Fragment {
 
     }
 
-    private void setViewData(JSONObject json) throws JSONException {
+    private void setViewData() throws JSONException {
         //load the image
         loadImage(pokemon.getSpriteFront(), pokeImage);
 
+        TextView we = new TextView(getContext());
+        we.setGravity(R.integer.material_motion_duration_long_1);
+        we.setText(String.valueOf(pokemon.getWeight()));
         namePoke.setText(pokemon.getName());
 
-        //Log.d("type", pokemon.getTypes().toString());
-        //Log.d("abi", pokemon.getAbilities().toString());
+        weight.addView(we);
 
         int dimen = 400;
 

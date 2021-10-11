@@ -31,8 +31,23 @@
     <dimen name="dimen_130">130dp</dimen>
     <dimen name="dimen_140">140dp</dimen>
     <dimen name="dimen_150">150dp</dimen>
-
-        <dimen name="dimen_200">200dp</dimen>
+    <dimen name="dimen_200">200dp</dimen>
     <dimen name="dimen_300">300dp</dimen>
     <dimen name="dimen_400">400dp</dimen>
+
+
+    <!--dimens to Strings -->
+    <dimen name="dimenString_10">10sp</dimen>
+    <dimen name="dimenString_12">12sp</dimen>
+    <dimen name="dimenString_14">14sp</dimen>
+    <dimen name="dimenString_15">15sp</dimen>
+    <dimen name="dimenString_16">16sp</dimen>
+    <dimen name="dimenString_18">18sp</dimen>
+    <dimen name="dimenString_20">20sp</dimen>
+    <dimen name="dimenString_22">22sp</dimen>
+    <dimen name="dimenString_24">24sp</dimen>
+    <dimen name="dimenString_26">26sp</dimen>
+    <dimen name="dimenString_28">28sp</dimen>
+    <dimen name="dimenString_30">30sp</dimen>
+
 </resources>

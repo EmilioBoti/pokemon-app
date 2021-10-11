@@ -53,13 +53,13 @@
 
         </ImageButton>
     </LinearLayout>
-    <!--<com.airbnb.lottie.LottieAnimationView
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:lottie_rawRes="@raw/game_east_west"
+        app:lottie_rawRes="@raw/pokemon"
         app:lottie_autoPlay="true"
-        app:lottie_loop="true"
+        app:lottie_loop="false"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/search_container"
         android:layout_marginTop="@dimen/dimen_100"
@@ -73,5 +73,5 @@
         android:layout_marginTop="@dimen/dimen_100"
         >
 
-    </TextView>-->
+    </TextView>
 </RelativeLayout>

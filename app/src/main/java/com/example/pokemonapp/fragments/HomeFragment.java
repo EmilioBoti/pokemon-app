@@ -33,7 +33,7 @@ public class HomeFragment extends Fragment {
            @Override
            public void onClick(View view){
                if(!searchView.getQuery().toString().isEmpty()){
-                   callFragment(searchView.getQuery().toString());
+                   callFragment(searchView.getQuery().toString().toLowerCase());
                }
            }
         });

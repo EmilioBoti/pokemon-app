@@ -100,9 +100,10 @@
                 <LinearLayout
                     android:id="@+id/typePokemon"
                     android:layout_width="@dimen/dimen_100"
-                    android:layout_height="@dimen/dimen_100"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_gravity="top"
+                    style="@style/boxes"
                     >
                     <TextView
                         style="@style/titleStyle"
@@ -115,10 +116,12 @@
                 <LinearLayout
                     android:id="@+id/abilitiesPoke"
                     android:layout_width="@dimen/dimen_100"
-                    android:layout_height="@dimen/dimen_100"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    style="@style/boxStyle"
+                    style="@style/boxes"
                     android:layout_gravity="top"
+                    android:layout_marginLeft="@dimen/dimen_30"
+                    android:layout_marginRight="@dimen/dimen_30"
                     >
                     <TextView
                         style="@style/titleStyle"
@@ -131,9 +134,10 @@
                 <LinearLayout
                     android:id="@+id/weight"
                     android:layout_width="@dimen/dimen_100"
-                    android:layout_height="@dimen/dimen_100"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_gravity="top"
+                    style="@style/boxes"
                     >
                     <TextView
                         style="@style/titleStyle"
@@ -146,7 +150,7 @@
                 <LinearLayout
                     android:id="@+id/expPoke"
                     android:layout_width="@dimen/dimen_100"
-                    android:layout_height="@dimen/dimen_100"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_gravity="top"
                     >
