@@ -12,4 +12,5 @@
     <string name="abilities">Abilities</string>
     <string name="name">Pikachu</string>
     <string name="titleEvolution">Evolutions</string>
+    <string name="weight">Weight</string>
 </resources>

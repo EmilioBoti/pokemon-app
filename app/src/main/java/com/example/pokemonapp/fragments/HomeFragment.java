@@ -32,7 +32,9 @@ public class HomeFragment extends Fragment {
         btnSearch.setOnClickListener(new View.OnClickListener(){
            @Override
            public void onClick(View view){
-               callFragment(searchView.getQuery().toString());
+               if(!searchView.getQuery().toString().isEmpty()){
+                   callFragment(searchView.getQuery().toString());
+               }
            }
         });
 
