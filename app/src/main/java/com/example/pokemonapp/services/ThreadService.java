@@ -1,2 +1,7 @@
-package com.example.pokemonapp.services;public class ThreadService {
+package com.example.pokemonapp.services;
+
+import android.util.Log;
+
+public class ThreadService {
+
 }

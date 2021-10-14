@@ -11,7 +11,25 @@ public class Pokemon implements Serializable {
     private double weight;
     private double baseExperience;
     private ArrayList<String> abilities;
+    private String urlEvolutions;
+    private String description;
+    private ArrayList<String> idEvolution;
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getUrlEvolutions() {
+        return urlEvolutions;
+    }
+
+    public void setUrlEvolutions(String urlEvolutions) {
+        this.urlEvolutions = urlEvolutions;
+    }
 
     public int getId() {
         return id;

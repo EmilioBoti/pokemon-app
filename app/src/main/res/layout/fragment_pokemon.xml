@@ -90,9 +90,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_30"
+                android:layout_marginBottom="@dimen/dimen_30"
                 android:orientation="horizontal"
                 android:layout_gravity="center"
-                android:padding="@dimen/dimen_10"
+                android:padding="@dimen/dimen_5"
                 android:columnCount="3"
                 android:rowCount="3"
                 >
@@ -163,29 +164,64 @@
                     </TextView>
                 </LinearLayout>
             </GridLayout>
-
-            <TextView
-                style="@style/titleEvolution"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/titleEvolution">
-
-            </TextView>
-
-            <ScrollView
+            <LinearLayout
+                android:id="@+id/descriptionContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="none"
+                android:orientation="vertical"
+                android:layout_marginLeft="@dimen/dimen_50"
+                android:layout_marginRight="@dimen/dimen_50"
                 >
-                <LinearLayout
-                    android:id="@+id/evole"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="@dimen/dimen_35"
-                    />
-            </ScrollView>
+                    android:text="@string/description"
+                    android:textSize="@dimen/dimenString_26"
+                    android:textColor="@color/black"
+                    android:layout_marginBottom="@dimen/dimen_10"
+                    >
+
+                </TextView>
+                <TextView
+                    android:id="@+id/pokeDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_name"
+                    >
+
+                </TextView>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/evolutionsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_marginBottom="@dimen/dimen_100"
+                android:padding="@dimen/dimen_20"
+                >
+                <TextView
+                    style="@style/titleEvolution"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/titleEvolution">
+
+                </TextView>
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none"
+                    >
+                    <LinearLayout
+                        android:id="@+id/evolutions"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        >
+
+                    </LinearLayout>
+                </HorizontalScrollView>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

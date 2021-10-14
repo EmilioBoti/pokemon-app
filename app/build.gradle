@@ -52,4 +52,7 @@ dependencies {
 
     //animated img(gif)
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
+
+    //gson to parse json
+    implementation 'com.google.code.gson:gson:2.8.7'
 }

@@ -23,6 +23,7 @@ import okhttp3.Response;
 import okhttp3.Callback;
 
 public class Services {
+    private String urlChain;
 
     public static Request getPokemon(String idName) throws IOException, JSONException {
 
@@ -33,40 +34,21 @@ public class Services {
     }
 
 
-    public static void getEvoles(){
-        ArrayList<String> listName = new ArrayList<>();
-
-        OkHttpClient client = new OkHttpClient();
-
+    public Request getUrLEvolutions(int idName){
         Request request = new Request.Builder()
-                .url("https://pokeapi.co/api/v2/pokemon-species/6/")
+                .url("https://pokeapi.co/api/v2/pokemon-species/"+idName+"/")
                 .build();
 
-        client.newCall(request).enqueue(new Callback(){
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                String json = response.body().string();
-                try {
-                    JSONObject obj = new JSONObject(json);
-                    JSONObject c = obj.getJSONObject("evolution_chain");
-                    Log.d("json", c.toString());
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-
-            }
-        });
-
-
-
-
-
+        return request;
     }
+
+    public Request getEvolutions(String path){
+
+        Request request = new Request.Builder()
+                                .url(path)
+                                .build();
+
+        return request;
+    }
+
 }

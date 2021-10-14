@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +46,6 @@ public class HomeFragment extends Fragment {
         searchView = view.findViewById(R.id.search);
         btnSearch = view.findViewById(R.id.btnSearch);
 
-
         btnSearch.setOnClickListener(new View.OnClickListener(){
            @Override
            public void onClick(View view){
@@ -69,12 +69,6 @@ public class HomeFragment extends Fragment {
                 public void onFailure(@NonNull Call call, @NonNull IOException e) {
                     e.printStackTrace();
 
-                    HomeFragment.this.getActivity().runOnUiThread(new Runnable(){
-                        @Override
-                       public void run(){
-                            //Toast.makeText(getContext(), "The search was not successfull", Toast.LENGTH_SHORT).show();
-                        }
-                    });
                 }
 
                 @Override
@@ -96,6 +90,7 @@ public class HomeFragment extends Fragment {
                                 @Override
                                 public void run(){
                                     try {
+                                        pokemon.setId(Integer.parseInt(id));
                                         pokemon.setName(name);
                                         pokemon.setTypes(setElements(types, "type"));
                                         pokemon.setAbilities(setElements(abilities, "ability"));
@@ -105,8 +100,10 @@ public class HomeFragment extends Fragment {
                                         pokemon.setWeight(weight);
                                         pokemon.setBaseExperience(baseExp);
 
+                                        Services services = new Services();
                                         //load new screen
                                         callFragment(pokemon);
+                                        //services.getEvolutions(Integer.parseInt(id));
 
                                     } catch (JSONException e) {
                                         e.printStackTrace();
