@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pokemonapp.MainActivity;
@@ -36,6 +37,7 @@ import okhttp3.Response;
 public class HomeFragment extends Fragment {
     private ImageButton btnSearch;
     public SearchView searchView;
+    public TextView habitat;
     private Pokemon pokemon = new Pokemon();
 
     @Override
@@ -45,12 +47,19 @@ public class HomeFragment extends Fragment {
 
         searchView = view.findViewById(R.id.search);
         btnSearch = view.findViewById(R.id.btnSearch);
+        habitat = view.findViewById(R.id.habitat);
 
+        habitat.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Toast.makeText(getContext(), "ok", Toast.LENGTH_SHORT).show();
+            }
+
+        });
         btnSearch.setOnClickListener(new View.OnClickListener(){
            @Override
            public void onClick(View view){
                if(!searchView.getQuery().toString().isEmpty()){
-                   //callFragment(searchView.getQuery().toString().toLowerCase());
                    getNamePoke(searchView.getQuery().toString().toLowerCase());
                }
            }

@@ -53,17 +53,62 @@
 
         </ImageButton>
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/search_container"
+        android:layout_marginTop="@dimen/dimen_40"
+        android:background="@color/bg_fragment"
+        android:gravity="center"
+        android:paddingTop="@dimen/dimen_15"
+        android:paddingBottom="@dimen/dimen_15"
+        >
+
+        <TextView
+            android:id="@+id/habitat"
+            style="@style/navStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/habitat"
+            android:clickable="true"
+            android:focusable="true"
+            >
+
+        </TextView>
+
+        <TextView
+            style="@style/navStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pokemons"
+            android:clickable="true"
+            android:focusable="true"
+            >
+
+        </TextView>
+
+        <TextView
+            style="@style/navStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="@string/types">
+
+        </TextView>
+    </LinearLayout>
+
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:lottie_rawRes="@raw/pokemon"
+        android:layout_below="@id/search_container"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dimen_100"
         app:lottie_autoPlay="true"
         app:lottie_loop="false"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/search_container"
-        android:layout_marginTop="@dimen/dimen_100"
-        />
+        app:lottie_rawRes="@raw/pokemon" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

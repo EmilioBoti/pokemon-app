@@ -14,4 +14,7 @@
     <string name="titleEvolution">Evolutions</string>
     <string name="weight">Weight</string>
     <string name="description">Description</string>
+    <string name="habitat">Habitat</string>
+    <string name="pokemons">Pokemons</string>
+    <string name="types">Types</string>
 </resources>
