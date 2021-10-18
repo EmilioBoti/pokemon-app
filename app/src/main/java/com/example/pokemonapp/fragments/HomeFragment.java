@@ -20,6 +20,7 @@ import com.example.pokemonapp.MainActivity;
 import com.example.pokemonapp.R;
 import com.example.pokemonapp.models.Pokemon;
 import com.example.pokemonapp.services.Services;
+import com.example.pokemonapp.utils.constants.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,7 +38,7 @@ import okhttp3.Response;
 public class HomeFragment extends Fragment {
     private ImageButton btnSearch;
     public SearchView searchView;
-    public TextView habitat;
+    public TextView pokemons, habitat, types;
     private Pokemon pokemon = new Pokemon();
 
     @Override
@@ -47,14 +48,32 @@ public class HomeFragment extends Fragment {
 
         searchView = view.findViewById(R.id.search);
         btnSearch = view.findViewById(R.id.btnSearch);
-        habitat = view.findViewById(R.id.habitat);
+        pokemons = view.findViewById(R.id.pokemons);
 
-        habitat.setOnClickListener(new View.OnClickListener(){
+        pokemons.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Toast.makeText(getContext(), "ok", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "ok", Toast.LENGTH_SHORT).show();
+                PokemonAllFragment pokemonAllFragment = new PokemonAllFragment();
+                callFragment(pokemonAllFragment);
+
+
             }
 
+        });
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if(!searchView.getQuery().toString().isEmpty()){
+                    getNamePoke(searchView.getQuery().toString().toLowerCase());
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
         });
         btnSearch.setOnClickListener(new View.OnClickListener(){
            @Override
@@ -71,7 +90,7 @@ public class HomeFragment extends Fragment {
         OkHttpClient client = new OkHttpClient();
 
         try {
-            Request request = Services.getPokemon(input);
+            Request request = Services.getDatas(Constants.PATH+input);
 
             client.newCall(request).enqueue(new Callback() {
                 @Override
@@ -90,6 +109,9 @@ public class HomeFragment extends Fragment {
                             String id = json.getString("id");
                             String name = json.getString("name");
                             JSONObject sprite = json.getJSONObject("sprites");
+                            JSONObject other = sprite.getJSONObject("other");
+                            JSONObject officialArtwork = other.getJSONObject("official-artwork");
+
                             JSONArray types = json.getJSONArray("types");
                             JSONArray abilities = json.getJSONArray("abilities");
                             double weight = Double.parseDouble(json.getString("weight"));
@@ -104,14 +126,20 @@ public class HomeFragment extends Fragment {
                                         pokemon.setTypes(setElements(types, "type"));
                                         pokemon.setAbilities(setElements(abilities, "ability"));
                                         pokemon.setSpriteBack(sprite.getString("back_default"));
-                                        pokemon.setSpriteFront(sprite.getString("front_default"));
+                                        pokemon.setSpriteFront(officialArtwork.getString("front_default"));
                                         pokemon.setId(Integer.parseInt(id));
                                         pokemon.setWeight(weight);
                                         pokemon.setBaseExperience(baseExp);
 
-                                        Services services = new Services();
+                                        //save data of input
+                                        Bundle dataInput = new Bundle();
+                                        dataInput.putSerializable("pokemonData", pokemon);
+
+                                        PokemonFragment pokemonFragment = new PokemonFragment();
+                                        pokemonFragment.setArguments(dataInput); //send data to PokemonFragment
+
                                         //load new screen
-                                        callFragment(pokemon);
+                                        callFragment(pokemonFragment);
                                         //services.getEvolutions(Integer.parseInt(id));
 
                                     } catch (JSONException e) {
@@ -147,20 +175,12 @@ public class HomeFragment extends Fragment {
         return listElements;
     }
 
-    private void callFragment(Pokemon pokemon){
-
-        //save data of input
-        Bundle dataInput = new Bundle();
-        dataInput.putSerializable("pokemonData", pokemon);
+    private void callFragment(Fragment fragment){
 
         FragmentManager fragmentManager = getParentFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        PokemonFragment pokemonFragment = new PokemonFragment();
-        pokemonFragment.setArguments(dataInput); //send data to PokemonFragment
-
         fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.replace(R.id.fragment_container_view, pokemonFragment, null);
+        fragmentTransaction.replace(R.id.fragment_container_view, fragment, null);
         fragmentTransaction.commit();
     }
 

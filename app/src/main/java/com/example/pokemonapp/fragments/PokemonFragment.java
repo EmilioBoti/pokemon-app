@@ -1,29 +1,24 @@
 package com.example.pokemonapp.fragments;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.LongDef;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.pokemonapp.R;
 import com.example.pokemonapp.models.Pokemon;
 import com.example.pokemonapp.services.Services;
-import com.example.pokemonapp.services.ThreadService;
+import com.example.pokemonapp.utils.constants.Constants;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -31,8 +26,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 
 import okhttp3.Call;
@@ -40,7 +33,6 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import pl.droidsonroids.gif.GifImageView;
 
 
 public class PokemonFragment extends Fragment {
@@ -52,7 +44,7 @@ public class PokemonFragment extends Fragment {
     private Pokemon pokemon = new Pokemon();
     private Services services;
     private ArrayList<String> listId;
-
+    private ArrayList<String> listNames;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState){
@@ -106,6 +98,8 @@ public class PokemonFragment extends Fragment {
                         public void run() {
                             try {
                                 listId = new ArrayList<>();
+                                listNames = new ArrayList<>();
+
                                 JSONObject obj = new JSONObject(json);
                                 JSONObject  chain = obj.getJSONObject("chain");
                                 JSONArray evol = chain.getJSONArray("evolves_to");
@@ -113,16 +107,20 @@ public class PokemonFragment extends Fragment {
                                 //base poke
                                 JSONObject poke1 = chain.getJSONObject("species");
                                 String pokeName1 = poke1.getString("url");
+                                String name1 = poke1.getString("name");
 
                                 String id = pokeName1.substring(42, pokeName1.length()-1);
                                 addId(id);
+                                addName(name1);
 
                                 for (int i = 0; i < evol.length(); i++){
                                     JSONObject object = (JSONObject)evol.get(i);
                                     JSONObject poke2 = object.getJSONObject("species");
-                                    String pokeName2 = poke2.getString("url");
-                                    String id2 = pokeName2.substring(42, pokeName2.length()-1);
+                                    String pokeUrl2 = poke2.getString("url");
+                                    String name2 = poke2.getString("name");
+                                    String id2 = pokeUrl2.substring(42, pokeUrl2.length()-1);
                                     addId(id2);
+                                    addName(name2);
 
                                     JSONArray evol2 = object.getJSONArray("evolves_to");
 
@@ -131,22 +129,42 @@ public class PokemonFragment extends Fragment {
                                         JSONObject poke3 = ob.getJSONObject("species");
                                         String pokeName3 = poke3.getString("url");
                                         String id3 = pokeName3.substring(42, pokeName3.length()-1);
+                                        String name3 = poke3.getString("name");
                                         addId(id3);
+                                        addName(name3);
 
                                     }
 
                                 }
-                                int dimen = 400;
+                                int dimen = 450;
+                                int padding = 35;
 
                                 for (int i = 0; i < listId.size(); i++){
                                     Context context = getContext();
 
-                                    ImageView im1 = new ImageView(context);
-                                    im1.setLayoutParams(new LinearLayout.LayoutParams(dimen,dimen));
-                                    loadImage("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"+listId.get(i)+".png", im1);
-                                    evolutions.addView(im1);
+                                    LinearLayout imgContainer = new LinearLayout(getContext());
+                                    //imgContainer.setLayoutParams(new LinearLayout.LayoutParams(dimen, dimen));
+                                    imgContainer.setBackgroundColor(getResources().getColor(R.color.white, getResources().newTheme()));
+                                    imgContainer.setOrientation(LinearLayout.VERTICAL);
+                                    imgContainer.setBackground(getResources().getDrawable(R.drawable.bordername, getResources().newTheme()));
+                                    imgContainer.setPadding(padding, padding, padding, padding);
 
+                                    ImageView imgP = new ImageView(context);
+                                    //imgP.setLayoutParams(new LinearLayout.LayoutParams(dimen,dimen-50));
+
+                                    TextView nameP = new TextView(getContext());
+                                    nameP.setText(listNames.get(i));
+                                    nameP.setTextSize(20f);
+                                    nameP.setTextColor(getResources().getColor(R.color.black));
+                                    nameP.setGravity(Gravity.CENTER_HORIZONTAL);
+                                    //nameP.setPadding(5,5,5,5);
+                                    imgContainer.addView(imgP);
+                                    imgContainer.addView(nameP);
+
+                                    loadImage(Constants.URL_IMG +listId.get(i)+".png", imgP);
+                                    evolutions.addView(imgContainer);
                                 }
+                                Log.d("names", listNames.toString());
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -160,6 +178,11 @@ public class PokemonFragment extends Fragment {
     private void addId(String id){
         if(!id.isEmpty()){
             this.listId.add(id);
+        }
+    }
+    private void addName(String name){
+        if(!name.isEmpty()){
+            this.listNames.add(name);
         }
     }
     private void setDesData() {
@@ -184,7 +207,6 @@ public class PokemonFragment extends Fragment {
                     JSONObject ob = (JSONObject) desObj.get(1);
                     pokemon.setDescription(ob.getString("flavor_text"));
                     pokemon.setUrlEvolutions(c.getString("url"));
-
 
                     setPokeEvolutions();
 
@@ -213,11 +235,11 @@ public class PokemonFragment extends Fragment {
         loadImage(pokemon.getSpriteFront(), pokeImage);
 
         TextView we = new TextView(getContext());
-        we.setGravity(R.integer.material_motion_duration_long_1);
+        we.setGravity(Gravity.CENTER_HORIZONTAL);
         we.setText(String.valueOf(pokemon.getWeight()));
 
         TextView be = new TextView(getContext());
-        be.setGravity(R.integer.material_motion_duration_long_1);
+        be.setGravity(Gravity.CENTER_HORIZONTAL);
         be.setText(String.valueOf(pokemon.getBaseExperience()));
         namePoke.setText(pokemon.getName());
 
@@ -227,13 +249,13 @@ public class PokemonFragment extends Fragment {
         for (String type: pokemon.getTypes()) {
             TextView t = new TextView(getContext());
             t.setText(type);
-            t.setGravity(R.integer.material_motion_duration_long_1);
+            t.setGravity(Gravity.CENTER_HORIZONTAL);
             typesView.addView(t);
         }
         for (String elem: pokemon.getAbilities()) {
             TextView ability = new TextView(getContext());
             ability.setText(elem);
-            ability.setGravity(R.integer.material_motion_duration_long_1);
+            ability.setGravity(Gravity.CENTER_HORIZONTAL);
             abilities.addView(ability);
         }
     }

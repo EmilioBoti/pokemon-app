@@ -34,11 +34,11 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:elevation="@dimen/dimen_20"
-                app:cardCornerRadius="@dimen/dimen_200">
+                android:backgroundTint="@color/bg_fragment"
+                >
 
                 <!--<pl.droidsonroids.gif.GifImageView
                     android:id="@+id/pokeImage"
@@ -49,14 +49,12 @@
                 </pl.droidsonroids.gif.GifImageView>-->
                 <ImageView
                     android:id="@+id/pokeImage"
-                    android:layout_width="@dimen/dimen_400"
-                    android:layout_height="@dimen/dimen_400"
-                    android:background="@drawable/borders"
-                    android:backgroundTint="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_500"
+                    android:src="@mipmap/ic_launcher_pokemon_zero_foreground"
                     >
-
                 </ImageView>
-            </androidx.cardview.widget.CardView>
+            </LinearLayout>
             <!--Pokemon name layout-->
             <LinearLayout
                 android:id="@+id/nameContainer"
@@ -198,13 +196,15 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:layout_marginBottom="@dimen/dimen_100"
-                android:padding="@dimen/dimen_20"
+                android:padding="@dimen/dimen_5"
                 >
                 <TextView
                     style="@style/titleEvolution"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/titleEvolution">
+                    android:text="@string/titleEvolution"
+                    android:layout_marginBottom="@dimen/dimen_70"
+                    >
 
                 </TextView>
                 <HorizontalScrollView

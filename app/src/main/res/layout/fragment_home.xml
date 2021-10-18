@@ -36,6 +36,7 @@
             android:layout_width="@dimen/dimen_300"
             android:layout_height="wrap_content"
             android:background="@drawable/customborder"
+            android:inputType="text"
             >
 
         </SearchView>
@@ -59,32 +60,29 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/search_container"
         android:layout_marginTop="@dimen/dimen_40"
-        android:background="@color/bg_fragment"
         android:gravity="center"
         android:paddingTop="@dimen/dimen_15"
-        android:paddingBottom="@dimen/dimen_15"
-        >
+        android:paddingBottom="@dimen/dimen_15">
 
         <TextView
             android:id="@+id/habitat"
             style="@style/navStyle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/habitat"
+            android:layout_height="match_parent"
             android:clickable="true"
             android:focusable="true"
-            >
+            android:text="@string/habitat">
 
         </TextView>
 
         <TextView
+            android:id="@+id/pokemons"
             style="@style/navStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/pokemons"
             android:clickable="true"
             android:focusable="true"
-            >
+            android:text="@string/pokemons">
 
         </TextView>
 
@@ -105,7 +103,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/search_container"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/dimen_100"
+        android:layout_marginTop="@dimen/dimen_150"
         app:lottie_autoPlay="true"
         app:lottie_loop="false"
         app:lottie_rawRes="@raw/pokemon" />

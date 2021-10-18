@@ -95,4 +95,8 @@ public class Pokemon implements Serializable {
         this.abilities = abilities;
     }
 
+
+
+
+
 }

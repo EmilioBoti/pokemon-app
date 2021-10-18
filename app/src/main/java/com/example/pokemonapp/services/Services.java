@@ -25,21 +25,33 @@ import okhttp3.Callback;
 public class Services {
     private String urlChain;
 
-    public static Request getPokemon(String idName) throws IOException, JSONException {
+    public static Request getDatas(String path) throws IOException, JSONException {
 
         Request request = new Request.Builder()
-                            .url("https://pokeapi.co/api/v2/pokemon/"+idName+"/")
+                            .url(path)
                             .build();
         return  request;
     }
 
-
     public Request getUrLEvolutions(int idName){
+        OkHttpClient client = new OkHttpClient();
+
         Request request = new Request.Builder()
                 .url("https://pokeapi.co/api/v2/pokemon-species/"+idName+"/")
                 .build();
 
         return request;
+    }
+
+    public String testing(String path) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(path)
+                .build();
+
+        Response response = client.newCall(request).execute();
+        return response.body().string();
     }
 
     public Request getEvolutions(String path){
