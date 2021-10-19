@@ -7,6 +7,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.example.pokemonapp.models.Pokemon;
+import com.example.pokemonapp.utils.constants.Constants;
 
 import okhttp3.Call;
 
@@ -34,10 +35,9 @@ public class Services {
     }
 
     public Request getUrLEvolutions(int idName){
-        OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
-                .url("https://pokeapi.co/api/v2/pokemon-species/"+idName+"/")
+                .url(Constants.URL_SPECIES +idName+"/")
                 .build();
 
         return request;

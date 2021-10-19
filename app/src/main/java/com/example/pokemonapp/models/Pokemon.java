@@ -3,7 +3,7 @@ package com.example.pokemonapp.models;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Pokemon implements Serializable {
+public class Pokemon implements Serializable, Comparable {
     private int id;
     private String name;
     private String spriteBack, spriteFront;
@@ -14,6 +14,14 @@ public class Pokemon implements Serializable {
     private String urlEvolutions;
     private String description;
     private ArrayList<String> idEvolution;
+
+
+    public Pokemon(){ }
+
+    public Pokemon (int id, String name){
+        this.id = id;
+        this.name = name;
+    }
 
     public String getDescription() {
         return description;
@@ -97,6 +105,9 @@ public class Pokemon implements Serializable {
 
 
 
-
-
+    // to sort by id: type int
+    @Override
+    public int compareTo(Object o) {
+        return (this.getId() < ((Pokemon)o).getId() ? -1 : (this.getId() == ((Pokemon)o).getId() ? 0: 1));
+    }
 }

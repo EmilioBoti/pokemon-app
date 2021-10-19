@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.pokemonapp.R;
@@ -27,6 +28,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -41,14 +45,21 @@ public class PokemonFragment extends Fragment {
     private TextView namePoke, pokeDescription;
     private LinearLayout typesView, weight, baseExp, evoleContainer, abilities;
     private LinearLayout evolutions;
-    private Pokemon pokemon = new Pokemon();
+    private Pokemon pokemon;
     private Services services;
-    private ArrayList<String> listId;
+    private ArrayList<Pokemon> listPokemon;
+    private ArrayList<Integer> listId;
     private ArrayList<String> listNames;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState){
         View view = inflater.inflate(R.layout.fragment_pokemon, container, false);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         //get all views
         getViews(view);
@@ -72,7 +83,6 @@ public class PokemonFragment extends Fragment {
             }
         });
 
-        return view;
     }
 
     private void setPokeEvolutions(){
@@ -97,8 +107,6 @@ public class PokemonFragment extends Fragment {
                         @Override
                         public void run() {
                             try {
-                                listId = new ArrayList<>();
-                                listNames = new ArrayList<>();
 
                                 JSONObject obj = new JSONObject(json);
                                 JSONObject  chain = obj.getJSONObject("chain");
@@ -110,8 +118,9 @@ public class PokemonFragment extends Fragment {
                                 String name1 = poke1.getString("name");
 
                                 String id = pokeName1.substring(42, pokeName1.length()-1);
-                                addId(id);
-                                addName(name1);
+                                listPokemon.add(new Pokemon(Integer.parseInt(id), name1));
+                                //addId(Integer.parseInt(id));
+                                //addName(name1);
 
                                 for (int i = 0; i < evol.length(); i++){
                                     JSONObject object = (JSONObject)evol.get(i);
@@ -119,8 +128,9 @@ public class PokemonFragment extends Fragment {
                                     String pokeUrl2 = poke2.getString("url");
                                     String name2 = poke2.getString("name");
                                     String id2 = pokeUrl2.substring(42, pokeUrl2.length()-1);
-                                    addId(id2);
-                                    addName(name2);
+                                    listPokemon.add(new Pokemon(Integer.parseInt(id2), name2));
+                                    //addId(Integer.parseInt(id2));
+                                    //addName(name2);
 
                                     JSONArray evol2 = object.getJSONArray("evolves_to");
 
@@ -130,41 +140,45 @@ public class PokemonFragment extends Fragment {
                                         String pokeName3 = poke3.getString("url");
                                         String id3 = pokeName3.substring(42, pokeName3.length()-1);
                                         String name3 = poke3.getString("name");
-                                        addId(id3);
-                                        addName(name3);
+                                        listPokemon.add(new Pokemon(Integer.parseInt(id3), name3));
+                                        //addId(Integer.parseInt(id3));
+                                        //addName(name3);
 
                                     }
 
                                 }
-                                int dimen = 450;
+                                Collections.sort(listPokemon);
+                                //Collections.sort(listNames);
+
+                                //int dimen = 450;
                                 int padding = 35;
 
-                                for (int i = 0; i < listId.size(); i++){
+                                for (int i = 0; i < listPokemon.size(); i++){
                                     Context context = getContext();
 
                                     LinearLayout imgContainer = new LinearLayout(getContext());
                                     //imgContainer.setLayoutParams(new LinearLayout.LayoutParams(dimen, dimen));
                                     imgContainer.setBackgroundColor(getResources().getColor(R.color.white, getResources().newTheme()));
                                     imgContainer.setOrientation(LinearLayout.VERTICAL);
-                                    imgContainer.setBackground(getResources().getDrawable(R.drawable.bordername, getResources().newTheme()));
+                                    //imgContainer.setBackground(getResources().getDrawable(R.drawable.bordername, getResources().newTheme()));
                                     imgContainer.setPadding(padding, padding, padding, padding);
 
                                     ImageView imgP = new ImageView(context);
                                     //imgP.setLayoutParams(new LinearLayout.LayoutParams(dimen,dimen-50));
 
                                     TextView nameP = new TextView(getContext());
-                                    nameP.setText(listNames.get(i));
+                                    nameP.setText(listPokemon.get(i).getName());
                                     nameP.setTextSize(20f);
                                     nameP.setTextColor(getResources().getColor(R.color.black));
                                     nameP.setGravity(Gravity.CENTER_HORIZONTAL);
-                                    //nameP.setPadding(5,5,5,5);
+
                                     imgContainer.addView(imgP);
                                     imgContainer.addView(nameP);
 
-                                    loadImage(Constants.URL_IMG +listId.get(i)+".png", imgP);
+                                    loadImage(Constants.URL_IMG +listPokemon.get(i).getId()+".png", imgP);
                                     evolutions.addView(imgContainer);
                                 }
-                                Log.d("names", listNames.toString());
+
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -175,16 +189,7 @@ public class PokemonFragment extends Fragment {
             }
         });
     }
-    private void addId(String id){
-        if(!id.isEmpty()){
-            this.listId.add(id);
-        }
-    }
-    private void addName(String name){
-        if(!name.isEmpty()){
-            this.listNames.add(name);
-        }
-    }
+
     private void setDesData() {
 
         //Services services = new Services();
@@ -201,6 +206,7 @@ public class PokemonFragment extends Fragment {
                 try {
                     JSONObject obj = new JSONObject(json);
                     JSONObject c = obj.getJSONObject("evolution_chain");
+                    JSONArray varieties = obj.getJSONArray("varieties");
 
                     JSONArray desObj = obj.getJSONArray("flavor_text_entries");
 
@@ -208,14 +214,31 @@ public class PokemonFragment extends Fragment {
                     pokemon.setDescription(ob.getString("flavor_text"));
                     pokemon.setUrlEvolutions(c.getString("url"));
 
-                    setPokeEvolutions();
 
                     PokemonFragment.this.getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             pokeDescription.setText(pokemon.getDescription());
+                            try {
+                                for (int i = 1; i < varieties.length(); i++){
+
+                                    JSONObject varian = (JSONObject)varieties.get(i);
+                                    JSONObject pokemonVarian = varian.getJSONObject("pokemon");
+                                    String urlId = pokemonVarian.getString("url");
+                                    String name = pokemonVarian.getString("name");
+                                    String id = urlId.substring(34, urlId.length()-1);
+                                    //listId.add(Integer.parseInt(id));
+                                    //listNames.add(name);
+                                    listPokemon.add(new Pokemon(Integer.parseInt(id), name));
+                                }
+
+                            }catch (JSONException e ){
+                                e.printStackTrace();
+                            }
                         }
                     });
+
+                    setPokeEvolutions();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -267,7 +290,14 @@ public class PokemonFragment extends Fragment {
                 //.placeholder(R.mipmap.ic_launcher_defaultimg_foreground)
                 .into(pokeImage);
     }
-
+    private void addId(int id){
+        this.listId.add(id);
+    }
+    private void addName(String name){
+        if(!name.isEmpty()){
+            this.listNames.add(name);
+        }
+    }
     private void getViews(View view){
         typesView = view.findViewById(R.id.typePokemon);
         abilities = view.findViewById(R.id.abilitiesPoke);
@@ -280,5 +310,8 @@ public class PokemonFragment extends Fragment {
         pokeDescription = view.findViewById(R.id.pokeDescription);
 
         services = new Services();
+        listId = new ArrayList<>();
+        listNames = new ArrayList<>();
+        listPokemon = new ArrayList<>();
     }
 }

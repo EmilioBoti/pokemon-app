@@ -127,7 +127,6 @@ public class HomeFragment extends Fragment {
                                         pokemon.setAbilities(setElements(abilities, "ability"));
                                         pokemon.setSpriteBack(sprite.getString("back_default"));
                                         pokemon.setSpriteFront(officialArtwork.getString("front_default"));
-                                        pokemon.setId(Integer.parseInt(id));
                                         pokemon.setWeight(weight);
                                         pokemon.setBaseExperience(baseExp);
 
