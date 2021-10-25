@@ -11,12 +11,18 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokemonapp.R;
+import com.example.pokemonapp.adapters.EvolutionsAdapter;
 import com.example.pokemonapp.models.Pokemon;
 import com.example.pokemonapp.services.Services;
 import com.example.pokemonapp.utils.constants.Constants;
@@ -43,8 +49,8 @@ public class PokemonFragment extends Fragment {
     private ImageView pokeImage;
     private ImageButton goBack;
     private TextView namePoke, pokeDescription;
-    private LinearLayout typesView, weight, baseExp, evoleContainer, abilities;
-    private LinearLayout evolutions;
+    private LinearLayout typesView, weight, baseExp, abilities;
+    private RecyclerView evolutions;
     private Pokemon pokemon;
     private Services services;
     private ArrayList<Pokemon> listPokemon;
@@ -64,7 +70,7 @@ public class PokemonFragment extends Fragment {
         //get all views
         getViews(view);
 
-        //get datas from home's input or searcher
+        //get datas from home's input(searcher)
         Bundle data = getArguments();
         pokemon = (Pokemon) data.getSerializable("pokemonData");
 
@@ -102,7 +108,6 @@ public class PokemonFragment extends Fragment {
                 if(response.isSuccessful()){
                     String json = response.body().string();
 
-
                     PokemonFragment.this.getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -119,8 +124,6 @@ public class PokemonFragment extends Fragment {
 
                                 String id = pokeName1.substring(42, pokeName1.length()-1);
                                 listPokemon.add(new Pokemon(Integer.parseInt(id), name1));
-                                //addId(Integer.parseInt(id));
-                                //addName(name1);
 
                                 for (int i = 0; i < evol.length(); i++){
                                     JSONObject object = (JSONObject)evol.get(i);
@@ -129,8 +132,6 @@ public class PokemonFragment extends Fragment {
                                     String name2 = poke2.getString("name");
                                     String id2 = pokeUrl2.substring(42, pokeUrl2.length()-1);
                                     listPokemon.add(new Pokemon(Integer.parseInt(id2), name2));
-                                    //addId(Integer.parseInt(id2));
-                                    //addName(name2);
 
                                     JSONArray evol2 = object.getJSONArray("evolves_to");
 
@@ -141,30 +142,23 @@ public class PokemonFragment extends Fragment {
                                         String id3 = pokeName3.substring(42, pokeName3.length()-1);
                                         String name3 = poke3.getString("name");
                                         listPokemon.add(new Pokemon(Integer.parseInt(id3), name3));
-                                        //addId(Integer.parseInt(id3));
-                                        //addName(name3);
-
                                     }
 
                                 }
                                 Collections.sort(listPokemon);
-                                //Collections.sort(listNames);
-
+                                callAdapter(getContext(), listPokemon);
                                 //int dimen = 450;
-                                int padding = 35;
+                                /*int padding = 35;
 
                                 for (int i = 0; i < listPokemon.size(); i++){
                                     Context context = getContext();
 
                                     LinearLayout imgContainer = new LinearLayout(getContext());
-                                    //imgContainer.setLayoutParams(new LinearLayout.LayoutParams(dimen, dimen));
                                     imgContainer.setBackgroundColor(getResources().getColor(R.color.white, getResources().newTheme()));
                                     imgContainer.setOrientation(LinearLayout.VERTICAL);
-                                    //imgContainer.setBackground(getResources().getDrawable(R.drawable.bordername, getResources().newTheme()));
                                     imgContainer.setPadding(padding, padding, padding, padding);
 
                                     ImageView imgP = new ImageView(context);
-                                    //imgP.setLayoutParams(new LinearLayout.LayoutParams(dimen,dimen-50));
 
                                     TextView nameP = new TextView(getContext());
                                     nameP.setText(listPokemon.get(i).getName());
@@ -177,7 +171,7 @@ public class PokemonFragment extends Fragment {
 
                                     loadImage(Constants.URL_IMG +listPokemon.get(i).getId()+".png", imgP);
                                     evolutions.addView(imgContainer);
-                                }
+                                }*/
 
 
                             } catch (JSONException e) {
@@ -189,7 +183,31 @@ public class PokemonFragment extends Fragment {
             }
         });
     }
+    private void callAdapter(Context context, ArrayList<Pokemon> listPokemon){
+        EvolutionsAdapter evolutionsAdapter = new EvolutionsAdapter(context, listPokemon);
+        evolutions.setHasFixedSize(true);
+        evolutions.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        evolutions.setAdapter(evolutionsAdapter);
 
+        evolutionsAdapter.OnClickItemListener(new EvolutionsAdapter.OnClickItemListener() {
+            @Override
+            public void onclickItem(int post) {
+                getNamePoke(String.valueOf(post));
+            }
+
+            @Override
+            public void onclickItem(String name) {
+
+            }
+        });
+    }
+    private void callFragment(Fragment fragment){
+        FragmentManager fragmentManager = getParentFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.replace(R.id.fragment_container_view, fragment, null);
+        fragmentTransaction.commit();
+    }
     private void setDesData() {
 
         //Services services = new Services();
@@ -227,8 +245,6 @@ public class PokemonFragment extends Fragment {
                                     String urlId = pokemonVarian.getString("url");
                                     String name = pokemonVarian.getString("name");
                                     String id = urlId.substring(34, urlId.length()-1);
-                                    //listId.add(Integer.parseInt(id));
-                                    //listNames.add(name);
                                     listPokemon.add(new Pokemon(Integer.parseInt(id), name));
                                 }
 
@@ -257,17 +273,17 @@ public class PokemonFragment extends Fragment {
         //load the image
         loadImage(pokemon.getSpriteFront(), pokeImage);
 
-        TextView we = new TextView(getContext());
-        we.setGravity(Gravity.CENTER_HORIZONTAL);
-        we.setText(String.valueOf(pokemon.getWeight()));
+        TextView weightP = new TextView(getContext());
+        weightP.setGravity(Gravity.CENTER_HORIZONTAL);
+        weightP.setText(String.valueOf(pokemon.getWeight()));
 
-        TextView be = new TextView(getContext());
-        be.setGravity(Gravity.CENTER_HORIZONTAL);
-        be.setText(String.valueOf(pokemon.getBaseExperience()));
+        TextView baseExperiance = new TextView(getContext());
+        baseExperiance.setGravity(Gravity.CENTER_HORIZONTAL);
+        baseExperiance.setText(String.valueOf(pokemon.getBaseExperience()));
         namePoke.setText(pokemon.getName());
 
-        weight.addView(we);
-        baseExp.addView(be);
+        weight.addView(weightP);
+        baseExp.addView(baseExperiance);
 
         for (String type: pokemon.getTypes()) {
             TextView t = new TextView(getContext());
@@ -297,6 +313,92 @@ public class PokemonFragment extends Fragment {
         if(!name.isEmpty()){
             this.listNames.add(name);
         }
+    }
+
+    public void getNamePoke(String input){
+        OkHttpClient client = new OkHttpClient();
+
+        try {
+            Request request = Services.getDatas(Constants.PATH+input);
+
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                    e.printStackTrace();
+
+                }
+
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    if(response.isSuccessful()){
+                        String jsonString = response.body().string();
+
+                        try {
+                            JSONObject json = new JSONObject(jsonString);
+                            String id = json.getString("id");
+                            String name = json.getString("name");
+                            JSONObject sprite = json.getJSONObject("sprites");
+                            JSONObject other = sprite.getJSONObject("other");
+                            JSONObject officialArtwork = other.getJSONObject("official-artwork");
+
+                            JSONArray types = json.getJSONArray("types");
+                            JSONArray abilities = json.getJSONArray("abilities");
+                            double weight = Double.parseDouble(json.getString("weight"));
+                            double baseExp = Double.parseDouble(json.getString("base_experience"));
+
+                            PokemonFragment.this.getActivity().runOnUiThread(new Runnable(){
+                                @Override
+                                public void run(){
+                                    try {
+                                        pokemon.setId(Integer.parseInt(id));
+                                        pokemon.setName(name);
+                                        pokemon.setTypes(setElements(types, "type"));
+                                        pokemon.setAbilities(setElements(abilities, "ability"));
+                                        pokemon.setSpriteBack(sprite.getString("back_default"));
+                                        pokemon.setSpriteFront(officialArtwork.getString("front_default"));
+                                        pokemon.setWeight(weight);
+                                        pokemon.setBaseExperience(baseExp);
+
+                                        //save data of input
+                                        Bundle dataInput = new Bundle();
+                                        dataInput.putSerializable("pokemonData", pokemon);
+
+                                        PokemonFragment pokemonFragment = new PokemonFragment();
+                                        pokemonFragment.setArguments(dataInput); //send data to PokemonFragment
+
+                                        //load new screen
+                                        callFragment(pokemonFragment);
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
+
+        }catch (IOException | JSONException e){
+            e.printStackTrace();
+        }
+
+    }
+    private ArrayList<String> setElements(JSONArray array, String objName){
+        ArrayList<String> listElements = new ArrayList<>();
+        try {
+            for (int i = 0; i < array.length(); i++){
+                JSONObject object = (JSONObject) array.get(i);
+                JSONObject type = object.getJSONObject(objName);
+                listElements.add(type.getString("name"));
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        return listElements;
     }
     private void getViews(View view){
         typesView = view.findViewById(R.id.typePokemon);

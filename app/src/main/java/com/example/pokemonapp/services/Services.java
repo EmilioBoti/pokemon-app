@@ -43,15 +43,16 @@ public class Services {
         return request;
     }
 
-    public String testing(String path) throws IOException {
+    public static String testing(String path) throws IOException {
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
                 .url(path)
                 .build();
 
-        Response response = client.newCall(request).execute();
-        return response.body().string();
+        try(Response response = client.newCall(request).execute()){
+            return response.body().string();
+        }
     }
 
     public Request getEvolutions(String path){

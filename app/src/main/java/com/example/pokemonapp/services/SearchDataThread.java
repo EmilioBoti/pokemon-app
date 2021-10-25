@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.pokemonapp.fragments.HomeFragment;
+import com.example.pokemonapp.fragments.PokemonAllFragment;
 import com.example.pokemonapp.fragments.PokemonFragment;
 import com.example.pokemonapp.models.Pokemon;
 import com.example.pokemonapp.utils.constants.Constants;
@@ -34,55 +35,6 @@ public class SearchDataThread implements Runnable{
 
     @Override
     public void run(){
-        //getNamePoke(path);
-        synchronized(pokemon){
-            if(!pokemon.getName().isEmpty()){
-                //getNamePoke(this.path);
-            }
-        }
-    }
-
-
-    private void getNamePoke(String input){
-        OkHttpClient client = new OkHttpClient();
-
-        try {
-            Request request = Services.getDatas(Constants.PATH+input);
-
-            client.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                    e.printStackTrace();
-
-                }
-
-                @Override
-                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                    if(response.isSuccessful()){
-                        String jsonString = response.body().string();
-
-                        try {
-                            JSONObject json = new JSONObject(jsonString);
-                            String id = json.getString("id");
-                            String name = json.getString("name");
-                            JSONObject sprite = json.getJSONObject("sprites");
-                            JSONArray types = json.getJSONArray("types");
-                            JSONArray abilities = json.getJSONArray("abilities");
-                            double weight = Double.parseDouble(json.getString("weight"));
-                            double baseExp = Double.parseDouble(json.getString("base_experience"));
-                            Log.d("t", "executing!!");
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            });
-
-        }catch (IOException | JSONException e){
-            e.printStackTrace();
-        }
 
     }
 }

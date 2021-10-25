@@ -53,11 +53,8 @@ public class HomeFragment extends Fragment {
         pokemons.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                //Toast.makeText(getContext(), "ok", Toast.LENGTH_SHORT).show();
                 PokemonAllFragment pokemonAllFragment = new PokemonAllFragment();
                 callFragment(pokemonAllFragment);
-
-
             }
 
         });
@@ -83,7 +80,6 @@ public class HomeFragment extends Fragment {
                }
            }
         });
-
         return view;
     }
     private void getNamePoke(String input){
@@ -139,7 +135,6 @@ public class HomeFragment extends Fragment {
 
                                         //load new screen
                                         callFragment(pokemonFragment);
-                                        //services.getEvolutions(Integer.parseInt(id));
 
                                     } catch (JSONException e) {
                                         e.printStackTrace();
