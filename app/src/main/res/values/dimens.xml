@@ -56,5 +56,6 @@
     <dimen name="dimenString_36">36sp</dimen>
     <dimen name="dimenString_38">38sp</dimen>
     <dimen name="dimenString_40">40sp</dimen>
+    <dimen name="dimen_250">250dp</dimen>
 
 </resources>

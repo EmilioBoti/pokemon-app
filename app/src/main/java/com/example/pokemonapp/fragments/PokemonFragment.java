@@ -1,6 +1,7 @@
 package com.example.pokemonapp.fragments;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -26,6 +27,7 @@ import com.example.pokemonapp.adapters.EvolutionsAdapter;
 import com.example.pokemonapp.models.Pokemon;
 import com.example.pokemonapp.services.Services;
 import com.example.pokemonapp.utils.constants.Constants;
+import com.example.pokemonapp.utils.constants.Helpers;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -49,13 +51,11 @@ public class PokemonFragment extends Fragment {
     private ImageView pokeImage;
     private ImageButton goBack;
     private TextView namePoke, pokeDescription;
-    private LinearLayout typesView, weight, baseExp, abilities;
+    private LinearLayout typesView, weight, baseExp, abilities, nameContainer1, habitat;
     private RecyclerView evolutions;
     private Pokemon pokemon;
     private Services services;
     private ArrayList<Pokemon> listPokemon;
-    private ArrayList<Integer> listId;
-    private ArrayList<String> listNames;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState){
@@ -68,17 +68,12 @@ public class PokemonFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         //get all views
-        getViews(view);
+        init(view);
 
         //get datas from home's input(searcher)
         Bundle data = getArguments();
-        pokemon = (Pokemon) data.getSerializable("pokemonData");
 
-        //load pokemon's datas
-        setViewData();
-
-        //get Evolution's url and set poke's description
-        setDesData();
+        getNamePoke(data.getString("idPoke"));
 
         //event to go back
         goBack.setOnClickListener(new View.OnClickListener(){
@@ -146,34 +141,9 @@ public class PokemonFragment extends Fragment {
 
                                 }
                                 Collections.sort(listPokemon);
+
+                                //calling adapter evolutions
                                 callAdapter(getContext(), listPokemon);
-                                //int dimen = 450;
-                                /*int padding = 35;
-
-                                for (int i = 0; i < listPokemon.size(); i++){
-                                    Context context = getContext();
-
-                                    LinearLayout imgContainer = new LinearLayout(getContext());
-                                    imgContainer.setBackgroundColor(getResources().getColor(R.color.white, getResources().newTheme()));
-                                    imgContainer.setOrientation(LinearLayout.VERTICAL);
-                                    imgContainer.setPadding(padding, padding, padding, padding);
-
-                                    ImageView imgP = new ImageView(context);
-
-                                    TextView nameP = new TextView(getContext());
-                                    nameP.setText(listPokemon.get(i).getName());
-                                    nameP.setTextSize(20f);
-                                    nameP.setTextColor(getResources().getColor(R.color.black));
-                                    nameP.setGravity(Gravity.CENTER_HORIZONTAL);
-
-                                    imgContainer.addView(imgP);
-                                    imgContainer.addView(nameP);
-
-                                    loadImage(Constants.URL_IMG +listPokemon.get(i).getId()+".png", imgP);
-                                    evolutions.addView(imgContainer);
-                                }*/
-
-
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -210,7 +180,6 @@ public class PokemonFragment extends Fragment {
     }
     private void setDesData() {
 
-        //Services services = new Services();
         OkHttpClient client = new OkHttpClient();
 
         Request request = services.getUrLEvolutions(pokemon.getId());
@@ -223,6 +192,13 @@ public class PokemonFragment extends Fragment {
 
                 try {
                     JSONObject obj = new JSONObject(json);
+
+                    JSONObject colorObj = obj.getJSONObject("color");
+                    String color = colorObj.getString("name");
+
+                    JSONObject habitatObj = obj.getJSONObject("habitat");
+                    String habitat = colorObj.getString("name");
+
                     JSONObject c = obj.getJSONObject("evolution_chain");
                     JSONArray varieties = obj.getJSONArray("varieties");
 
@@ -237,6 +213,8 @@ public class PokemonFragment extends Fragment {
                         @Override
                         public void run() {
                             pokeDescription.setText(pokemon.getDescription());
+                            nameContainer1.setBackgroundColor(Color.parseColor(color));
+                            pokemon.setHabitat(habitat);
                             try {
                                 for (int i = 1; i < varieties.length(); i++){
 
@@ -259,7 +237,6 @@ public class PokemonFragment extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
 
             @Override
@@ -270,53 +247,59 @@ public class PokemonFragment extends Fragment {
     }
 
     private void setViewData(){
+
+        final float DIMEN = 16f;
         //load the image
-        loadImage(pokemon.getSpriteFront(), pokeImage);
+
+        Helpers.loadImage(pokemon.getSpriteFront(), pokeImage);
+
+        weight.removeAllViewsInLayout();
+        baseExp.removeAllViewsInLayout();
+        typesView.removeAllViewsInLayout();
+        abilities.removeAllViewsInLayout();
+        habitat.removeAllViewsInLayout();
+
 
         TextView weightP = new TextView(getContext());
         weightP.setGravity(Gravity.CENTER_HORIZONTAL);
+        weightP.setTextSize(DIMEN);
         weightP.setText(String.valueOf(pokemon.getWeight()));
+
+        TextView habitatText = new TextView(getContext());
+        habitatText.setGravity(Gravity.CENTER_HORIZONTAL);
+        habitatText.setTextSize(DIMEN);
+        habitatText.setText(String.valueOf(pokemon.getHabitat()));
 
         TextView baseExperiance = new TextView(getContext());
         baseExperiance.setGravity(Gravity.CENTER_HORIZONTAL);
+        baseExperiance.setTextSize(DIMEN);
         baseExperiance.setText(String.valueOf(pokemon.getBaseExperience()));
         namePoke.setText(pokemon.getName());
 
         weight.addView(weightP);
         baseExp.addView(baseExperiance);
+        habitat.addView(habitatText);
 
         for (String type: pokemon.getTypes()) {
             TextView t = new TextView(getContext());
             t.setText(type);
+            t.setTextSize(DIMEN);
             t.setGravity(Gravity.CENTER_HORIZONTAL);
             typesView.addView(t);
         }
         for (String elem: pokemon.getAbilities()) {
             TextView ability = new TextView(getContext());
             ability.setText(elem);
+            ability.setTextSize(DIMEN);
             ability.setGravity(Gravity.CENTER_HORIZONTAL);
             abilities.addView(ability);
         }
     }
 
-    //load pokemon's image
-    private void loadImage(String url, ImageView pokeImage){
-        Picasso.get()
-                .load(url)
-                //.placeholder(R.mipmap.ic_launcher_defaultimg_foreground)
-                .into(pokeImage);
-    }
-    private void addId(int id){
-        this.listId.add(id);
-    }
-    private void addName(String name){
-        if(!name.isEmpty()){
-            this.listNames.add(name);
-        }
-    }
-
     public void getNamePoke(String input){
         OkHttpClient client = new OkHttpClient();
+        listPokemon = new ArrayList<>();
+        pokemon = new Pokemon();
 
         try {
             Request request = Services.getDatas(Constants.PATH+input);
@@ -359,15 +342,8 @@ public class PokemonFragment extends Fragment {
                                         pokemon.setWeight(weight);
                                         pokemon.setBaseExperience(baseExp);
 
-                                        //save data of input
-                                        Bundle dataInput = new Bundle();
-                                        dataInput.putSerializable("pokemonData", pokemon);
-
-                                        PokemonFragment pokemonFragment = new PokemonFragment();
-                                        pokemonFragment.setArguments(dataInput); //send data to PokemonFragment
-
-                                        //load new screen
-                                        callFragment(pokemonFragment);
+                                        setViewData();
+                                        setDesData();
 
                                     } catch (JSONException e) {
                                         e.printStackTrace();
@@ -400,7 +376,8 @@ public class PokemonFragment extends Fragment {
         }
         return listElements;
     }
-    private void getViews(View view){
+
+    private void init(View view){
         typesView = view.findViewById(R.id.typePokemon);
         abilities = view.findViewById(R.id.abilitiesPoke);
         weight = view.findViewById(R.id.weight);
@@ -410,10 +387,9 @@ public class PokemonFragment extends Fragment {
         evolutions = view.findViewById(R.id.evolutions);
         goBack = view.findViewById(R.id.goBack);
         pokeDescription = view.findViewById(R.id.pokeDescription);
-
+        nameContainer1 = view.findViewById(R.id.nameContainer);
+        habitat = view.findViewById(R.id.habitat);
         services = new Services();
-        listId = new ArrayList<>();
-        listNames = new ArrayList<>();
         listPokemon = new ArrayList<>();
     }
 }

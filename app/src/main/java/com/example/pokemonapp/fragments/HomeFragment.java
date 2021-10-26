@@ -45,6 +45,12 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle saveInstanceSate){
+        super.onViewCreated(view, saveInstanceSate);
 
         searchView = view.findViewById(R.id.search);
         btnSearch = view.findViewById(R.id.btnSearch);
@@ -73,15 +79,16 @@ public class HomeFragment extends Fragment {
             }
         });
         btnSearch.setOnClickListener(new View.OnClickListener(){
-           @Override
-           public void onClick(View view){
-               if(!searchView.getQuery().toString().isEmpty()){
-                   getNamePoke(searchView.getQuery().toString().toLowerCase());
-               }
-           }
+            @Override
+            public void onClick(View view){
+                if(!searchView.getQuery().toString().isEmpty()){
+                    getNamePoke(searchView.getQuery().toString().toLowerCase());
+                }
+            }
         });
-        return view;
+
     }
+
     private void getNamePoke(String input){
         OkHttpClient client = new OkHttpClient();
 
@@ -100,51 +107,21 @@ public class HomeFragment extends Fragment {
                     if(response.isSuccessful()){
                         String jsonString = response.body().string();
 
-                        try {
-                            JSONObject json = new JSONObject(jsonString);
-                            String id = json.getString("id");
-                            String name = json.getString("name");
-                            JSONObject sprite = json.getJSONObject("sprites");
-                            JSONObject other = sprite.getJSONObject("other");
-                            JSONObject officialArtwork = other.getJSONObject("official-artwork");
+                        HomeFragment.this.getActivity().runOnUiThread(new Runnable(){
+                            @Override
+                            public void run(){
 
-                            JSONArray types = json.getJSONArray("types");
-                            JSONArray abilities = json.getJSONArray("abilities");
-                            double weight = Double.parseDouble(json.getString("weight"));
-                            double baseExp = Double.parseDouble(json.getString("base_experience"));
+                                //save data of input
+                                Bundle dataInput = new Bundle();
+                                dataInput.putString("idPoke", input);
 
-                            HomeFragment.this.getActivity().runOnUiThread(new Runnable(){
-                                @Override
-                                public void run(){
-                                    try {
-                                        pokemon.setId(Integer.parseInt(id));
-                                        pokemon.setName(name);
-                                        pokemon.setTypes(setElements(types, "type"));
-                                        pokemon.setAbilities(setElements(abilities, "ability"));
-                                        pokemon.setSpriteBack(sprite.getString("back_default"));
-                                        pokemon.setSpriteFront(officialArtwork.getString("front_default"));
-                                        pokemon.setWeight(weight);
-                                        pokemon.setBaseExperience(baseExp);
+                                PokemonFragment pokemonFragment = new PokemonFragment();
+                                pokemonFragment.setArguments(dataInput); //send data to PokemonFragment
 
-                                        //save data of input
-                                        Bundle dataInput = new Bundle();
-                                        dataInput.putSerializable("pokemonData", pokemon);
-
-                                        PokemonFragment pokemonFragment = new PokemonFragment();
-                                        pokemonFragment.setArguments(dataInput); //send data to PokemonFragment
-
-                                        //load new screen
-                                        callFragment(pokemonFragment);
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                                //load new screen
+                                callFragment(pokemonFragment);
+                            }
+                        });
                     }
                 }
             });
@@ -153,20 +130,6 @@ public class HomeFragment extends Fragment {
             e.printStackTrace();
         }
 
-    }
-
-    private ArrayList<String> setElements(JSONArray array, String objName){
-        ArrayList<String> listElements = new ArrayList<String>();
-        try {
-            for (int i = 0; i < array.length(); i++){
-                JSONObject object = (JSONObject) array.get(i);
-                JSONObject type = object.getJSONObject(objName);
-                listElements.add(type.getString("name"));
-            }
-        }catch (JSONException e){
-            e.printStackTrace();
-        }
-        return listElements;
     }
 
     private void callFragment(Fragment fragment){

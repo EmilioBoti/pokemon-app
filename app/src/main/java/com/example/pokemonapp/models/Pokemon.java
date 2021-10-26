@@ -7,13 +7,14 @@ public class Pokemon implements Serializable, Comparable {
     private int id;
     private String name;
     private String spriteBack, spriteFront;
-    private ArrayList<String> types;
     private double weight;
     private double baseExperience;
     private ArrayList<String> abilities;
+    private ArrayList<String> types;
     private String urlEvolutions;
     private String description;
-    private ArrayList<String> idEvolution;
+    private String color;
+    private String habitat;
 
 
     public Pokemon(){ }
@@ -21,6 +22,22 @@ public class Pokemon implements Serializable, Comparable {
     public Pokemon (int id, String name){
         this.id = id;
         this.name = name;
+    }
+
+    public String getHabitat() {
+        return habitat;
+    }
+
+    public void setHabitat(String habitat) {
+        this.habitat = habitat;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public String getDescription() {
@@ -108,6 +125,7 @@ public class Pokemon implements Serializable, Comparable {
     // to sort by id: type int
     @Override
     public int compareTo(Object o) {
-        return (this.getId() < ((Pokemon)o).getId() ? -1 : (this.getId() == ((Pokemon)o).getId() ? 0: 1));
+        //return (this.getId() < ((Pokemon)o).getId() ? -1 : (this.getId() == ((Pokemon)o).getId() ? 0: 1));
+        return  Integer.compare(this.getId(), ((Pokemon)o).getId());
     }
 }

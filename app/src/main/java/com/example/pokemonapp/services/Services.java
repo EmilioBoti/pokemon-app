@@ -24,7 +24,7 @@ import okhttp3.Response;
 import okhttp3.Callback;
 
 public class Services {
-    private String urlChain;
+    //private String urlChain;
 
     public static Request getDatas(String path) throws IOException, JSONException {
 

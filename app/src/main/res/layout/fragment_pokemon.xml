@@ -60,16 +60,14 @@
                 android:id="@+id/nameContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/image"
-                android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/dimen_30"
-                android:background="@drawable/bordername"
-                android:backgroundTint="@color/blue_search"
+                android:background="@color/blue_search"
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/dimen_40"
                 android:paddingTop="@dimen/dimen_20"
                 android:paddingRight="@dimen/dimen_40"
-                android:paddingBottom="@dimen/dimen_20">
+                android:paddingBottom="@dimen/dimen_20"
+                >
 
                 <TextView
                     android:id="@+id/namePoke"
@@ -97,7 +95,6 @@
                 >
 
                 <LinearLayout
-                    android:id="@+id/typePokemon"
                     android:layout_width="@dimen/dimen_100"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -111,9 +108,15 @@
                         android:text="@string/type">
 
                     </TextView>
+                    <LinearLayout
+                        android:id="@+id/typePokemon"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        >
+                    </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
-                    android:id="@+id/abilitiesPoke"
                     android:layout_width="@dimen/dimen_100"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -129,9 +132,16 @@
                         android:text="@string/abilities">
 
                     </TextView>
+                    <LinearLayout
+                        android:id="@+id/abilitiesPoke"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+
+                        >
+                    </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
-                    android:id="@+id/weight"
                     android:layout_width="@dimen/dimen_100"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -145,9 +155,16 @@
                         android:text="@string/weight">
 
                     </TextView>
+                    <LinearLayout
+                        android:id="@+id/weight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+
+                        >
+                    </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
-                    android:id="@+id/expPoke"
                     android:layout_width="@dimen/dimen_100"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -160,6 +177,35 @@
                         android:text="@string/BaseExp">
 
                     </TextView>
+                    <LinearLayout
+                        android:id="@+id/expPoke"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        >
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="@dimen/dimen_100"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="top"
+                    >
+                    <TextView
+                        style="@style/titleStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/habitat"
+                        >
+
+                    </TextView>
+                    <LinearLayout
+                        android:id="@+id/habitat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        >
+                    </LinearLayout>
                 </LinearLayout>
             </GridLayout>
             <LinearLayout
@@ -182,9 +228,10 @@
                 </TextView>
                 <TextView
                     android:id="@+id/pokeDescription"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/description"
+                    android:textSize="@dimen/dimenString_15"
                     >
 
                 </TextView>
@@ -211,6 +258,7 @@
                     android:id="@+id/evolutions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     >
 
                 </androidx.recyclerview.widget.RecyclerView>

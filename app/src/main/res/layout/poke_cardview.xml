@@ -6,71 +6,61 @@
     >
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_150"
+        android:layout_width="@dimen/dimen_250"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginStart="@dimen/dimen_5"
         android:layout_marginTop="@dimen/dimen_5"
         android:layout_marginEnd="@dimen/dimen_5"
         android:layout_marginBottom="@dimen/dimen_5"
         android:backgroundTint="@color/blue_300"
-        app:cardCornerRadius="@dimen/dimen_15"
-        app:cardElevation="@dimen/dimen_15">
+        app:cardCornerRadius="@dimen/dimen_5"
+        app:cardElevation="@dimen/dimen_15"
+        android:layout_centerHorizontal="true"
+        >
 
         <RelativeLayout
             android:id="@+id/dataContainer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/imgcontainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+
+                >
+
+                <ImageView
+                    android:id="@+id/imgPoke"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/ic_launcher_lucario_foreground">
+
+                </ImageView>
+            </LinearLayout>
 
             <RelativeLayout
                 android:id="@+id/datas"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_toRightOf="@id/imgcontainer">
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imgcontainer"
+                android:layout_centerHorizontal="true"
+                android:background="#348176">
 
                 <TextView
                     android:id="@+id/namePoke"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/dimen_10"
+                    android:layout_margin="@dimen/dimen_5"
                     android:text="@string/name"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/dimen_30"
-                    >
+                    android:textSize="@dimen/dimenString_20">
 
                 </TextView>
-
-                <LinearLayout
-                    android:id="@+id/typesContainer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/namePoke"
-                    android:layout_marginTop="@dimen/dimen_30"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                </LinearLayout>
-
-
             </RelativeLayout>
-
-            <LinearLayout
-                android:id="@+id/imgcontainer"
-                android:layout_width="@dimen/dimen_150"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                >
-                <ImageView
-                    android:id="@+id/imgPoke"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@mipmap/ic_launcher_lucario_foreground"
-                    >
-
-                </ImageView>
-            </LinearLayout>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>
