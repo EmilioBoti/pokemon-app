@@ -71,26 +71,17 @@ public class EvolutionsAdapter extends RecyclerView.Adapter<EvolutionsAdapter.Vi
 
         public void bindData(Pokemon pokemon){
             //pokeImage
-            //loadImage(Constants.URL_IMG+pokemon.getId()+".png", pokeImage);
             Helpers.loadImage(Constants.URL_IMG+pokemon.getId()+".png", pokeImage);
             pokeName.setText(pokemon.getName());
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //Toast.makeText(context, pokemon.getId() + "", Toast.LENGTH_SHORT).show();
                     if(listener != null && getAbsoluteAdapterPosition() != RecyclerView.NO_POSITION){
                         listener.onclickItem(pokemon.getId());
                     }
                 }
             });
-        }
-        //load pokemon's image
-        private void loadImage(String url, ImageView pokeImage){
-            Picasso.get()
-                    .load(url)
-                    //.placeholder(R.mipmap.ic_launcher_defaultimg_foreground)
-                    .into(pokeImage);
         }
     }
 }

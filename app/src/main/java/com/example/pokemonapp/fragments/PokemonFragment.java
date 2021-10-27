@@ -3,7 +3,7 @@ package com.example.pokemonapp.fragments;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +16,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,7 +27,6 @@ import com.example.pokemonapp.models.Pokemon;
 import com.example.pokemonapp.services.Services;
 import com.example.pokemonapp.utils.constants.Constants;
 import com.example.pokemonapp.utils.constants.Helpers;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,9 +34,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.Locale;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -56,6 +53,7 @@ public class PokemonFragment extends Fragment {
     private Pokemon pokemon;
     private Services services;
     private ArrayList<Pokemon> listPokemon;
+    private CardView mainContainerDescription;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState){
@@ -70,6 +68,7 @@ public class PokemonFragment extends Fragment {
         //get all views
         init(view);
 
+        mainContainerDescription = view.findViewById(R.id.descriptionMainContainer);
         //get datas from home's input(searcher)
         Bundle data = getArguments();
 
@@ -80,7 +79,6 @@ public class PokemonFragment extends Fragment {
             @Override
             public void onClick(View view1){
                 getActivity().onBackPressed();
-
             }
         });
 
@@ -141,9 +139,9 @@ public class PokemonFragment extends Fragment {
 
                                 }
                                 Collections.sort(listPokemon);
-
                                 //calling adapter evolutions
                                 callAdapter(getContext(), listPokemon);
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -171,13 +169,7 @@ public class PokemonFragment extends Fragment {
             }
         });
     }
-    private void callFragment(Fragment fragment){
-        FragmentManager fragmentManager = getParentFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.replace(R.id.fragment_container_view, fragment, null);
-        fragmentTransaction.commit();
-    }
+
     private void setDesData() {
 
         OkHttpClient client = new OkHttpClient();
@@ -199,21 +191,22 @@ public class PokemonFragment extends Fragment {
                     JSONObject habitatObj = obj.getJSONObject("habitat");
                     String habitat = colorObj.getString("name");
 
-                    JSONObject c = obj.getJSONObject("evolution_chain");
+                    JSONObject chain = obj.getJSONObject("evolution_chain");
                     JSONArray varieties = obj.getJSONArray("varieties");
 
                     JSONArray desObj = obj.getJSONArray("flavor_text_entries");
 
-                    JSONObject ob = (JSONObject) desObj.get(1);
-                    pokemon.setDescription(ob.getString("flavor_text"));
-                    pokemon.setUrlEvolutions(c.getString("url"));
+                    JSONObject ob = (JSONObject) desObj.get(0);
+                    String des = ob.getString("flavor_text");
+                    pokemon.setDescription(des);
+                    pokemon.setUrlEvolutions(chain.getString("url"));
 
 
                     PokemonFragment.this.getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             pokeDescription.setText(pokemon.getDescription());
-                            nameContainer1.setBackgroundColor(Color.parseColor(color));
+                            mainContainerDescription.setCardBackgroundColor(Color.parseColor(color));
                             pokemon.setHabitat(habitat);
                             try {
                                 for (int i = 1; i < varieties.length(); i++){
@@ -257,13 +250,16 @@ public class PokemonFragment extends Fragment {
         baseExp.removeAllViewsInLayout();
         typesView.removeAllViewsInLayout();
         abilities.removeAllViewsInLayout();
-        habitat.removeAllViewsInLayout();
+        //habitat.removeAllViewsInLayout();
+
+        double num = (pokemon.getWeight() / 4.54);
+        String pound = String.format("%.02f", num);
 
 
         TextView weightP = new TextView(getContext());
         weightP.setGravity(Gravity.CENTER_HORIZONTAL);
         weightP.setTextSize(DIMEN);
-        weightP.setText(String.valueOf(pokemon.getWeight()));
+        weightP.setText(pound+" pounds");
 
         TextView habitatText = new TextView(getContext());
         habitatText.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -278,7 +274,7 @@ public class PokemonFragment extends Fragment {
 
         weight.addView(weightP);
         baseExp.addView(baseExperiance);
-        habitat.addView(habitatText);
+        //habitat.addView(habitatText);
 
         for (String type: pokemon.getTypes()) {
             TextView t = new TextView(getContext());
@@ -388,7 +384,7 @@ public class PokemonFragment extends Fragment {
         goBack = view.findViewById(R.id.goBack);
         pokeDescription = view.findViewById(R.id.pokeDescription);
         nameContainer1 = view.findViewById(R.id.nameContainer);
-        habitat = view.findViewById(R.id.habitat);
+        //habitat = view.findViewById(R.id.habitat);
         services = new Services();
         listPokemon = new ArrayList<>();
     }

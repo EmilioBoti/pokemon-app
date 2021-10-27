@@ -44,10 +44,13 @@
             <RelativeLayout
                 android:id="@+id/datas"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/dimen_50"
                 android:layout_below="@id/imgcontainer"
                 android:layout_centerHorizontal="true"
-                android:background="#348176">
+                android:background="@drawable/gradiante_red"
+                android:gravity="center"
+
+                >
 
                 <TextView
                     android:id="@+id/namePoke"

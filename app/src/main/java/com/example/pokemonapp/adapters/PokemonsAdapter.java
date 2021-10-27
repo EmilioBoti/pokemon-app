@@ -25,11 +25,19 @@ public class PokemonsAdapter extends RecyclerView.Adapter<PokemonsAdapter.ViewHo
     private LayoutInflater inflater;
     private Context context;
     private ArrayList<Pokemon> list;
+    private OnClickPokeListener listener;
 
+    public interface OnClickPokeListener{
+        void onClickPoke(int pos);
+    }
     public PokemonsAdapter(Context context, ArrayList<Pokemon> list){
         this.inflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
+    }
+
+    public void OnClickPokeListener(OnClickPokeListener listener){
+        this.listener = listener;
     }
 
     @NonNull
@@ -37,7 +45,7 @@ public class PokemonsAdapter extends RecyclerView.Adapter<PokemonsAdapter.ViewHo
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.poke_cardview, null);
 
-        return new PokemonsAdapter.ViewHolder(view);
+        return new PokemonsAdapter.ViewHolder(view, listener);
     }
 
     @Override
@@ -56,7 +64,7 @@ public class PokemonsAdapter extends RecyclerView.Adapter<PokemonsAdapter.ViewHo
         public ImageView imgPoke;
         public RelativeLayout nameContainer;
 
-        public ViewHolder(View itemView){
+        public ViewHolder(View itemView, OnClickPokeListener listener){
             super(itemView);
             //typesContainer = itemView.findViewById(R.id.typesContainer);
             namePoke = itemView.findViewById(R.id.namePoke);
@@ -65,9 +73,17 @@ public class PokemonsAdapter extends RecyclerView.Adapter<PokemonsAdapter.ViewHo
         }
 
         public void bindData(Pokemon pokemon) {
-            nameContainer.setBackgroundColor(Color.parseColor("gray"));
-            namePoke.setText(pokemon.getName());
             Helpers.loadImage(Constants.URL_IMG+pokemon.getId()+".png", imgPoke);
+            //nameContainer.setBackgroundColor(Color.parseColor("gray"));
+            namePoke.setText(pokemon.getName());
+            imgPoke.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listener != null && getAbsoluteAdapterPosition() != RecyclerView.NO_POSITION){
+                        listener.onClickPoke(pokemon.getId());
+                    }
+                }
+            });
         }
     }
 }
