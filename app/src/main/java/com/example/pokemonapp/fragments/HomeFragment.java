@@ -21,6 +21,7 @@ import com.example.pokemonapp.R;
 import com.example.pokemonapp.models.Pokemon;
 import com.example.pokemonapp.services.Services;
 import com.example.pokemonapp.utils.constants.Constants;
+import com.example.pokemonapp.utils.constants.Helpers;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,17 +36,16 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements Callback{
     private ImageButton btnSearch;
     public SearchView searchView;
-    public TextView pokemons, habitat, types;
-    private Pokemon pokemon = new Pokemon();
+    public TextView pokemons, moves, types;
+    private String input;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
     @Override
@@ -55,20 +55,32 @@ public class HomeFragment extends Fragment {
         searchView = view.findViewById(R.id.search);
         btnSearch = view.findViewById(R.id.btnSearch);
         pokemons = view.findViewById(R.id.pokemons);
+        moves = view.findViewById(R.id.move);
+
+
+        moves.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CategoryMoveFragment categoryMoveFragment = new CategoryMoveFragment();
+                Helpers.callFragment(getParentFragmentManager(), categoryMoveFragment);
+            }
+        });
 
         pokemons.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 PokemonAllFragment pokemonAllFragment = new PokemonAllFragment();
-                callFragment(pokemonAllFragment);
+                Helpers.callFragment(getParentFragmentManager(), pokemonAllFragment);
             }
 
         });
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if(!searchView.getQuery().toString().isEmpty()){
-                    getNamePoke(searchView.getQuery().toString().toLowerCase());
+                String queryValue = searchView.getQuery().toString();
+                if(!queryValue.isEmpty()){
+                    input = queryValue.toLowerCase();
+                    getNamePoke(input);
                 }
                 return false;
             }
@@ -81,8 +93,10 @@ public class HomeFragment extends Fragment {
         btnSearch.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                if(!searchView.getQuery().toString().isEmpty()){
-                    getNamePoke(searchView.getQuery().toString().toLowerCase());
+                String queryValue = searchView.getQuery().toString();
+                if(!queryValue.isEmpty()){
+                    input = queryValue.toLowerCase();
+                    getNamePoke(input);
                 }
             }
         });
@@ -94,37 +108,8 @@ public class HomeFragment extends Fragment {
 
         try {
             Request request = Services.getDatas(Constants.PATH+input);
-
-            client.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                    e.printStackTrace();
-
-                }
-
-                @Override
-                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                    if(response.isSuccessful()){
-                        String jsonString = response.body().string();
-
-                        HomeFragment.this.getActivity().runOnUiThread(new Runnable(){
-                            @Override
-                            public void run(){
-
-                                //save data of input
-                                Bundle dataInput = new Bundle();
-                                dataInput.putString("idPoke", input);
-
-                                PokemonFragment pokemonFragment = new PokemonFragment();
-                                pokemonFragment.setArguments(dataInput); //send data to PokemonFragment
-
-                                //load new screen
-                                callFragment(pokemonFragment);
-                            }
-                        });
-                    }
-                }
-            });
+            //make the request
+            client.newCall(request).enqueue(this);
 
         }catch (IOException | JSONException e){
             e.printStackTrace();
@@ -132,13 +117,23 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private void callFragment(Fragment fragment){
+    @Override
+    public void onFailure(@NonNull Call call, @NonNull IOException e) {
 
-        FragmentManager fragmentManager = getParentFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.replace(R.id.fragment_container_view, fragment, null);
-        fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onResponse(@NonNull Call call, @NonNull Response response) {
+        if(response.isSuccessful()){
+            //save data of input
+            Bundle dataInput = new Bundle();
+            dataInput.putString("idPoke", String.valueOf(input));
+
+            PokemonFragment pokemonFragment = new PokemonFragment();
+            pokemonFragment.setArguments(dataInput); //send data to PokemonFragment
+            //load new screen
+            Helpers.callFragment(getParentFragmentManager(), pokemonFragment);
+        }
     }
 
     @Override

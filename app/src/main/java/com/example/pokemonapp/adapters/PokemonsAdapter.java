@@ -30,6 +30,7 @@ public class PokemonsAdapter extends RecyclerView.Adapter<PokemonsAdapter.ViewHo
     public interface OnClickPokeListener{
         void onClickPoke(int pos);
     }
+
     public PokemonsAdapter(Context context, ArrayList<Pokemon> list){
         this.inflater = LayoutInflater.from(context);
         this.context = context;
@@ -44,7 +45,6 @@ public class PokemonsAdapter extends RecyclerView.Adapter<PokemonsAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.poke_cardview, null);
-
         return new PokemonsAdapter.ViewHolder(view, listener);
     }
 
@@ -60,7 +60,7 @@ public class PokemonsAdapter extends RecyclerView.Adapter<PokemonsAdapter.ViewHo
 
     class ViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout typesContainer;
-        public TextView namePoke;
+        public TextView namePoke, numPoke;
         public ImageView imgPoke;
         public RelativeLayout nameContainer;
 
@@ -70,12 +70,14 @@ public class PokemonsAdapter extends RecyclerView.Adapter<PokemonsAdapter.ViewHo
             namePoke = itemView.findViewById(R.id.namePoke);
             imgPoke = itemView.findViewById(R.id.imgPoke);
             nameContainer = itemView.findViewById(R.id.datas);
+            numPoke = itemView.findViewById(R.id.numPoke);
         }
 
         public void bindData(Pokemon pokemon) {
             Helpers.loadImage(Constants.URL_IMG+pokemon.getId()+".png", imgPoke);
-            //nameContainer.setBackgroundColor(Color.parseColor("gray"));
             namePoke.setText(pokemon.getName());
+            numPoke.setText("#"+pokemon.getId());
+
             imgPoke.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

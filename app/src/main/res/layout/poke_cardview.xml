@@ -1,34 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="@dimen/dimen_250"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_marginStart="@dimen/dimen_5"
         android:layout_marginTop="@dimen/dimen_5"
         android:layout_marginEnd="@dimen/dimen_5"
         android:layout_marginBottom="@dimen/dimen_5"
-        android:backgroundTint="@color/blue_300"
         app:cardCornerRadius="@dimen/dimen_5"
-        app:cardElevation="@dimen/dimen_15"
-        android:layout_centerHorizontal="true"
-        >
+        app:cardElevation="@dimen/dimen_15">
 
         <RelativeLayout
             android:id="@+id/dataContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
+            <TextView
+                android:id="@+id/numPoke"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                tools:text="#001"
+                android:paddingLeft="@dimen/dimen_10"
+                />
+
             <LinearLayout
                 android:id="@+id/imgcontainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
+                android:layout_below="@id/numPoke"
 
                 >
 
@@ -46,23 +54,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_50"
                 android:layout_below="@id/imgcontainer"
-                android:layout_centerHorizontal="true"
                 android:background="@drawable/gradiante_red"
+                android:orientation="horizontal"
                 android:gravity="center"
-
                 >
 
                 <TextView
                     android:id="@+id/namePoke"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_margin="@dimen/dimen_5"
                     android:text="@string/name"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/dimenString_20">
+                    android:textSize="@dimen/dimenString_20"
 
-                </TextView>
+                    />
+
             </RelativeLayout>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

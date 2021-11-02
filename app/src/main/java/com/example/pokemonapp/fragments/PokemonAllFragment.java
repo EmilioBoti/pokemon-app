@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokemonapp.R;
@@ -35,7 +36,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class PokemonAllFragment extends Fragment {
+public class PokemonAllFragment extends Fragment implements Callback, PokemonsAdapter.OnClickPokeListener, View.OnScrollChangeListener{
     private RecyclerView listContainer;
     private Context context;
     private ArrayList<Pokemon> listPokemon;
@@ -57,6 +58,7 @@ public class PokemonAllFragment extends Fragment {
         //get views
         init(view);
         listAllPokemon();
+        listContainer.setOnScrollChangeListener(this);
     }
 
     private void init(View view){
@@ -67,22 +69,11 @@ public class PokemonAllFragment extends Fragment {
         //set adapter
         PokemonsAdapter pokemonsAdapter = new PokemonsAdapter(context, list);
         listContainer.setHasFixedSize(true);
-        listContainer.setLayoutManager(new GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false));
+        listContainer.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.VERTICAL, false));
         listContainer.setAdapter(pokemonsAdapter);
 
-
-        pokemonsAdapter.OnClickPokeListener(new PokemonsAdapter.OnClickPokeListener() {
-            @Override
-            public void onClickPoke(int pos) {
-                //Toast.makeText(getContext(), "id: " + pos, Toast.LENGTH_SHORT).show();
-                Bundle data = new Bundle();
-                data.putString("idPoke", String.valueOf(pos));
-
-                PokemonFragment pokemonFragment = new PokemonFragment();
-                pokemonFragment.setArguments(data);
-                Helpers.callFragment(getParentFragmentManager(),pokemonFragment);
-            }
-        });
+        //event click on pokemon
+        pokemonsAdapter.OnClickPokeListener(this);
     }
 
 
@@ -90,49 +81,64 @@ public class PokemonAllFragment extends Fragment {
 
         OkHttpClient client = new OkHttpClient();
         try {
-            Request request = Services.getDatas(Constants.PATH+"?offset=0&limit=1118");
+            Request request = Services.getDatas(Constants.PATH+"?offset=0&limit=720");
+            client.newCall(request).enqueue(this);
 
-            client.newCall(request).enqueue(new Callback() {
+        }catch (IOException | JSONException err){
+            err.printStackTrace();
+        }
+    }
 
+    @Override
+    public void onFailure(@NonNull Call call, @NonNull IOException e) {
+
+    }
+
+    @Override
+    public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+        if (response.isSuccessful()){
+            String json = response.body().string();
+
+            PokemonAllFragment.this.getActivity().runOnUiThread(new Runnable() {
                 @Override
-                public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                public void run() {
+                    try {
+                        JSONObject object = new JSONObject(json);
+                        JSONArray results = object.getJSONArray("results");
 
-                }
+                        for (int i = 0; i < results.length(); i++){
+                            JSONObject js = (JSONObject) results.get(i);
+                            String name = js.getString("name");
+                            String url = js.getString("url").substring(34, js.getString("url").length()-1);
+                            Pokemon p1 = new Pokemon();
+                            p1.setId(Integer.parseInt(url));
+                            p1.setName(name);
+                            listPokemon.add(p1);
+                        }
 
-                @Override
-                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                    if (response.isSuccessful()){
-                        String json = response.body().string();
-
-                        PokemonAllFragment.this.getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    JSONObject object = new JSONObject(json);
-                                    JSONArray results = object.getJSONArray("results");
-
-                                    for (int i = 0; i < results.length(); i++){
-                                        JSONObject js = (JSONObject) results.get(i);
-                                        String name = js.getString("name");
-                                        String url = js.getString("url").substring(34, js.getString("url").length()-1);
-                                        Pokemon p1 = new Pokemon();
-                                        p1.setId(Integer.parseInt(url));
-                                        p1.setName(name);
-                                        listPokemon.add(p1);
-                                    }
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                //set pokemons
-                                callAdapter(listPokemon);
-                            }
-                        });
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
+                    //set pokemons
+                    callAdapter(listPokemon);
                 }
             });
-        }catch (IOException | JSONException err){
-
         }
+    }
+
+    @Override
+    public void onClickPoke(int pos) {
+        Bundle data = new Bundle();
+        data.putString("idPoke", String.valueOf(pos));
+
+        PokemonFragment pokemonFragment = new PokemonFragment();
+        pokemonFragment.setArguments(data);
+        Helpers.callFragment(getParentFragmentManager(),pokemonFragment);
+    }
+
+    @Override
+    public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+        Log.d("scroll", "ScrollY: " + oldScrollY);
+        listAllPokemon();
     }
 }

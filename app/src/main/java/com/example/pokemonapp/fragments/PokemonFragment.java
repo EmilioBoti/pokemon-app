@@ -1,9 +1,11 @@
 package com.example.pokemonapp.fragments;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,7 +70,6 @@ public class PokemonFragment extends Fragment {
         //get all views
         init(view);
 
-        mainContainerDescription = view.findViewById(R.id.descriptionMainContainer);
         //get datas from home's input(searcher)
         Bundle data = getArguments();
 
@@ -200,13 +201,14 @@ public class PokemonFragment extends Fragment {
                     String des = ob.getString("flavor_text");
                     pokemon.setDescription(des);
                     pokemon.setUrlEvolutions(chain.getString("url"));
-
+                    pokemon.setColor(color);
 
                     PokemonFragment.this.getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             pokeDescription.setText(pokemon.getDescription());
-                            mainContainerDescription.setCardBackgroundColor(Color.parseColor(color));
+                            //Log.d("format", color);
+                            setColor(pokemon.getColor());
                             pokemon.setHabitat(habitat);
                             try {
                                 for (int i = 1; i < varieties.length(); i++){
@@ -224,7 +226,7 @@ public class PokemonFragment extends Fragment {
                             }
                         }
                     });
-
+                    //print evolutions
                     setPokeEvolutions();
 
                 } catch (JSONException e) {
@@ -238,12 +240,48 @@ public class PokemonFragment extends Fragment {
             }
         });
     }
+    private void setColor(String color){
 
+        switch (color){
+            case "red":
+                mainContainerDescription.setCardBackgroundColor(getResources().getColor(R.color.red_500));
+                break;
+            case "blue":
+                mainContainerDescription.setCardBackgroundColor(getResources().getColor(R.color.blue_300));
+                break;
+            case "brown":
+                mainContainerDescription.setCardBackgroundColor(getResources().getColor(R.color.brown_400));
+                break;
+            case "gray":
+                mainContainerDescription.setCardBackgroundColor(getResources().getColor(R.color.gray_300));
+                break;
+            case "green":
+                mainContainerDescription.setCardBackgroundColor(getResources().getColor(R.color.green_300));
+                break;
+            case "purple":
+                mainContainerDescription.setCardBackgroundColor(getResources().getColor(R.color.purple_700));
+                break;
+            case "pink":
+                mainContainerDescription.setCardBackgroundColor(getResources().getColor(R.color.pink_400));
+                break;
+            case "yellow":
+                mainContainerDescription.setCardBackgroundColor(getResources().getColor(R.color.yellow_300));
+                break;
+            case "white":
+                mainContainerDescription.setCardBackgroundColor(getResources().getColor(R.color.white));
+                break;
+            case "black":
+                mainContainerDescription.setCardBackgroundColor(getResources().getColor(R.color.black));
+                break;
+
+        }
+    }
     private void setViewData(){
 
         final float DIMEN = 16f;
-        //load the image
+        TextView weightP, habitatText, baseExperiance, type, ability;
 
+        //load the image
         Helpers.loadImage(pokemon.getSpriteFront(), pokeImage);
 
         weight.removeAllViewsInLayout();
@@ -256,37 +294,42 @@ public class PokemonFragment extends Fragment {
         String pound = String.format("%.02f", num);
 
 
-        TextView weightP = new TextView(getContext());
+        weightP = new TextView(getContext());
         weightP.setGravity(Gravity.CENTER_HORIZONTAL);
         weightP.setTextSize(DIMEN);
+        //weightP.setTextColor(getResources().getColor(R.color.white, getActivity().getTheme()));
         weightP.setText(pound+" pounds");
 
-        TextView habitatText = new TextView(getContext());
+        habitatText = new TextView(getContext());
         habitatText.setGravity(Gravity.CENTER_HORIZONTAL);
         habitatText.setTextSize(DIMEN);
+        //habitatText.setTextColor(getResources().getColor(R.color.white, getActivity().getTheme()));
         habitatText.setText(String.valueOf(pokemon.getHabitat()));
 
-        TextView baseExperiance = new TextView(getContext());
+        baseExperiance = new TextView(getContext());
         baseExperiance.setGravity(Gravity.CENTER_HORIZONTAL);
         baseExperiance.setTextSize(DIMEN);
+        //baseExperiance.setTextColor(getResources().getColor(R.color.white, getActivity().getTheme()));
         baseExperiance.setText(String.valueOf(pokemon.getBaseExperience()));
         namePoke.setText(pokemon.getName());
 
+        //habitat.addView(habitatText);
         weight.addView(weightP);
         baseExp.addView(baseExperiance);
-        //habitat.addView(habitatText);
 
-        for (String type: pokemon.getTypes()) {
-            TextView t = new TextView(getContext());
-            t.setText(type);
-            t.setTextSize(DIMEN);
-            t.setGravity(Gravity.CENTER_HORIZONTAL);
-            typesView.addView(t);
+        for (String types: pokemon.getTypes()) {
+            type = new TextView(getContext());
+            type.setText(types);
+            type.setTextSize(DIMEN);
+            //type.setTextColor(getResources().getColor(R.color.white));
+            type.setGravity(Gravity.CENTER_HORIZONTAL);
+            typesView.addView(type);
         }
         for (String elem: pokemon.getAbilities()) {
-            TextView ability = new TextView(getContext());
+            ability = new TextView(getContext());
             ability.setText(elem);
             ability.setTextSize(DIMEN);
+            //ability.setTextColor(getResources().getColor(R.color.white));
             ability.setGravity(Gravity.CENTER_HORIZONTAL);
             abilities.addView(ability);
         }
@@ -384,6 +427,7 @@ public class PokemonFragment extends Fragment {
         goBack = view.findViewById(R.id.goBack);
         pokeDescription = view.findViewById(R.id.pokeDescription);
         nameContainer1 = view.findViewById(R.id.nameContainer);
+        mainContainerDescription = view.findViewById(R.id.descriptionMainContainer);
         //habitat = view.findViewById(R.id.habitat);
         services = new Services();
         listPokemon = new ArrayList<>();

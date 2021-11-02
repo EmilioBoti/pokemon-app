@@ -13,6 +13,11 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="Theme.bg_fragment" parent="Theme.AppCompat">
+        <item name="android:background">@color/white</item>
+        <item name="android:textColor">@color/red_500</item>
+    </style>
     <style name="Theme.PokemonApp.Fullscreen" parent="Theme.PokemonApp">
         <item name="android:actionBarStyle">@style/Widget.Theme.PokemonApp.ActionBar.Fullscreen
         </item>
@@ -24,6 +29,7 @@
         <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
         <item name="fullscreenTextColor">@color/light_blue_A200</item>
     </style>
+
     <style name="Theme.AppCompat.Light.NoActionBar.FullScreen" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBar">false</item>

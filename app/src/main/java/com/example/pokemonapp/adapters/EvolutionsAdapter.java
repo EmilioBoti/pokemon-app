@@ -19,7 +19,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class EvolutionsAdapter extends RecyclerView.Adapter<EvolutionsAdapter.ViewHolder> {
+public class    EvolutionsAdapter extends RecyclerView.Adapter<EvolutionsAdapter.ViewHolder> {
     private LayoutInflater inflater;
     private ArrayList<Pokemon> listPokemons;
     private Context context;

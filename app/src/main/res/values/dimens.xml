@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--dimens to Strings -->
+    <dimen name="dimenString_10">10sp</dimen>
+    <dimen name="dimenString_12">12sp</dimen>
+    <dimen name="dimenString_14">14sp</dimen>
+    <dimen name="dimenString_15">15sp</dimen>
+    <dimen name="dimenString_16">16sp</dimen>
+    <dimen name="dimenString_18">18sp</dimen>
+    <dimen name="dimenString_20">20sp</dimen>
+    <dimen name="dimenString_22">22sp</dimen>
+    <dimen name="dimenString_24">24sp</dimen>
+    <dimen name="dimenString_26">26sp</dimen>
+    <dimen name="dimenString_28">28sp</dimen>
+    <dimen name="dimenString_30">30sp</dimen>
+    <dimen name="dimenString_32">32sp</dimen>
+    <dimen name="dimenString_34">34sp</dimen>
+    <dimen name="dimenString_36">36sp</dimen>
+    <dimen name="dimenString_38">38sp</dimen>
+    <dimen name="dimenString_40">40sp</dimen>
+    <dimen name="dimenString_45">45sp</dimen>
+    <dimen name="dimenString_50">50sp</dimen>
+    <dimen name="dimenString_55">55sp</dimen>
+    <dimen name="dimenString_60">60sp</dimen>
+
+    <!--General dimens-->
     <dimen name="dimen_0">0dp</dimen>
     <dimen name="dimen_5">5dp</dimen>
     <dimen name="dimen_10">10dp</dimen>
@@ -37,26 +61,7 @@
     <dimen name="dimen_350">350dp</dimen>
     <dimen name="dimen_400">400dp</dimen>
     <dimen name="dimen_500">500dp</dimen>
-
-
-    <!--dimens to Strings -->
-    <dimen name="dimenString_10">10sp</dimen>
-    <dimen name="dimenString_12">12sp</dimen>
-    <dimen name="dimenString_14">14sp</dimen>
-    <dimen name="dimenString_15">15sp</dimen>
-    <dimen name="dimenString_16">16sp</dimen>
-    <dimen name="dimenString_18">18sp</dimen>
-    <dimen name="dimenString_20">20sp</dimen>
-    <dimen name="dimenString_22">22sp</dimen>
-    <dimen name="dimenString_24">24sp</dimen>
-    <dimen name="dimenString_26">26sp</dimen>
-    <dimen name="dimenString_28">28sp</dimen>
-    <dimen name="dimenString_30">30sp</dimen>
-    <dimen name="dimenString_32">32sp</dimen>
-    <dimen name="dimenString_34">34sp</dimen>
-    <dimen name="dimenString_36">36sp</dimen>
-    <dimen name="dimenString_38">38sp</dimen>
-    <dimen name="dimenString_40">40sp</dimen>
     <dimen name="dimen_250">250dp</dimen>
+    <dimen name="dimenString_25">25sp</dimen>
 
 </resources>
