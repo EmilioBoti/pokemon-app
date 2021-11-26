@@ -213,14 +213,14 @@ public class PokemonFragment extends Fragment implements Callback, Runnable{
                     JSONObject colorObj = obj.getJSONObject("color");
                     String color = colorObj.getString("name");
 
-                    String habitat = obj.getString("habitat");
-                    JSONObject chain = obj.getJSONObject("evolution_chain");
+                    String habitat = isNull(obj.getString("habitat"), obj); //valid is has Habitat know else is Unknow
 
+                    JSONObject chain = obj.getJSONObject("evolution_chain");
                     JSONArray varieties = obj.getJSONArray("varieties");
 
                     JSONArray desObj = obj.getJSONArray("flavor_text_entries");
 
-                    JSONObject ob = (JSONObject) desObj.get(1);
+                    JSONObject ob = (JSONObject) desObj.get(6);
                     String des = ob.getString("flavor_text");
                     pokemon.setDescription(des);
                     pokemon.setUrlEvolutions(chain.getString("url"));
@@ -264,6 +264,19 @@ public class PokemonFragment extends Fragment implements Callback, Runnable{
         });
     }
 
+    private String isNull(String isNull, JSONObject obj){
+        String habitat = "Unknow";
+        try {
+            if(!isNull.equals("null")){
+                JSONObject habi = obj.getJSONObject("habitat");
+                habitat = habi.getString("name");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return habitat;
+    }
+
     private void setViewData(){
 
         progressBar.setVisibility(getView().GONE);
@@ -271,12 +284,12 @@ public class PokemonFragment extends Fragment implements Callback, Runnable{
 
         final float DIMEN = 16f;
         TextView weightP, heightP,habitatText, baseExperiance, type, ability;
-        pokeImage.setTranslationX(-1000);
+        pokeImage.setTranslationY(-1000f);
         //load the image
         Helpers.loadImage(pokemon.getSpriteFront(), pokeImage);
 
         //animation
-        ObjectAnimator animatorImg = ObjectAnimator.ofFloat(pokeImage, "translationX", 0f);
+        ObjectAnimator animatorImg = ObjectAnimator.ofFloat(pokeImage, "translationY", 0f);
         animatorImg.setDuration(700);
         animatorImg.start();
 

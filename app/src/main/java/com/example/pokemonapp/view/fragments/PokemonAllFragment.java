@@ -40,7 +40,6 @@ public class PokemonAllFragment extends Fragment implements Callback,Runnable ,P
     private RecyclerView listContainer;
     private Context context;
     private ArrayList<Pokemon> listPokemon;
-    private ScrollView scrollViewContainer;
     private ProgressBar progressBar;
 
     @Override
@@ -60,7 +59,6 @@ public class PokemonAllFragment extends Fragment implements Callback,Runnable ,P
         //get views
         init(view);
         listAllPokemon(500);
-        //callAdapter(listPokemon);
     }
 
     private void init(View view){
@@ -87,7 +85,7 @@ public class PokemonAllFragment extends Fragment implements Callback,Runnable ,P
 
         OkHttpClient client = new OkHttpClient();
         try {
-            Request request = Services.getDatas(Constants.PATH+"?offset=387&limit="+count);
+            Request request = Services.getDatas(Constants.PATH+"?offset=0&limit="+count);
             client.newCall(request).enqueue(this);
 
         }catch (IOException | JSONException err){

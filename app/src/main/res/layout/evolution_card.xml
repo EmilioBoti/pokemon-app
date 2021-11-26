@@ -15,7 +15,7 @@
         android:layout_marginEnd="@dimen/dimen_5"
         android:layout_marginBottom="@dimen/dimen_5"
         android:backgroundTint="@color/white"
-        app:cardCornerRadius="@dimen/dimen_15"
+        app:cardCornerRadius="@dimen/dimen_10"
         app:cardElevation="@dimen/dimen_15"
         android:layout_centerHorizontal="true"
         >
