@@ -8,6 +8,7 @@ public class Pokemon implements Serializable, Comparable {
     private String name;
     private String spriteBack, spriteFront;
     private double weight;
+    private double height;
     private double baseExperience;
     private ArrayList<String> abilities;
     private ArrayList<String> types;
@@ -22,6 +23,14 @@ public class Pokemon implements Serializable, Comparable {
     public Pokemon (int id, String name){
         this.id = id;
         this.name = name;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
     }
 
     public String getHabitat() {

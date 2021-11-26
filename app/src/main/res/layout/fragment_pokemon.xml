@@ -4,37 +4,30 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mainContainer"
-    android:background="@color/bg_fragment">
+    android:background="@color/bg_fragment"
+    android:animateLayoutChanges="true"
+    >
 
-    <LinearLayout
-        android:id="@+id/goBackContainer"
+    <ProgressBar
+        android:id="@+id/loader"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/goBackContainer"
+        android:layout_centerInParent="true"
+        android:visibility="visible" />
+
+    <include
+        layout="@layout/go_back_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/bg_fragment"
-        android:padding="@dimen/dimen_5"
-        android:orientation="horizontal"
-        >
-
-        <ImageButton
-            android:id="@+id/goBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/bg_fragment"
-            android:src="@drawable/ic_baseline_arrow_back_ios_new_24" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/pokeInfo"
-            android:textSize="@dimen/dimenString_25"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/dimen_20"
-            />
-    </LinearLayout>
+        android:layout_height="wrap_content" />
 
     <ScrollView
+        android:id="@+id/scrollViewContainerr"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/goBackContainer">
+        android:layout_below="@id/goBackContainer"
+        android:visibility="gone"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,14 +39,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/bg_fragment"
-                >
+                android:backgroundTint="@color/bg_fragment">
+
                 <ImageView
                     android:id="@+id/pokeImage"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen_500"
-                    android:src="@mipmap/ic_launcher_pokemon_zero_foreground"
-                    />
+                    android:layout_height="@dimen/dimen_500"/>
             </LinearLayout>
             <!--Pokemon name layout-->
             <LinearLayout
@@ -65,8 +56,7 @@
                 android:paddingLeft="@dimen/dimen_40"
                 android:paddingTop="@dimen/dimen_20"
                 android:paddingRight="@dimen/dimen_40"
-                android:paddingBottom="@dimen/dimen_20"
-                >
+                android:paddingBottom="@dimen/dimen_20">
 
                 <TextView
                     android:id="@+id/namePoke"
@@ -74,8 +64,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/name"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/dimenString_50"
-                    />
+                    android:textSize="@dimen/dimenString_50" />
             </LinearLayout>
 
 
@@ -83,61 +72,59 @@
                 android:id="@+id/descriptionMainContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_margin="@dimen/dimen_20"
-                app:cardElevation="@dimen/dimen_10"
+                android:gravity="center"
                 app:cardCornerRadius="@dimen/dimen_10"
-                >
+                app:cardElevation="@dimen/dimen_10">
+
                 <GridLayout
                     android:id="@+id/description"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center"
                     android:layout_marginTop="@dimen/dimen_30"
                     android:layout_marginBottom="@dimen/dimen_30"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center"
-                    android:padding="@dimen/dimen_10"
                     android:columnCount="3"
-                    android:rowCount="3"
-                    >
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dimen_10"
+                    android:rowCount="3">
 
                     <LinearLayout
+                        style="@style/boxes"
                         android:layout_width="@dimen/dimen_100"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:layout_gravity="top"
-                        style="@style/boxes"
-                        >
+                        android:orientation="vertical">
+
                         <TextView
                             style="@style/titleStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/type"
-                            />
+                            android:text="@string/type" />
 
                         <LinearLayout
                             android:id="@+id/typePokemon"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            >
+                            android:orientation="vertical">
+
                         </LinearLayout>
                     </LinearLayout>
+
                     <LinearLayout
+                        style="@style/boxes"
                         android:layout_width="@dimen/dimen_100"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        style="@style/boxes"
                         android:layout_gravity="top"
                         android:layout_marginLeft="@dimen/dimen_30"
                         android:layout_marginRight="@dimen/dimen_30"
-                        >
+                        android:orientation="vertical">
+
                         <TextView
                             style="@style/titleStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/abilities"
-                            />
+                            android:text="@string/abilities" />
 
                         <LinearLayout
                             android:id="@+id/abilitiesPoke"
@@ -146,21 +133,22 @@
                             android:orientation="vertical"
 
                             >
+
                         </LinearLayout>
                     </LinearLayout>
+
                     <LinearLayout
+                        style="@style/boxes"
                         android:layout_width="@dimen/dimen_100"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:layout_gravity="top"
-                        style="@style/boxes"
-                        >
+                        android:orientation="vertical">
+
                         <TextView
                             style="@style/titleStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/weight"
-                            />
+                            android:text="@string/weight" />
 
                         <LinearLayout
                             android:id="@+id/weight"
@@ -168,71 +156,68 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
 
-                            >
-                        </LinearLayout>
+                            />
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="@dimen/dimen_100"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:layout_gravity="top"
-                        >
+                        android:orientation="vertical">
+
                         <TextView
                             style="@style/titleStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/BaseExp"
-                            />
+                            android:text="@string/BaseExp" />
+
                         <LinearLayout
                             android:id="@+id/expPoke"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            >
-                        </LinearLayout>
+                            android:orientation="vertical"/>
                     </LinearLayout>
+
                     <LinearLayout
+                        style="@style/boxes"
                         android:layout_width="@dimen/dimen_100"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:layout_gravity="top"
-                        style="@style/boxes"
                         android:layout_marginLeft="@dimen/dimen_30"
                         android:layout_marginRight="@dimen/dimen_30"
-                        >
+                        android:orientation="vertical">
+
                         <TextView
                             style="@style/titleStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/habitat"
-                            />
+                            android:text="@string/habitat" />
 
                         <LinearLayout
                             android:id="@+id/habitat"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            >
-                        </LinearLayout>
+                            android:orientation="vertical"/>
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="@dimen/dimen_100"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:layout_gravity="top"
-                        >
+                        android:orientation="vertical">
+
                         <TextView
                             style="@style/titleStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/height"
-                            />
+                            android:text="@string/height" />
+
                         <LinearLayout
                             android:id="@+id/height"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            >
+                            android:orientation="vertical">
+
                         </LinearLayout>
                     </LinearLayout>
                 </GridLayout>
@@ -243,47 +228,48 @@
                 android:id="@+id/descriptionContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_marginLeft="@dimen/dimen_50"
                 android:layout_marginRight="@dimen/dimen_50"
-                >
+                android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/description"
-                    android:textSize="@dimen/dimenString_26"
-                    android:textColor="@color/black"
                     android:layout_marginBottom="@dimen/dimen_10"
-                    />
+                    android:text="@string/description"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/dimenString_26" />
+
                 <TextView
                     android:id="@+id/pokeDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/description"
-                    android:textSize="@dimen/dimenString_15"
-                    />
+                    android:text="@string/aboutPoke"
+                    android:textSize="@dimen/dimenString_15" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/evolutionsContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dimen_100"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:layout_marginBottom="@dimen/dimen_100"
-                android:padding="@dimen/dimen_5"
-                >
+                android:padding="@dimen/dimen_5">
+
                 <TextView
                     style="@style/titleEvolution"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/titleEvolution"
                     android:layout_marginBottom="@dimen/dimenString_10"
-                    />
+                    android:text="@string/titleEvolution" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/evolutions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_gravity="center_horizontal|center"
                     >
 
                 </androidx.recyclerview.widget.RecyclerView>

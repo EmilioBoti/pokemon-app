@@ -1,21 +1,17 @@
-package com.example.pokemonapp.fragments;
+package com.example.pokemonapp.view.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokemonapp.R;
 import com.example.pokemonapp.adapters.CustomSpinnerAdapter;
@@ -28,7 +24,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -40,7 +35,6 @@ public class CategoryMoveFragment extends Fragment implements AdapterView.OnItem
     private Spinner spinner;
     private ArrayList<String> list = null;
     private Context context;
-    private RecyclerView moveContainer;
 
 
     @Override
@@ -58,7 +52,6 @@ public class CategoryMoveFragment extends Fragment implements AdapterView.OnItem
         spinner = view.findViewById(R.id.dropDown);
         spinner.setOnItemSelectedListener(this);
 
-        //moveContainer = view.findViewById(R.id.moveContainer);
         fillList();
 
     }
@@ -70,9 +63,7 @@ public class CategoryMoveFragment extends Fragment implements AdapterView.OnItem
             Request request = Services.getDatas(Constants.CATEGORY_MOVE);
             client.newCall(request).enqueue(this);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (IOException  | JSONException e) {
             e.printStackTrace();
         }
     }
@@ -108,8 +99,6 @@ public class CategoryMoveFragment extends Fragment implements AdapterView.OnItem
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        //String d  = (String) parent.getItemAtPosition(position);
-        //Toast.makeText(context,String.valueOf(position+1), Toast.LENGTH_SHORT).show();
         Bundle data = new Bundle();
         data.putString("idMove", String.valueOf(position));
 
@@ -125,13 +114,12 @@ public class CategoryMoveFragment extends Fragment implements AdapterView.OnItem
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
+        
     }
 
     private void initAdapter(){
         CustomSpinnerAdapter customSpinnerAdapter = new CustomSpinnerAdapter(context, list);
         spinner.setAdapter(customSpinnerAdapter);
     }
-
 
 }

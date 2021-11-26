@@ -1,4 +1,4 @@
-package com.example.pokemonapp.fragments;
+package com.example.pokemonapp.view.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -19,6 +19,7 @@ import com.example.pokemonapp.R;
 import com.example.pokemonapp.adapters.MoveAdapter;
 import com.example.pokemonapp.services.Services;
 import com.example.pokemonapp.utils.constants.Constants;
+import com.example.pokemonapp.utils.constants.Helpers;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -89,12 +90,7 @@ public class MoveFragment extends Fragment implements Callback {
                 MoveFragment.this.getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Log.d("move", list.toString());
-                        MoveAdapter moveAdapter = new MoveAdapter(context, list);
-                        containerItemMove.setHasFixedSize(true);
-                        containerItemMove.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-                        containerItemMove.setAdapter(moveAdapter);
-                        //initAdapter(list);
+                        initAdapter(list);
                     }
                 });
 
@@ -110,5 +106,18 @@ public class MoveFragment extends Fragment implements Callback {
         containerItemMove.setHasFixedSize(true);
         containerItemMove.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         containerItemMove.setAdapter(moveAdapter);
+
+        moveAdapter.OnClickItemMove(new MoveAdapter.OnClickItemMove() {
+            @Override
+            public void onClickMove(int pos) {
+                /*Toast.makeText(context, "pos: " + pos, Toast.LENGTH_SHORT).show();
+                Log.d("move", listMove.toString());*/
+                Bundle data = new Bundle();
+                data.putString("id", String.valueOf(pos));
+                MoveDetailFragment moveDetailFragment = new MoveDetailFragment();
+                moveDetailFragment.setArguments(data);
+                Helpers.callFragment(getParentFragmentManager(), moveDetailFragment);
+            }
+        });
     }
 }

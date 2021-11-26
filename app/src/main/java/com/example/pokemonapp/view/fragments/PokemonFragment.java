@@ -1,8 +1,7 @@
-package com.example.pokemonapp.fragments;
+package com.example.pokemonapp.view.fragments;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -13,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,21 +47,21 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 
-public class PokemonFragment extends Fragment {
+public class PokemonFragment extends Fragment implements Callback, Runnable{
     private ImageView pokeImage;
     private ImageButton goBack;
-    private TextView namePoke, pokeDescription;
-    private LinearLayout typesView, weight, baseExp, abilities, nameContainer1, habitat;
+    private TextView namePoke, pokeDescription, titleBar;
+    private LinearLayout typesView, weight,height, baseExp, abilities, habitatLayout;
     private RecyclerView evolutions;
     private Pokemon pokemon;
     private Services services;
     private ArrayList<Pokemon> listPokemon;
-    private CardView mainContainerDescription;
+    private ProgressBar progressBar;
+    private ScrollView scrollViewContainer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState){
-        View view = inflater.inflate(R.layout.fragment_pokemon, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_pokemon, container, false);
     }
 
     @Override
@@ -69,11 +70,11 @@ public class PokemonFragment extends Fragment {
 
         //get all views
         init(view);
+        titleBar.setText(R.string.pokeInfo);
 
         //get datas from home's input(searcher)
         Bundle data = getArguments();
-
-        getNamePoke(data.getString("idPoke"));
+        getNamePoke(data.get("idPoke").toString());
 
         //event to go back
         goBack.setOnClickListener(new View.OnClickListener(){
@@ -83,6 +84,24 @@ public class PokemonFragment extends Fragment {
             }
         });
 
+    }
+    private void init(View view){
+        typesView = view.findViewById(R.id.typePokemon);
+        abilities = view.findViewById(R.id.abilitiesPoke);
+        weight = view.findViewById(R.id.weight);
+        height = view.findViewById(R.id.height);
+        baseExp = view.findViewById(R.id.expPoke);
+        namePoke = view.findViewById(R.id.namePoke);
+        pokeImage = view.findViewById(R.id.pokeImage);
+        evolutions = view.findViewById(R.id.evolutions);
+        goBack = view.findViewById(R.id.goBack);
+        titleBar = view.findViewById(R.id.titleBar);
+        pokeDescription = view.findViewById(R.id.pokeDescription);
+        habitatLayout = view.findViewById(R.id.habitat);
+        progressBar = view.findViewById(R.id.loader);
+        scrollViewContainer = view.findViewById(R.id.scrollViewContainerr);
+        services = new Services();
+        listPokemon = new ArrayList<>();
     }
 
     private void setPokeEvolutions(){
@@ -140,6 +159,11 @@ public class PokemonFragment extends Fragment {
 
                                 }
                                 Collections.sort(listPokemon);
+
+                                for(int i = 0; i < listPokemon.size(); i++){
+                                    Log.d("poke", listPokemon.get(i).getName());
+                                }
+
                                 //calling adapter evolutions
                                 callAdapter(getContext(), listPokemon);
 
@@ -189,41 +213,40 @@ public class PokemonFragment extends Fragment {
                     JSONObject colorObj = obj.getJSONObject("color");
                     String color = colorObj.getString("name");
 
-                    JSONObject habitatObj = obj.getJSONObject("habitat");
-                    String habitat = colorObj.getString("name");
-
+                    String habitat = obj.getString("habitat");
                     JSONObject chain = obj.getJSONObject("evolution_chain");
+
                     JSONArray varieties = obj.getJSONArray("varieties");
 
                     JSONArray desObj = obj.getJSONArray("flavor_text_entries");
 
-                    JSONObject ob = (JSONObject) desObj.get(0);
+                    JSONObject ob = (JSONObject) desObj.get(1);
                     String des = ob.getString("flavor_text");
                     pokemon.setDescription(des);
                     pokemon.setUrlEvolutions(chain.getString("url"));
                     pokemon.setColor(color);
+                    pokemon.setHabitat(habitat);
+
+                    for (int i = 1; i < varieties.length(); i++){
+
+                        JSONObject varian = (JSONObject)varieties.get(i);
+                        JSONObject pokemonVarian = varian.getJSONObject("pokemon");
+                        String urlId = pokemonVarian.getString("url");
+                        String name = pokemonVarian.getString("name");
+                        String id = urlId.substring(34, urlId.length()-1);
+                        listPokemon.add(new Pokemon(Integer.parseInt(id), name));
+                    }
 
                     PokemonFragment.this.getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             pokeDescription.setText(pokemon.getDescription());
-                            //Log.d("format", color);
-                            setColor(pokemon.getColor());
-                            pokemon.setHabitat(habitat);
-                            try {
-                                for (int i = 1; i < varieties.length(); i++){
-
-                                    JSONObject varian = (JSONObject)varieties.get(i);
-                                    JSONObject pokemonVarian = varian.getJSONObject("pokemon");
-                                    String urlId = pokemonVarian.getString("url");
-                                    String name = pokemonVarian.getString("name");
-                                    String id = urlId.substring(34, urlId.length()-1);
-                                    listPokemon.add(new Pokemon(Integer.parseInt(id), name));
-                                }
-
-                            }catch (JSONException e ){
-                                e.printStackTrace();
-                            }
+                            habitatLayout.removeAllViewsInLayout();
+                            TextView habitatText = new TextView(getContext());
+                            habitatText.setGravity(Gravity.CENTER_HORIZONTAL);
+                            habitatText.setTextSize(16f);
+                            habitatText.setText(pokemon.getHabitat());
+                            habitatLayout.addView(habitatText);
                         }
                     });
                     //print evolutions
@@ -240,88 +263,65 @@ public class PokemonFragment extends Fragment {
             }
         });
     }
-    private void setColor(String color){
 
-        switch (color){
-            case "red":
-                mainContainerDescription.setCardBackgroundColor(getResources().getColor(R.color.red_500));
-                break;
-            case "blue":
-                mainContainerDescription.setCardBackgroundColor(getResources().getColor(R.color.blue_300));
-                break;
-            case "brown":
-                mainContainerDescription.setCardBackgroundColor(getResources().getColor(R.color.brown_400));
-                break;
-            case "gray":
-                mainContainerDescription.setCardBackgroundColor(getResources().getColor(R.color.gray_300));
-                break;
-            case "green":
-                mainContainerDescription.setCardBackgroundColor(getResources().getColor(R.color.green_300));
-                break;
-            case "purple":
-                mainContainerDescription.setCardBackgroundColor(getResources().getColor(R.color.purple_700));
-                break;
-            case "pink":
-                mainContainerDescription.setCardBackgroundColor(getResources().getColor(R.color.pink_400));
-                break;
-            case "yellow":
-                mainContainerDescription.setCardBackgroundColor(getResources().getColor(R.color.yellow_300));
-                break;
-            case "white":
-                mainContainerDescription.setCardBackgroundColor(getResources().getColor(R.color.white));
-                break;
-            case "black":
-                mainContainerDescription.setCardBackgroundColor(getResources().getColor(R.color.black));
-                break;
-
-        }
-    }
     private void setViewData(){
 
-        final float DIMEN = 16f;
-        TextView weightP, habitatText, baseExperiance, type, ability;
+        progressBar.setVisibility(getView().GONE);
+        scrollViewContainer.setVisibility(getView().VISIBLE);
 
+        final float DIMEN = 16f;
+        TextView weightP, heightP,habitatText, baseExperiance, type, ability;
+        pokeImage.setTranslationX(-1000);
         //load the image
         Helpers.loadImage(pokemon.getSpriteFront(), pokeImage);
+
+        //animation
+        ObjectAnimator animatorImg = ObjectAnimator.ofFloat(pokeImage, "translationX", 0f);
+        animatorImg.setDuration(700);
+        animatorImg.start();
 
         weight.removeAllViewsInLayout();
         baseExp.removeAllViewsInLayout();
         typesView.removeAllViewsInLayout();
         abilities.removeAllViewsInLayout();
-        //habitat.removeAllViewsInLayout();
+        habitatLayout.removeAllViewsInLayout();
+        height.removeAllViewsInLayout();
 
         double num = (pokemon.getWeight() / 4.54);
         String pound = String.format("%.02f", num);
 
-
         weightP = new TextView(getContext());
         weightP.setGravity(Gravity.CENTER_HORIZONTAL);
         weightP.setTextSize(DIMEN);
-        //weightP.setTextColor(getResources().getColor(R.color.white, getActivity().getTheme()));
         weightP.setText(pound+" pounds");
+
+        heightP = new TextView(getContext());
+        heightP.setGravity(Gravity.CENTER_HORIZONTAL);
+        heightP.setTextSize(DIMEN);
+        heightP.setText((pokemon.getHeight() * 10) + " cm");
 
         habitatText = new TextView(getContext());
         habitatText.setGravity(Gravity.CENTER_HORIZONTAL);
         habitatText.setTextSize(DIMEN);
-        //habitatText.setTextColor(getResources().getColor(R.color.white, getActivity().getTheme()));
-        habitatText.setText(String.valueOf(pokemon.getHabitat()));
+        habitatText.setText(pokemon.getHabitat());
 
         baseExperiance = new TextView(getContext());
         baseExperiance.setGravity(Gravity.CENTER_HORIZONTAL);
         baseExperiance.setTextSize(DIMEN);
-        //baseExperiance.setTextColor(getResources().getColor(R.color.white, getActivity().getTheme()));
         baseExperiance.setText(String.valueOf(pokemon.getBaseExperience()));
-        namePoke.setText(pokemon.getName());
+        String n = pokemon.getName();
 
-        //habitat.addView(habitatText);
+        namePoke.setText(Helpers.ToUpperName(n));
+
+        habitatLayout.addView(habitatText);
         weight.addView(weightP);
+        height.addView(heightP);
         baseExp.addView(baseExperiance);
 
         for (String types: pokemon.getTypes()) {
             type = new TextView(getContext());
             type.setText(types);
             type.setTextSize(DIMEN);
-            //type.setTextColor(getResources().getColor(R.color.white));
             type.setGravity(Gravity.CENTER_HORIZONTAL);
             typesView.addView(type);
         }
@@ -329,79 +329,13 @@ public class PokemonFragment extends Fragment {
             ability = new TextView(getContext());
             ability.setText(elem);
             ability.setTextSize(DIMEN);
-            //ability.setTextColor(getResources().getColor(R.color.white));
             ability.setGravity(Gravity.CENTER_HORIZONTAL);
             abilities.addView(ability);
         }
     }
 
-    public void getNamePoke(String input){
-        OkHttpClient client = new OkHttpClient();
-        listPokemon = new ArrayList<>();
-        pokemon = new Pokemon();
 
-        try {
-            Request request = Services.getDatas(Constants.PATH+input);
 
-            client.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                    e.printStackTrace();
-
-                }
-
-                @Override
-                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                    if(response.isSuccessful()){
-                        String jsonString = response.body().string();
-
-                        try {
-                            JSONObject json = new JSONObject(jsonString);
-                            String id = json.getString("id");
-                            String name = json.getString("name");
-                            JSONObject sprite = json.getJSONObject("sprites");
-                            JSONObject other = sprite.getJSONObject("other");
-                            JSONObject officialArtwork = other.getJSONObject("official-artwork");
-
-                            JSONArray types = json.getJSONArray("types");
-                            JSONArray abilities = json.getJSONArray("abilities");
-                            double weight = Double.parseDouble(json.getString("weight"));
-                            double baseExp = Double.parseDouble(json.getString("base_experience"));
-
-                            PokemonFragment.this.getActivity().runOnUiThread(new Runnable(){
-                                @Override
-                                public void run(){
-                                    try {
-                                        pokemon.setId(Integer.parseInt(id));
-                                        pokemon.setName(name);
-                                        pokemon.setTypes(setElements(types, "type"));
-                                        pokemon.setAbilities(setElements(abilities, "ability"));
-                                        pokemon.setSpriteBack(sprite.getString("back_default"));
-                                        pokemon.setSpriteFront(officialArtwork.getString("front_default"));
-                                        pokemon.setWeight(weight);
-                                        pokemon.setBaseExperience(baseExp);
-
-                                        setViewData();
-                                        setDesData();
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            });
-
-        }catch (IOException | JSONException e){
-            e.printStackTrace();
-        }
-
-    }
     private ArrayList<String> setElements(JSONArray array, String objName){
         ArrayList<String> listElements = new ArrayList<>();
         try {
@@ -416,20 +350,64 @@ public class PokemonFragment extends Fragment {
         return listElements;
     }
 
-    private void init(View view){
-        typesView = view.findViewById(R.id.typePokemon);
-        abilities = view.findViewById(R.id.abilitiesPoke);
-        weight = view.findViewById(R.id.weight);
-        baseExp = view.findViewById(R.id.expPoke);
-        namePoke = view.findViewById(R.id.namePoke);
-        pokeImage = view.findViewById(R.id.pokeImage);
-        evolutions = view.findViewById(R.id.evolutions);
-        goBack = view.findViewById(R.id.goBack);
-        pokeDescription = view.findViewById(R.id.pokeDescription);
-        nameContainer1 = view.findViewById(R.id.nameContainer);
-        mainContainerDescription = view.findViewById(R.id.descriptionMainContainer);
-        //habitat = view.findViewById(R.id.habitat);
-        services = new Services();
+    public void getNamePoke(String input){
+        OkHttpClient client = new OkHttpClient();
         listPokemon = new ArrayList<>();
+        pokemon = new Pokemon();
+
+        try {
+            Request request = Services.getDatas(Constants.PATH+input);
+            client.newCall(request).enqueue(this);
+
+        }catch (IOException | JSONException e){
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void onFailure(@NonNull Call call, @NonNull IOException e) {
+
+    }
+
+    @Override
+    public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+        if(response.isSuccessful()){
+            String jsonString = response.body().string();
+
+            try {
+                JSONObject json = new JSONObject(jsonString);
+                String id = json.getString("id");
+                String name = json.getString("name");
+                JSONObject sprite = json.getJSONObject("sprites");
+                JSONObject other = sprite.getJSONObject("other");
+                JSONObject officialArtwork = other.getJSONObject("official-artwork");
+                JSONArray types = json.getJSONArray("types");
+                JSONArray abilities = json.getJSONArray("abilities");
+                double weight = Double.parseDouble(json.getString("weight"));
+                double baseExp = Double.parseDouble(json.getString("base_experience"));
+
+                pokemon.setId(Integer.parseInt(id));
+                pokemon.setName(name);
+                pokemon.setTypes(setElements(types, "type"));
+                pokemon.setAbilities(setElements(abilities, "ability"));
+                pokemon.setSpriteBack(sprite.getString("back_default"));
+                pokemon.setSpriteFront(officialArtwork.getString("front_default"));
+                pokemon.setWeight(weight);
+                pokemon.setBaseExperience(baseExp);
+                pokemon.setHeight(Double.parseDouble(json.getString("height")));
+
+                PokemonFragment.this.getActivity().runOnUiThread(this);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void run() {
+        setViewData();
+        setDesData();
     }
 }

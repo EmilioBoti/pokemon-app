@@ -27,41 +27,14 @@ public class Services {
     //private String urlChain;
 
     public static Request getDatas(String path) throws IOException, JSONException {
-
-        Request request = new Request.Builder()
-                            .url(path)
-                            .build();
-        return  request;
+        return  new Request.Builder().url(path).build();
     }
 
     public Request getUrLEvolutions(int idName){
-
-        Request request = new Request.Builder()
-                .url(Constants.URL_SPECIES +idName+"/")
-                .build();
-
-        return request;
+        return new Request.Builder().url(Constants.URL_SPECIES +idName+"/").build();
     }
-
-    public static String testing(String path) throws IOException {
-        OkHttpClient client = new OkHttpClient();
-
-        Request request = new Request.Builder()
-                .url(path)
-                .build();
-
-        try(Response response = client.newCall(request).execute()){
-            return response.body().string();
-        }
-    }
-
     public Request getEvolutions(String path){
-
-        Request request = new Request.Builder()
-                                .url(path)
-                                .build();
-
-        return request;
+        return new Request.Builder().url(path).build();
     }
 
 }

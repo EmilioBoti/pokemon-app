@@ -1,6 +1,5 @@
-package com.example.pokemonapp;
+package com.example.pokemonapp.view;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -8,20 +7,8 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.example.pokemonapp.fragments.HomeFragment;
-
-import java.io.IOException;
-
-import okhttp3.Call;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.Callback;
+import com.example.pokemonapp.R;
+import com.example.pokemonapp.view.fragments.HomeFragment;
 
 public class MainActivity extends AppCompatActivity {
     //public static final MediaType JSON = MediaType.get("application/json; charset=utf-8 ");

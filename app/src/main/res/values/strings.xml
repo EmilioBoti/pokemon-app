@@ -15,10 +15,13 @@
     <string name="titleEvolution">Evolutions</string>
     <string name="weight">Weight</string>
     <string name="description">Description</string>
+    <string name="aboutPoke">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ullamcorper, est non ultricies sodales, sem sem lacinia felis, eget cursus diam quam eget nibh. Ut vitae turpis elit. In molestie ligula in tellus vehicula, blandit sollicitudin felis congue. Curabitur vestibulum tortor porta augue condimentum, blandit fringilla purus sagittis. Aliquam nec dolor odio. Nam sollicitudin nisi at tellus elementum facilisis. Nunc eu malesuada mi, at semper sapien.</string>
     <string name="habitat">Habitat</string>
     <string name="pokemons">Pokemons</string>
     <string name="types">Types</string>
     <string name="height">Height</string>
     <string name="moves">Moves</string>
     <string name="pokeInfo">Pokémon Info</string>
+    <string name="moveInfo">Move Info</string>
+
 </resources>
