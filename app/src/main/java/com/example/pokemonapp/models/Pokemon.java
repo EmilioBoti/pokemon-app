@@ -16,6 +16,7 @@ public class Pokemon implements Serializable, Comparable {
     private String description;
     private String color;
     private String habitat;
+    private ArrayList<Move> moves;
 
 
     public Pokemon(){ }
@@ -23,6 +24,15 @@ public class Pokemon implements Serializable, Comparable {
     public Pokemon (int id, String name){
         this.id = id;
         this.name = name;
+    }
+
+
+    public ArrayList<Move> getMoves() {
+        return moves;
+    }
+
+    public void setMoves(ArrayList<Move> moves) {
+        this.moves = moves;
     }
 
     public double getHeight() {

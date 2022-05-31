@@ -17,7 +17,9 @@
         android:layout_marginEnd="@dimen/dimen_5"
         android:layout_marginBottom="@dimen/dimen_5"
         app:cardCornerRadius="@dimen/dimen_5"
-        app:cardElevation="@dimen/dimen_15">
+        app:cardElevation="@dimen/dimen_15"
+        app:cardBackgroundColor="@color/bg_fragment"
+        >
 
         <RelativeLayout
             android:id="@+id/dataContainer"
@@ -29,9 +31,10 @@
                 android:id="@+id/numPoke"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_10"
+                android:layout_marginTop="@dimen/dimen_10"
                 android:textColor="@color/black"
                 tools:text="#001"
-                android:paddingLeft="@dimen/dimen_10"
                 />
 
             <LinearLayout
@@ -47,9 +50,10 @@
                     android:id="@+id/imgPoke"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@mipmap/ic_launcher_lucario_foreground">
+                    android:src="@mipmap/ic_launcher_lucario_foreground"
+                    android:background="@color/bg_fragment"
+                    />
 
-                </ImageView>
             </LinearLayout>
 
             <RelativeLayout
@@ -57,7 +61,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_50"
                 android:layout_below="@id/imgcontainer"
-                android:background="@drawable/gradiante_red"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -66,11 +69,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/name"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/dimenString_20"
-
                     />
-
             </RelativeLayout>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

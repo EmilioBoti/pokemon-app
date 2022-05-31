@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +33,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class HomeFragment extends Fragment implements Callback, View.OnClickListener{
+public class HomeFragment extends Fragment implements Callback, View.OnClickListener    {
     private ImageButton btnSearch;
     public SearchView searchView;
     public TextView pokemons, moves, types;
@@ -62,7 +63,7 @@ public class HomeFragment extends Fragment implements Callback, View.OnClickList
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                String queryValue = searchView.getQuery().toString();
+                String queryValue = searchView.getQuery().toString().replaceAll(" ", "-");
                 if(!queryValue.isEmpty()){
                     input = queryValue.toLowerCase();
                     getNamePoke(input);
@@ -110,6 +111,13 @@ public class HomeFragment extends Fragment implements Callback, View.OnClickList
 
             //load new screen
             Helpers.callFragment(getParentFragmentManager(), pokemonFragment);
+        }else{
+            HomeFragment.this.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getContext(), "This Pokémon might not exist.", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 
@@ -123,7 +131,8 @@ public class HomeFragment extends Fragment implements Callback, View.OnClickList
     public void onClick(View v) {
 
         if(v.getId() == R.id.btnSearch){
-            String queryValue = searchView.getQuery().toString();
+            String queryValue = searchView.getQuery().toString().replaceAll(" ", "-");
+
             if(!queryValue.isEmpty()){
                 input = queryValue.toLowerCase();
                 getNamePoke(input);

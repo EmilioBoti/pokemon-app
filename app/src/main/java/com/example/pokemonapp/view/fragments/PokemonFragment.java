@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,13 +20,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokemonapp.R;
 import com.example.pokemonapp.adapters.EvolutionsAdapter;
+import com.example.pokemonapp.models.Move;
 import com.example.pokemonapp.models.Pokemon;
 import com.example.pokemonapp.services.Services;
 import com.example.pokemonapp.utils.constants.Constants;
@@ -38,7 +39,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Locale;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -58,6 +58,7 @@ public class PokemonFragment extends Fragment implements Callback, Runnable{
     private ArrayList<Pokemon> listPokemon;
     private ProgressBar progressBar;
     private ScrollView scrollViewContainer;
+    private GridLayout moveContainer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState){
@@ -85,6 +86,7 @@ public class PokemonFragment extends Fragment implements Callback, Runnable{
         });
 
     }
+
     private void init(View view){
         typesView = view.findViewById(R.id.typePokemon);
         abilities = view.findViewById(R.id.abilitiesPoke);
@@ -100,6 +102,7 @@ public class PokemonFragment extends Fragment implements Callback, Runnable{
         habitatLayout = view.findViewById(R.id.habitat);
         progressBar = view.findViewById(R.id.loader);
         scrollViewContainer = view.findViewById(R.id.scrollViewContainerr);
+        //moveContainer = view.findViewById(R.id.movesContainer);
         services = new Services();
         listPokemon = new ArrayList<>();
     }
@@ -121,70 +124,73 @@ public class PokemonFragment extends Fragment implements Callback, Runnable{
                 if(response.isSuccessful()){
                     String json = response.body().string();
 
-                    PokemonFragment.this.getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
+                    try {
 
-                                JSONObject obj = new JSONObject(json);
-                                JSONObject  chain = obj.getJSONObject("chain");
-                                JSONArray evol = chain.getJSONArray("evolves_to");
+                        JSONObject obj = new JSONObject(json);
+                        JSONObject  chain = obj.getJSONObject("chain");
+                        JSONArray evol = chain.getJSONArray("evolves_to");
 
-                                //base poke
-                                JSONObject poke1 = chain.getJSONObject("species");
-                                String pokeName1 = poke1.getString("url");
-                                String name1 = poke1.getString("name");
+                        //base poke
+                        JSONObject poke1 = chain.getJSONObject("species");
+                        String pokeName1 = poke1.getString("url");
+                        String name1 = poke1.getString("name");
 
-                                String id = pokeName1.substring(42, pokeName1.length()-1);
-                                listPokemon.add(new Pokemon(Integer.parseInt(id), name1));
+                        String id = pokeName1.substring(42, pokeName1.length()-1);
+                        listPokemon.add(new Pokemon(Integer.parseInt(id), name1));
 
-                                for (int i = 0; i < evol.length(); i++){
-                                    JSONObject object = (JSONObject)evol.get(i);
-                                    JSONObject poke2 = object.getJSONObject("species");
-                                    String pokeUrl2 = poke2.getString("url");
-                                    String name2 = poke2.getString("name");
-                                    String id2 = pokeUrl2.substring(42, pokeUrl2.length()-1);
-                                    listPokemon.add(new Pokemon(Integer.parseInt(id2), name2));
+                        for (int i = 0; i < evol.length(); i++){
+                            JSONObject object = (JSONObject)evol.get(i);
+                            JSONObject poke2 = object.getJSONObject("species");
+                            String pokeUrl2 = poke2.getString("url");
+                            String name2 = poke2.getString("name");
+                            String id2 = pokeUrl2.substring(42, pokeUrl2.length()-1);
+                            listPokemon.add(new Pokemon(Integer.parseInt(id2), name2));
 
-                                    JSONArray evol2 = object.getJSONArray("evolves_to");
+                            JSONArray evol2 = object.getJSONArray("evolves_to");
 
-                                    for (int n = 0; n < evol2.length(); n++) {
-                                        JSONObject ob = (JSONObject)evol2.get(n);
-                                        JSONObject poke3 = ob.getJSONObject("species");
-                                        String pokeName3 = poke3.getString("url");
-                                        String id3 = pokeName3.substring(42, pokeName3.length()-1);
-                                        String name3 = poke3.getString("name");
-                                        listPokemon.add(new Pokemon(Integer.parseInt(id3), name3));
-                                    }
-
-                                }
-                                Collections.sort(listPokemon);
-
-                                for(int i = 0; i < listPokemon.size(); i++){
-                                    Log.d("poke", listPokemon.get(i).getName());
-                                }
-
-                                //calling adapter evolutions
-                                callAdapter(getContext(), listPokemon);
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                            for (int n = 0; n < evol2.length(); n++) {
+                                JSONObject ob = (JSONObject)evol2.get(n);
+                                JSONObject poke3 = ob.getJSONObject("species");
+                                String pokeName3 = poke3.getString("url");
+                                String id3 = pokeName3.substring(42, pokeName3.length()-1);
+                                String name3 = poke3.getString("name");
+                                listPokemon.add(new Pokemon(Integer.parseInt(id3), name3));
                             }
+
                         }
-                    });
+                        Collections.sort(listPokemon);
+
+                        for(int i = 0; i < listPokemon.size(); i++){
+                            Log.d("poke", listPokemon.get(i).getName());
+                        }
+                        callAdapter(getContext(), listPokemon);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                 }
             }
         });
     }
     private void callAdapter(Context context, ArrayList<Pokemon> listPokemon){
         EvolutionsAdapter evolutionsAdapter = new EvolutionsAdapter(context, listPokemon);
-        evolutions.setHasFixedSize(true);
-        evolutions.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-        evolutions.setAdapter(evolutionsAdapter);
+
+        PokemonFragment.this.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                evolutions.setHasFixedSize(true);
+                evolutions.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+                evolutions.setAdapter(evolutionsAdapter);
+            }
+        });
+
 
         evolutionsAdapter.OnClickItemListener(new EvolutionsAdapter.OnClickItemListener() {
             @Override
             public void onclickItem(int post) {
+                scrollViewContainer.setVisibility(getView().GONE);
+                progressBar.setVisibility(getView().VISIBLE);
                 getNamePoke(String.valueOf(post));
             }
 
@@ -196,9 +202,9 @@ public class PokemonFragment extends Fragment implements Callback, Runnable{
     }
 
     private void setDesData() {
+        listPokemon = new ArrayList<>();
 
         OkHttpClient client = new OkHttpClient();
-
         Request request = services.getUrLEvolutions(pokemon.getId());
 
         client.newCall(request).enqueue(new Callback(){
@@ -220,8 +226,9 @@ public class PokemonFragment extends Fragment implements Callback, Runnable{
 
                     JSONArray desObj = obj.getJSONArray("flavor_text_entries");
 
-                    JSONObject ob = (JSONObject) desObj.get(6);
-                    String des = ob.getString("flavor_text");
+                    JSONObject ob = (JSONObject) desObj.get(3);
+                    String des = ob.getString("flavor_text").replaceAll("\\n", " ");
+
                     pokemon.setDescription(des);
                     pokemon.setUrlEvolutions(chain.getString("url"));
                     pokemon.setColor(color);
@@ -267,7 +274,7 @@ public class PokemonFragment extends Fragment implements Callback, Runnable{
     private String isNull(String isNull, JSONObject obj){
         String habitat = "Unknow";
         try {
-            if(!isNull.equals("null")){
+            if(!isNull.equals("null") || !isNull.equals("")){
                 JSONObject habi = obj.getJSONObject("habitat");
                 habitat = habi.getString("name");
             }
@@ -299,9 +306,38 @@ public class PokemonFragment extends Fragment implements Callback, Runnable{
         abilities.removeAllViewsInLayout();
         habitatLayout.removeAllViewsInLayout();
         height.removeAllViewsInLayout();
+        //moveContainer.removeAllViewsInLayout();
 
         double num = (pokemon.getWeight() / 4.54);
         String pound = String.format("%.02f", num);
+
+        /*ArrayList<Move> listMove = pokemon.getMoves();
+
+        for (int i = 0; i < listMove.size(); i++) {
+            Move mN = listMove.get(i);
+            LinearLayout box = new LinearLayout(getContext());
+            box.setOrientation(LinearLayout.VERTICAL);
+            box.setBackgroundResource(R.drawable.bordername);
+            box.setGravity(Gravity.CENTER);
+            box.setMinimumWidth(100);
+            //box.setBackground(getResources().getDrawable(R.drawable.bordername, getActivity().getTheme()));
+
+            TextView moveName = new TextView(getContext());
+            moveName.setText(mN.getName());
+            moveName.setId(mN.getId());
+            moveName.setTextSize(20);
+            moveName.setGravity(Gravity.CENTER);
+            moveName.setPadding(20,10,20,10);
+            //moveName.setBackgroundColor(getResources().getColor(R.color.white, getActivity().getTheme()));
+            moveName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getContext(), "id: " + v.getId(), Toast.LENGTH_SHORT).show();
+                }
+            });
+            box.addView(moveName);
+            moveContainer.addView(box);
+        }*/
 
         weightP = new TextView(getContext());
         weightP.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -322,7 +358,7 @@ public class PokemonFragment extends Fragment implements Callback, Runnable{
         baseExperiance.setGravity(Gravity.CENTER_HORIZONTAL);
         baseExperiance.setTextSize(DIMEN);
         baseExperiance.setText(String.valueOf(pokemon.getBaseExperience()));
-        String n = pokemon.getName();
+        String n = pokemon.getName().replaceAll("-", " ");
 
         namePoke.setText(Helpers.ToUpperName(n));
 
@@ -346,7 +382,6 @@ public class PokemonFragment extends Fragment implements Callback, Runnable{
             abilities.addView(ability);
         }
     }
-
 
 
     private ArrayList<String> setElements(JSONArray array, String objName){
@@ -387,6 +422,7 @@ public class PokemonFragment extends Fragment implements Callback, Runnable{
     public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
         if(response.isSuccessful()){
             String jsonString = response.body().string();
+            ArrayList<Move> moves = new ArrayList<>();
 
             try {
                 JSONObject json = new JSONObject(jsonString);
@@ -400,6 +436,17 @@ public class PokemonFragment extends Fragment implements Callback, Runnable{
                 double weight = Double.parseDouble(json.getString("weight"));
                 double baseExp = Double.parseDouble(json.getString("base_experience"));
 
+                JSONArray movesArr = json.optJSONArray("moves");
+
+                for(int i = 0; i < movesArr.length(); i++){
+                    JSONObject move = (JSONObject) movesArr.get(i);
+                    JSONObject m = move.getJSONObject("move");
+                    String moveName = m.getString("name");
+                    String url = m.getString("url");
+                    String idMove = url.substring(31, url.length()-1);
+                    moves.add(new Move(Integer.parseInt(idMove),moveName));
+                }
+
                 pokemon.setId(Integer.parseInt(id));
                 pokemon.setName(name);
                 pokemon.setTypes(setElements(types, "type"));
@@ -409,6 +456,7 @@ public class PokemonFragment extends Fragment implements Callback, Runnable{
                 pokemon.setWeight(weight);
                 pokemon.setBaseExperience(baseExp);
                 pokemon.setHeight(Double.parseDouble(json.getString("height")));
+                pokemon.setMoves(moves);
 
                 PokemonFragment.this.getActivity().runOnUiThread(this);
 

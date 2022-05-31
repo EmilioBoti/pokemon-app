@@ -36,4 +36,16 @@
         <item name="android:layout_marginLeft">@dimen/dimen_25</item>
         <item name="android:layout_marginRight">@dimen/dimen_25</item>
     </style>
+
+    <style name="moveStyle">
+        <item name="android:layout_margin">@dimen/dimen_10</item>
+        <item name="android:paddingLeft">@dimen/dimen_20</item>
+        <item name="android:paddingRight">@dimen/dimen_20</item>
+        <item name="android:paddingTop">@dimen/dimen_10</item>
+        <item name="android:paddingBottom">@dimen/dimen_10</item>
+        <item name="android:text">@string/moves</item>
+        <item name="android:textSize">@dimen/dimenString_20</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="background">@drawable/bordername</item>
+    </style>
 </resources>

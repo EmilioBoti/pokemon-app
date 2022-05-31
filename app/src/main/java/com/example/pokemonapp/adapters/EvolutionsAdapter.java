@@ -60,20 +60,20 @@ public class    EvolutionsAdapter extends RecyclerView.Adapter<EvolutionsAdapter
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView pokeImage;
-        private TextView pokeName;
+        private TextView pokeName, idPoke;
 
         public ViewHolder(View itemview, OnClickItemListener listener){
             super(itemview);
             pokeImage = itemview.findViewById(R.id.pokeImg);
             pokeName = itemview.findViewById(R.id.nameP);
-
+            idPoke = itemview.findViewById(R.id.numPoke);
         }
 
         public void bindData(Pokemon pokemon){
             //pokeImage
             Helpers.loadImage(Constants.URL_IMG+pokemon.getId()+".png", pokeImage);
-            pokeName.setText(pokemon.getName());
-
+            pokeName.setText(pokemon.getName().replaceAll("-", " "));
+            idPoke.setText("No. "+pokemon.getId());
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

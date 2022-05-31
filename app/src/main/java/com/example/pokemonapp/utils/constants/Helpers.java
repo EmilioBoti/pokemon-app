@@ -14,7 +14,7 @@ public class Helpers {
     public static void loadImage(String url, ImageView pokeImage){
         Picasso.get()
                 .load(url)
-                //.placeholder(R.mipmap.ic_launcher_pokemon_zero_foreground)
+                .placeholder(R.mipmap.ic_launcher_pokemon_zero_foreground)
                 .into(pokeImage);
     }
 

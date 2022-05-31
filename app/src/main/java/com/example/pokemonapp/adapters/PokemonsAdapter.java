@@ -75,8 +75,8 @@ public class PokemonsAdapter extends RecyclerView.Adapter<PokemonsAdapter.ViewHo
 
         public void bindData(Pokemon pokemon) {
             Helpers.loadImage(Constants.URL_IMG+pokemon.getId()+".png", imgPoke);
-            namePoke.setText(pokemon.getName());
-            numPoke.setText("#"+pokemon.getId());
+            namePoke.setText(pokemon.getName().replaceAll("-", " "));
+            numPoke.setText("No. "+pokemon.getId());
 
             imgPoke.setOnClickListener(new View.OnClickListener() {
                 @Override

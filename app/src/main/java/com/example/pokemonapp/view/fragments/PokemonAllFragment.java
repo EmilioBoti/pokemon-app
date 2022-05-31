@@ -7,13 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokemonapp.R;
@@ -36,7 +33,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class PokemonAllFragment extends Fragment implements Callback,Runnable ,PokemonsAdapter.OnClickPokeListener,View.OnScrollChangeListener{
+public class PokemonAllFragment extends Fragment implements Callback, Runnable, PokemonsAdapter.OnClickPokeListener {
     private RecyclerView listContainer;
     private Context context;
     private ArrayList<Pokemon> listPokemon;
@@ -52,13 +49,9 @@ public class PokemonAllFragment extends Fragment implements Callback,Runnable ,P
 
         context = getContext();
 
-        String s = "pink";
-        String color = String.format("#%X", s.hashCode());
-        Log.d("color", color);
-
         //get views
         init(view);
-        listAllPokemon(500);
+        listAllPokemon(1118);
     }
 
     private void init(View view){
@@ -69,7 +62,6 @@ public class PokemonAllFragment extends Fragment implements Callback,Runnable ,P
 
     private void callAdapter(ArrayList<Pokemon> list) {
         //set adapter
-        //listAllPokemon(20);
 
         PokemonsAdapter pokemonsAdapter = new PokemonsAdapter(context, list);
         listContainer.setHasFixedSize(true);
@@ -78,6 +70,7 @@ public class PokemonAllFragment extends Fragment implements Callback,Runnable ,P
 
         //event click on pokemon
         pokemonsAdapter.OnClickPokeListener(this);
+        progressBar.setVisibility(getView().GONE);
     }
 
     private void listAllPokemon(int n){
@@ -124,7 +117,6 @@ public class PokemonAllFragment extends Fragment implements Callback,Runnable ,P
     }
     @Override
     public void run() {
-        progressBar.setVisibility(getView().GONE);
         callAdapter(listPokemon);
     }
 
@@ -136,12 +128,5 @@ public class PokemonAllFragment extends Fragment implements Callback,Runnable ,P
         PokemonFragment pokemonFragment = new PokemonFragment();
         pokemonFragment.setArguments(data);
         Helpers.callFragment(getParentFragmentManager(),pokemonFragment);
-    }
-
-    @Override
-    public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-        //Log.d("scroll", "ScrollY: " + oldScrollY);
-        //Toast.makeText(getContext(), "scrolledlll", Toast.LENGTH_SHORT).show();
-        //listAllPokemon();
     }
 }

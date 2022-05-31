@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mainContainer"
-    android:background="@color/bg_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
-    >
+    android:background="@color/bg_fragment">
 
-    <ProgressBar
-        android:id="@+id/loader"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/goBackContainer"
-        android:layout_centerInParent="true"
-        android:visibility="visible" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/loader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="visible" />
+    </FrameLayout>
 
     <include
         layout="@layout/go_back_bar"
@@ -26,8 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/goBackContainer"
-        android:visibility="gone"
-        >
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -39,12 +42,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/bg_fragment">
+                android:backgroundTint="@color/bg_fragment"
+                android:visibility="visible">
 
                 <ImageView
                     android:id="@+id/pokeImage"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen_500"/>
+                    android:layout_height="@dimen/dimen_500" />
             </LinearLayout>
             <!--Pokemon name layout-->
             <LinearLayout
@@ -56,7 +60,8 @@
                 android:paddingLeft="@dimen/dimen_40"
                 android:paddingTop="@dimen/dimen_20"
                 android:paddingRight="@dimen/dimen_40"
-                android:paddingBottom="@dimen/dimen_20">
+                android:paddingBottom="@dimen/dimen_20"
+                android:visibility="visible">
 
                 <TextView
                     android:id="@+id/namePoke"
@@ -68,14 +73,40 @@
             </LinearLayout>
 
 
+            <!--Description-->
+
+            <LinearLayout
+                android:id="@+id/descriptionContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen_50"
+                android:layout_marginTop="@dimen/dimen_30"
+                android:layout_marginRight="@dimen/dimen_50"
+                android:layout_marginBottom="@dimen/dimen_40"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/pokeDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/aboutPoke"
+                    android:textSize="@dimen/dimenString_15"
+                    android:textColor="@color/black"
+                    />
+            </LinearLayout>
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/descriptionMainContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dimen_20"
                 android:gravity="center"
+                android:visibility="visible"
                 app:cardCornerRadius="@dimen/dimen_10"
-                app:cardElevation="@dimen/dimen_10">
+                app:cardElevation="@dimen/dimen_10"
+                app:cardBackgroundColor="@color/white"
+                >
 
                 <GridLayout
                     android:id="@+id/description"
@@ -175,7 +206,7 @@
                             android:id="@+id/expPoke"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"/>
+                            android:orientation="vertical" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -197,7 +228,7 @@
                             android:id="@+id/habitat"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"/>
+                            android:orientation="vertical" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -222,42 +253,18 @@
                     </LinearLayout>
                 </GridLayout>
             </androidx.cardview.widget.CardView>
-            <!--Description-->
-
-            <LinearLayout
-                android:id="@+id/descriptionContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dimen_50"
-                android:layout_marginRight="@dimen/dimen_50"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/dimen_10"
-                    android:text="@string/description"
-                    android:textColor="@color/black"
-                    android:layout_gravity="center"
-                    android:textSize="@dimen/dimenString_26" />
-
-                <TextView
-                    android:id="@+id/pokeDescription"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/aboutPoke"
-                    android:textSize="@dimen/dimenString_15" />
-            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/evolutionsContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/dimen_100"
                 android:gravity="center"
-                android:layout_gravity="center_horizontal"
                 android:orientation="vertical"
-                android:padding="@dimen/dimen_5">
+                android:padding="@dimen/dimen_5"
+
+                android:visibility="visible">
 
                 <TextView
                     style="@style/titleEvolution"
@@ -269,8 +276,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/evolutions"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    >
+                    android:layout_height="wrap_content">
 
                 </androidx.recyclerview.widget.RecyclerView>
             </LinearLayout>

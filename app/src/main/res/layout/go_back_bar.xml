@@ -23,6 +23,7 @@
         android:layout_gravity="center"
         android:layout_marginStart="@dimen/dimen_20"
         tools:text="@string/pokeInfo"
+        android:textColor="@color/black"
         android:textSize="@dimen/dimenString_25" />
 
 </LinearLayout>

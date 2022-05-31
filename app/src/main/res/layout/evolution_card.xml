@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
 
 
@@ -25,8 +26,20 @@
             android:orientation="vertical"
             android:layout_gravity="center"
             android:gravity="center"
-            android:padding="@dimen/dimen_30"
+            android:paddingTop="@dimen/dimen_5"
+            android:paddingBottom="@dimen/dimen_5"
+            android:paddingLeft="@dimen/dimen_10"
+            android:paddingRight="@dimen/dimen_10"
             >
+            <TextView
+                android:id="@+id/numPoke"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/dimen_10"
+                android:textColor="@color/black"
+                android:layout_gravity="start"
+                tools:text="#001" />
+
             <ImageView
                 android:id="@+id/pokeImg"
                 android:layout_width="wrap_content"
@@ -40,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/name"
                 android:textColor="@color/black"
-                android:textSize="@dimen/dimenString_30"
+                android:textSize="@dimen/dimenString_25"
                 android:layout_marginTop="@dimen/dimen_15"
                 >
             </TextView>

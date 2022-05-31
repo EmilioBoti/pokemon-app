@@ -15,8 +15,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.pokemonapp.R;
 import com.example.pokemonapp.models.Move;
-import com.example.pokemonapp.presenter.interactor.InteractorMoveImpl;
-import com.example.pokemonapp.presenter.interfaces.Contact;
 import com.example.pokemonapp.utils.constants.Constants;
 
 import org.json.JSONException;

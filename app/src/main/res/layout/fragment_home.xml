@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragments.HomeFragment"
     android:background="@color/bg_fragment"
+    tools:context=".view.fragments.HomeFragment"
 
     >
 
@@ -36,10 +36,11 @@
             android:id="@+id/search"
             android:layout_width="@dimen/dimen_300"
             android:layout_height="wrap_content"
-            android:background="@drawable/customborder"
-            android:inputType="text"
             android:queryHint="Search"
+            android:inputType="text"
+            android:background="@drawable/customborder"
             />
+
         <ImageButton
             android:id="@+id/btnSearch"
             android:layout_width="match_parent"
@@ -48,19 +49,36 @@
             android:background="@drawable/border_rigth_top_bottom"
             android:backgroundTint="@color/blue_search"
             android:padding="@dimen/dimen_12.1"
-            android:src="@drawable/ic_baseline_search_24"/>
+            android:src="@drawable/ic_baseline_search_24" />
     </LinearLayout>
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="@dimen/dimen_40"
+        android:layout_marginBottom="@dimen/dimen_40"
+        android:elevation="@dimen/dimen_16"
+        >
+        <ImageButton
+            android:id="@+id/pokeIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_catching_pokemon_24"
+            android:background="@color/bg_fragment"
+            />
 
+    </FrameLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/search_container"
         android:layout_marginTop="@dimen/dimen_40"
-        android:gravity="center"
-        android:paddingTop="@dimen/dimen_15"
-        android:paddingBottom="@dimen/dimen_15"
         android:elevation="@dimen/dimen_15"
-        >
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/dimen_15"
+        android:paddingBottom="@dimen/dimen_15">
 
         <TextView
             android:id="@+id/move"
@@ -107,6 +125,7 @@
         android:layout_below="@id/animationView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/dimen_50"
-        android:text="@string/subTitle" />
+        android:text="@string/subTitle"
+        android:textColor="@color/black"/>
 
 </RelativeLayout>

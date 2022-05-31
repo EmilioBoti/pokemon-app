@@ -1,6 +1,7 @@
 package com.example.pokemonapp.models;
 
 public class Move {
+    private int id;
     private String name;
     private String type;
     private int power;
@@ -10,6 +11,11 @@ public class Move {
 
     public Move(){}
 
+    public Move(int id, String name){
+        this.id = id;
+        this.name = name;
+    }
+
     public Move(String name, String type, int power, int accuracy, int powerPoint, String description) {
         this.name = name;
         this.type = type;
@@ -17,6 +23,14 @@ public class Move {
         this.accuracy = accuracy;
         this.powerPoint = powerPoint;
         this.description = description;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setName(String name) {
