@@ -9,7 +9,6 @@
 
     >
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
@@ -51,24 +50,6 @@
             android:padding="@dimen/dimen_12.1"
             android:src="@drawable/ic_baseline_search_24" />
     </LinearLayout>
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="@dimen/dimen_40"
-        android:layout_marginBottom="@dimen/dimen_40"
-        android:elevation="@dimen/dimen_16"
-        >
-        <ImageButton
-            android:id="@+id/pokeIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_catching_pokemon_24"
-            android:background="@color/bg_fragment"
-            />
-
-    </FrameLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
