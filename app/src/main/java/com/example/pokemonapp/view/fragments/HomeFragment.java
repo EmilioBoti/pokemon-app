@@ -15,10 +15,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pokemonapp.R;
+import com.example.pokemonapp.businessLogic.home.HomePresenter;
+import com.example.pokemonapp.businessLogic.home.HomeProvider;
+import com.example.pokemonapp.businessLogic.home.IHome;
 import com.example.pokemonapp.models.Pokemon;
 import com.example.pokemonapp.services.Services;
 import com.example.pokemonapp.utils.constants.Constants;
 import com.example.pokemonapp.utils.constants.Helpers;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,21 +37,21 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class HomeFragment extends Fragment implements Callback, View.OnClickListener    {
+public class HomeFragment extends Fragment implements IHome.ViewPresenter, View.OnClickListener {
     private ImageButton btnSearch;
     public SearchView searchView;
     public TextView pokemons, moves, types;
     private String input;
-    private Pokemon pokemon;
+    private HomePresenter presenter;
+    private HomeProvider homeProvider;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, Bundle saveInstanceSate){
+    public void onViewCreated(@NonNull View view, Bundle saveInstanceSate) {
         super.onViewCreated(view, saveInstanceSate);
 
         searchView = view.findViewById(R.id.search);
@@ -60,13 +64,22 @@ public class HomeFragment extends Fragment implements Callback, View.OnClickList
         pokemons.setOnClickListener(this);
         moves.setOnClickListener(this);
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        homeProvider = new HomeProvider();
+        presenter = new HomePresenter( this, homeProvider);
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 String queryValue = searchView.getQuery().toString().replaceAll(" ", "-");
                 if(!queryValue.isEmpty()){
                     input = queryValue.toLowerCase();
-                    getNamePoke(input);
+                    presenter.requestPoke(input);
                 }
                 return false;
             }
@@ -78,73 +91,43 @@ public class HomeFragment extends Fragment implements Callback, View.OnClickList
         });
     }
 
-    private void getNamePoke(String input){
-        OkHttpClient client = new OkHttpClient();
-
-        try {
-            Request request = Services.getDatas(Constants.PATH+input);
-            //make the request
-            client.newCall(request).enqueue(this);
-
-        }catch (IOException | JSONException e){
-            e.printStackTrace();
-        }
-
-    }
-
-    @Override
-    public void onFailure(@NonNull Call call, @NonNull IOException e) {
-
-    }
-
-    @Override
-    public void onResponse(@NonNull Call call, @NonNull Response response) {
-        if(response.isSuccessful()){
-            pokemon = new Pokemon();
-            //save data of input
-            Bundle dataInput = new Bundle();
-            //dataInput.putSerializable("poke", pokemon);
-            dataInput.putString("idPoke", String.valueOf(input));
-
-            PokemonFragment pokemonFragment = new PokemonFragment();
-            pokemonFragment.setArguments(dataInput); //send data to PokemonFragment
-
-            //load new screen
-            Helpers.callFragment(getParentFragmentManager(), pokemonFragment);
-        }else{
-            HomeFragment.this.getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(getContext(), "This Pokémon might not exist.", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-    }
-
-    @Override
-    public void onDestroy(){
-        super.onDestroy();
-        getActivity().finish();
-    }
 
     @Override
     public void onClick(View v) {
-
-        if(v.getId() == R.id.btnSearch){
+        if(v.getId() == R.id.btnSearch) {
             String queryValue = searchView.getQuery().toString().replaceAll(" ", "-");
-
             if(!queryValue.isEmpty()){
                 input = queryValue.toLowerCase();
-                getNamePoke(input);
+                presenter.requestPoke(input);
             }
-        }else if(v.getId() == R.id.pokemons){
+        } else if(v.getId() == R.id.pokemons) {
             PokemonAllFragment pokemonAllFragment = new PokemonAllFragment();
             Helpers.callFragment(getParentFragmentManager(), pokemonAllFragment);
 
-        }else if (v.getId() == R.id.move){
+        } else if (v.getId() == R.id.move){
             Toast.makeText(getContext(), "This action is disabled for now.", Toast.LENGTH_SHORT).show();
-            /*CategoryMoveFragment categoryMoveFragment = new CategoryMoveFragment();
-            Helpers.callFragment(getParentFragmentManager(), categoryMoveFragment);*/
         }
+    }
+
+    @Override
+    public void detailsPoke(String input) {
+        Bundle dataInput = new Bundle();
+        //dataInput.putSerializable("poke", pokemon);
+        dataInput.putString("idPoke", String.valueOf(input));
+
+        PokemonFragment pokemonFragment = new PokemonFragment();
+        pokemonFragment.setArguments(dataInput);
+        //load new screen
+        Helpers.callFragment(getParentFragmentManager(), pokemonFragment);
+    }
+
+    @Override
+    public void error(String error) {
+        requireActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(requireActivity(), error, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

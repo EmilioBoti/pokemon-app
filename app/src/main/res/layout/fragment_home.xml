@@ -51,6 +51,7 @@
             android:src="@drawable/ic_baseline_search_24" />
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/navContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/search_container"
@@ -91,22 +92,25 @@
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animationView"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/search_container"
+        android:layout_above="@id/bottomTitle"
+        android:layout_below="@id/navContainer"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/dimen_150"
         app:lottie_autoPlay="true"
         app:lottie_loop="false"
         app:lottie_rawRes="@raw/pokemon" />
 
     <TextView
+        android:id="@+id/bottomTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/animationView"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/dimen_50"
+        android:layout_marginBottom="@dimen/dimen_30"
         android:text="@string/subTitle"
-        android:textColor="@color/black"/>
+        android:textColor="@color/black" />
 
 </RelativeLayout>

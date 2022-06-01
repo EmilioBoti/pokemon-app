@@ -66,7 +66,6 @@ public class PokemonsAdapter extends RecyclerView.Adapter<PokemonsAdapter.ViewHo
 
         public ViewHolder(View itemView, OnClickPokeListener listener){
             super(itemView);
-            //typesContainer = itemView.findViewById(R.id.typesContainer);
             namePoke = itemView.findViewById(R.id.namePoke);
             imgPoke = itemView.findViewById(R.id.imgPoke);
             nameContainer = itemView.findViewById(R.id.datas);
@@ -81,7 +80,7 @@ public class PokemonsAdapter extends RecyclerView.Adapter<PokemonsAdapter.ViewHo
             imgPoke.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(listener != null && getAbsoluteAdapterPosition() != RecyclerView.NO_POSITION){
+                    if(listener != null && getAbsoluteAdapterPosition() != RecyclerView.NO_POSITION) {
                         listener.onClickPoke(pokemon.getId());
                     }
                 }

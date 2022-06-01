@@ -16,29 +16,21 @@ import android.widget.Toast;
 import com.example.pokemonapp.R;
 import com.example.pokemonapp.view.fragments.HomeFragment;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
     private GestureDetectorCompat gesture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         //set up Home View
         callFragment();
 
     }
-    private void callFragment(){
+    private void callFragment() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.replace(R.id.fragment_container_view, HomeFragment.class, null);
         fragmentTransaction.commit();
-    }
-
-    @Override
-    public void onDestroy(){
-        super.onDestroy();
-        this.finish();
     }
 }
