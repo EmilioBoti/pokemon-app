@@ -28,10 +28,10 @@ public class Services {
         return  new Request.Builder().url(path).build();
     }
 
-    public Request getUrLEvolutions(int idName){
-        return new Request.Builder().url(Constants.URL_SPECIES +idName+"/").build();
+    public static Request getUrLEvolutions(int id) {
+        return new Request.Builder().url(Constants.URL_SPECIES +id+"/").build();
     }
-    public Request getEvolutions(String path){
+    public static Request getEvolutions(String path) {
         return new Request.Builder().url(path).build();
     }
 

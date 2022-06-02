@@ -3,7 +3,6 @@ package com.example.pokemonapp.businessLogic.listpokemon;
 import androidx.annotation.NonNull;
 
 import com.example.pokemonapp.models.Pokemon;
-import com.example.pokemonapp.view.fragments.PokemonAllFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;

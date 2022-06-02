@@ -1,8 +1,7 @@
-package com.example.pokemonapp.view.fragments;
+package com.example.pokemonapp.view.ui.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,22 +18,9 @@ import com.example.pokemonapp.businessLogic.listpokemon.IPokemon;
 import com.example.pokemonapp.businessLogic.listpokemon.PokePresenter;
 import com.example.pokemonapp.businessLogic.listpokemon.PokesProvider;
 import com.example.pokemonapp.models.Pokemon;
-import com.example.pokemonapp.services.Services;
-import com.example.pokemonapp.utils.constants.Constants;
 import com.example.pokemonapp.utils.constants.Helpers;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class PokemonAllFragment extends Fragment implements IPokemon.ViewPresenter, PokemonsAdapter.OnClickPokeListener {
     private RecyclerView listContainer;

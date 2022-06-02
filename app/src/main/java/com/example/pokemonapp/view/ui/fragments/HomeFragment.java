@@ -1,11 +1,10 @@
-package com.example.pokemonapp.view.fragments;
+package com.example.pokemonapp.view.ui.fragments;
 
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,24 +17,7 @@ import com.example.pokemonapp.R;
 import com.example.pokemonapp.businessLogic.home.HomePresenter;
 import com.example.pokemonapp.businessLogic.home.HomeProvider;
 import com.example.pokemonapp.businessLogic.home.IHome;
-import com.example.pokemonapp.models.Pokemon;
-import com.example.pokemonapp.services.Services;
-import com.example.pokemonapp.utils.constants.Constants;
 import com.example.pokemonapp.utils.constants.Helpers;
-import com.google.android.material.snackbar.Snackbar;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.ArrayList;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class HomeFragment extends Fragment implements IHome.ViewPresenter, View.OnClickListener {
     private ImageButton btnSearch;

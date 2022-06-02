@@ -17,6 +17,11 @@ public class Helpers {
                 .placeholder(R.mipmap.ic_launcher_pokemon_zero_foreground)
                 .into(pokeImage);
     }
+    public static void loadFitImage(String url, ImageView pokeImage){
+        Picasso.get().load(url).placeholder(R.mipmap.ic_launcher_pokemon_zero_foreground)
+                .fit().centerCrop()
+                .into(pokeImage);
+    }
 
     public static void callFragment(FragmentManager fragmentManager, Fragment fragment){
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
