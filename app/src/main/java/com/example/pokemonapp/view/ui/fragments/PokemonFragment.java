@@ -2,12 +2,17 @@ package com.example.pokemonapp.view.ui.fragments;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
 
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -18,7 +23,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.palette.graphics.Palette;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,11 +48,11 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter {
     private ImageView pokeImage;
     private ImageButton goBack;
     private TextView namePoke, pokeDescription, titleBar;
-    private LinearLayout typesView, weight,height, baseExp, abilities, habitatLayout;
+    private LinearLayout typesView, weight,height, baseExp, abilities, habitatLayout, goBackContainer;
     private RecyclerView evolutions;
     private ProgressBar progressBar;
     private ScrollView scrollViewContainer;
-    private GridLayout moveContainer;
+    private CardView descriptionMainContainer;
     private DetailProvider model;
     private DetailPresenter presenter;
 
@@ -59,6 +66,9 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter {
         super.onViewCreated(view, savedInstanceState);
 
         init(view);
+        scrollViewContainer.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+
         titleBar.setText(R.string.pokeInfo);
 
         //get datas from home's input(searcher)
@@ -90,6 +100,8 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter {
         habitatLayout = view.findViewById(R.id.habitat);
         progressBar = view.findViewById(R.id.loader);
         scrollViewContainer = view.findViewById(R.id.scrollViewContainerr);
+        descriptionMainContainer = view.findViewById(R.id.descriptionMainContainer);
+        goBackContainer = view.findViewById(R.id.goBackContainer);
         model = new DetailProvider();
         presenter = new DetailPresenter(this, model);
     }
@@ -127,6 +139,17 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter {
         });
     }
 
+    private void updateColor(int color) {
+        descriptionMainContainer.setCardBackgroundColor(color);
+        goBackContainer.setBackgroundColor(color);
+
+        if (getActivity() != null) {
+            Window window = getActivity().getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(color);
+        }
+    }
+
     @Override
     public void setViewData(Pokemon pokemon) {
         if (getActivity() != null) {
@@ -156,13 +179,12 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter {
         scrollViewContainer.setVisibility(View.VISIBLE);
 
         final float DIMEN = 16f;
-        TextView weightP, heightP,habitatText, baseExperiance, type, ability;
         pokeImage.setTranslationY(-1000f);
         //load the image
         Helpers.loadImage(pokemon.getSpriteFront(), pokeImage);
         //animation
         ObjectAnimator animatorImg = ObjectAnimator.ofFloat(pokeImage, "translationY", 0f);
-        animatorImg.setDuration(700);
+        animatorImg.setDuration(600);
         animatorImg.start();
 
         weight.removeAllViewsInLayout();
@@ -171,65 +193,48 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter {
         abilities.removeAllViewsInLayout();
         habitatLayout.removeAllViewsInLayout();
         height.removeAllViewsInLayout();
-        //moveContainer.removeAllViewsInLayout();
+
+        setColor();
 
         double num = (pokemon.getWeight() / 4.54);
         String pound = String.format("%.02f", num);
 
-        weightP = new TextView(getContext());
-        weightP.setGravity(Gravity.CENTER_HORIZONTAL);
-        weightP.setTextSize(DIMEN);
-        weightP.setText(pound+" pounds");
-
-        heightP = new TextView(getContext());
-        heightP.setGravity(Gravity.CENTER_HORIZONTAL);
-        heightP.setTextSize(DIMEN);
-        heightP.setText((pokemon.getHeight() * 10) + " cm");
-
-        habitatText = new TextView(getContext());
-        habitatText.setGravity(Gravity.CENTER_HORIZONTAL);
-        habitatText.setTextSize(DIMEN);
-        habitatText.setText(pokemon.getHabitat());
-
-        baseExperiance = new TextView(getContext());
-        baseExperiance.setGravity(Gravity.CENTER_HORIZONTAL);
-        baseExperiance.setTextSize(DIMEN);
-        baseExperiance.setText(String.valueOf(pokemon.getBaseExperience()));
         String n = pokemon.getName().replaceAll("-", " ");
-
+        pokeDescription.setText(pokemon.getDescription());
         namePoke.setText(Helpers.ToUpperName(n));
+        habitatLayout.addView(createTextView(pokemon.getHabitat(), DIMEN));
+        weight.addView(createTextView(pound+" pounds", DIMEN));
+        height.addView(createTextView((pokemon.getHeight() * 10) + " cm", DIMEN));
+        baseExp.addView(createTextView(String.valueOf(pokemon.getBaseExperience()), DIMEN));
 
-        habitatLayout.addView(habitatText);
-        weight.addView(weightP);
-        height.addView(heightP);
-        baseExp.addView(baseExperiance);
+        getElem(pokemon.getTypes(), typesView, DIMEN);
+        getElem(pokemon.getAbilities(), abilities, DIMEN);
+    }
 
-        for (String types: pokemon.getTypes()) {
-            type = new TextView(getContext());
-            type.setText(types);
-            type.setTextSize(DIMEN);
-            type.setGravity(Gravity.CENTER_HORIZONTAL);
-            typesView.addView(type);
-        }
-        for (String elem: pokemon.getAbilities()) {
-            ability = new TextView(getContext());
-            ability.setText(elem);
-            ability.setTextSize(DIMEN);
-            ability.setGravity(Gravity.CENTER_HORIZONTAL);
-            abilities.addView(ability);
+    private void setColor() {
+        Bitmap bitmap = ((BitmapDrawable) pokeImage.getDrawable()).getBitmap();
+        Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+            @Override
+            public void onGenerated(@Nullable Palette palette) {
+                Palette.Swatch vibrant = palette.getLightVibrantSwatch();
+                if (vibrant != null) {
+                    updateColor(vibrant.getRgb());
+                }
+            }
+        });
+    }
+
+    private void getElem(ArrayList<String> type, LinearLayout layout , Float dimen) {
+        for (String elem : type) {
+            layout.addView(createTextView(elem, dimen));
         }
     }
-    private ArrayList<String> setElements(JSONArray array, String objName){
-        ArrayList<String> listElements = new ArrayList<>();
-        try {
-            for (int i = 0; i < array.length(); i++){
-                JSONObject object = (JSONObject) array.get(i);
-                JSONObject type = object.getJSONObject(objName);
-                listElements.add(type.getString("name"));
-            }
-        }catch (JSONException e){
-            e.printStackTrace();
-        }
-        return listElements;
+
+    private TextView createTextView(String text, Float dimen) {
+        TextView textView = new TextView(getContext());
+        textView.setGravity(Gravity.CENTER_HORIZONTAL);
+        textView.setTextSize(dimen);
+        textView.setText(text);
+        return textView;
     }
 }

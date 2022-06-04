@@ -8,6 +8,7 @@
     >
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/card"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -18,7 +19,6 @@
         android:layout_marginBottom="@dimen/dimen_5"
         app:cardCornerRadius="@dimen/dimen_5"
         app:cardElevation="@dimen/dimen_15"
-        app:cardBackgroundColor="@color/bg_fragment"
         >
 
         <RelativeLayout
@@ -34,24 +34,23 @@
                 android:layout_marginStart="@dimen/dimen_10"
                 android:layout_marginTop="@dimen/dimen_10"
                 android:textColor="@color/black"
-                tools:text="#001"
-                />
+                tools:text="#001" />
 
             <LinearLayout
                 android:id="@+id/imgcontainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@null"
                 android:layout_below="@id/numPoke"
                 android:layout_centerHorizontal="true"
                 >
 
                 <ImageView
                     android:id="@+id/imgPoke"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:src="@mipmap/ic_launcher_lucario_foreground"
-                    android:background="@color/bg_fragment"
+                    android:background="@null"
                     />
 
             </LinearLayout>
@@ -70,8 +69,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/name"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/dimenString_20"
-                    />
+                    android:textSize="@dimen/dimenString_20" />
             </RelativeLayout>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

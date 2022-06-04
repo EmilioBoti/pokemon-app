@@ -17,7 +17,8 @@
         android:layout_marginTop="@dimen/dimen_70"
         android:text="@string/title"
         android:textColor="@color/black"
-        android:textSize="@dimen/dimenString_36">
+        android:textSize="@dimen/dimenString_36"
+        android:textStyle="bold">
 
     </TextView>
 
@@ -28,6 +29,7 @@
         android:layout_below="@+id/title"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/dimen_30"
+        android:layout_marginBottom="@dimen/dimen_16"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -35,9 +37,9 @@
             android:id="@+id/search"
             android:layout_width="@dimen/dimen_300"
             android:layout_height="wrap_content"
-            android:queryHint="Search"
-            android:inputType="text"
             android:background="@drawable/customborder"
+            android:inputType="text"
+            app:queryHint="Search"
             />
 
         <ImageButton
@@ -50,52 +52,13 @@
             android:padding="@dimen/dimen_12.1"
             android:src="@drawable/ic_baseline_search_24" />
     </LinearLayout>
-    <LinearLayout
-        android:id="@+id/navContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/search_container"
-        android:layout_marginTop="@dimen/dimen_40"
-        android:elevation="@dimen/dimen_15"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingTop="@dimen/dimen_15"
-        android:paddingBottom="@dimen/dimen_15">
-
-        <TextView
-            android:id="@+id/move"
-            style="@style/navStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:clickable="true"
-            android:focusable="true"
-            android:text="@string/moves" />
-
-        <TextView
-            android:id="@+id/pokemons"
-            style="@style/navStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:text="@string/pokemons" />
-
-        <TextView
-            style="@style/navStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:text="@string/types" />
-
-    </LinearLayout>
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animationView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_above="@id/bottomTitle"
-        android:layout_below="@id/navContainer"
+        android:layout_below="@id/search_container"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true"
@@ -113,4 +76,18 @@
         android:text="@string/subTitle"
         android:textColor="@color/black" />
 
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/pokemons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/bottomTitle"
+        android:layout_marginEnd="@dimen/dimen_30"
+        android:layout_marginBottom="@dimen/dimen_20"
+        android:backgroundTint="@color/light_blue_600"
+        android:contentDescription="@string/name"
+        android:src="@drawable/catching_pokemon_24"
+        app:elevation="@dimen/dimen_6"
+        app:tint="@color/white" />
 </RelativeLayout>

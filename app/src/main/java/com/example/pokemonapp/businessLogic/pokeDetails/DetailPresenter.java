@@ -58,7 +58,7 @@ public class DetailPresenter implements IDetail.Presenter{
                         JSONArray abilities = json.getJSONArray("abilities");
                         double weight = Double.parseDouble(json.getString("weight"));
                         double baseExp = Double.parseDouble(json.getString("base_experience"));
-
+                        String species = json.getJSONObject("species").getString("name");
                         JSONArray movesArr = json.optJSONArray("moves");
 
                         for(int i = 0; i < movesArr.length(); i++){
@@ -81,8 +81,7 @@ public class DetailPresenter implements IDetail.Presenter{
                         pokemon.setHeight(Double.parseDouble(json.getString("height")));
                         pokemon.setMoves(moves);
 
-                        viewPresenter.setViewData(pokemon);
-                        DetailPresenter.this.setDesData();
+                        DetailPresenter.this.setDesData(species);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -110,11 +109,10 @@ public class DetailPresenter implements IDetail.Presenter{
         return listElements;
     }
 
-
-    private void setDesData() {
+    private void setDesData(String species) {
         listPokemon = new ArrayList<>();
-        Call response = modelPresenter.getUrlEvolution(String.valueOf(pokemon.getId()));
-        response.enqueue(new Callback(){
+        Call response = modelPresenter.getUrlEvolution(species);
+        response.enqueue(new Callback() {
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
@@ -123,8 +121,6 @@ public class DetailPresenter implements IDetail.Presenter{
                 try {
                     JSONObject obj = new JSONObject(json);
 
-                    JSONObject colorObj = obj.getJSONObject("color");
-                    String color = colorObj.getString("name");
                     String habitat = isNull(obj.getString("habitat"), obj); //valid is has Habitat know else is Unknow
                     JSONObject chain = obj.getJSONObject("evolution_chain");
                     JSONArray varieties = obj.getJSONArray("varieties");
@@ -134,12 +130,11 @@ public class DetailPresenter implements IDetail.Presenter{
 
                     pokemon.setDescription(des);
                     pokemon.setUrlEvolutions(chain.getString("url"));
-                    pokemon.setColor(color);
                     pokemon.setHabitat(habitat);
 
                     for (int i = 1; i < varieties.length(); i++){
 
-                        JSONObject varian = (JSONObject)varieties.get(i);
+                        JSONObject varian = (JSONObject) varieties.get(i);
                         JSONObject pokemonVarian = varian.getJSONObject("pokemon");
                         String urlId = pokemonVarian.getString("url");
                         String name = pokemonVarian.getString("name");
@@ -147,6 +142,7 @@ public class DetailPresenter implements IDetail.Presenter{
                         listPokemon.add(new Pokemon(Integer.parseInt(id), name));
                     }
                     //print evolutions
+                    viewPresenter.setViewData(pokemon);
                     setPokeEvolutions();
 
                 } catch (JSONException e) {

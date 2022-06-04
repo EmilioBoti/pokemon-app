@@ -28,7 +28,7 @@ public class Services {
         return  new Request.Builder().url(path).build();
     }
 
-    public static Request getUrLEvolutions(int id) {
+    public static Request getUrLEvolutions(String id) {
         return new Request.Builder().url(Constants.URL_SPECIES +id+"/").build();
     }
     public static Request getEvolutions(String path) {

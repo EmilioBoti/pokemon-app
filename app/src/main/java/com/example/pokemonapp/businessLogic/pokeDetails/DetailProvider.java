@@ -25,7 +25,7 @@ public class DetailProvider implements IDetail.ModelPresenter {
 
     @Override
     public Call getUrlEvolution(String id) {
-        Request request = Services.getUrLEvolutions(Integer.parseInt(id));
+        Request request = Services.getUrLEvolutions(id);
         Call call = client.newCall(request);
         return call;
     }

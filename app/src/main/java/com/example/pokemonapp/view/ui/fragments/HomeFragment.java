@@ -18,14 +18,16 @@ import com.example.pokemonapp.businessLogic.home.HomePresenter;
 import com.example.pokemonapp.businessLogic.home.HomeProvider;
 import com.example.pokemonapp.businessLogic.home.IHome;
 import com.example.pokemonapp.utils.constants.Helpers;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class HomeFragment extends Fragment implements IHome.ViewPresenter, View.OnClickListener {
     private ImageButton btnSearch;
     public SearchView searchView;
-    public TextView pokemons, moves, types;
+    public TextView moves, types;
     private String input;
     private HomePresenter presenter;
     private HomeProvider homeProvider;
+    private FloatingActionButton pokemons;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,12 +41,14 @@ public class HomeFragment extends Fragment implements IHome.ViewPresenter, View.
         searchView = view.findViewById(R.id.search);
         btnSearch = view.findViewById(R.id.btnSearch);
         pokemons = view.findViewById(R.id.pokemons);
-        moves = view.findViewById(R.id.move);
+        //moves = view.findViewById(R.id.move);
+        //floatingActionButton = view.findViewById(R.id.ok);
+        //floatingActionButton2 = view.findViewById(R.id.ok2);
 
         //events click
         btnSearch.setOnClickListener(this);
         pokemons.setOnClickListener(this);
-        moves.setOnClickListener(this);
+        //moves.setOnClickListener(this);
 
     }
 
@@ -86,9 +90,10 @@ public class HomeFragment extends Fragment implements IHome.ViewPresenter, View.
             PokemonAllFragment pokemonAllFragment = new PokemonAllFragment();
             Helpers.callFragment(getParentFragmentManager(), pokemonAllFragment);
 
-        } else if (v.getId() == R.id.move){
-            Toast.makeText(getContext(), "This action is disabled for now.", Toast.LENGTH_SHORT).show();
         }
+        /*else if (v.getId() == R.id.move){
+            Toast.makeText(getContext(), "This action is disabled for now.", Toast.LENGTH_SHORT).show();
+        }*/
     }
 
     @Override

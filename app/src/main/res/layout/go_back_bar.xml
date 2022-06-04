@@ -5,15 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/bg_fragment"
     android:orientation="horizontal"
-    android:padding="@dimen/dimen_5"
+    android:padding="@dimen/dimen_10"
     android:id="@+id/goBackContainer"
-    android:elevation="@dimen/dimen_30"
+    android:elevation="@dimen/dimen_4"
     >
     <ImageButton
         android:id="@+id/goBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/bg_fragment"
+        android:background="@null"
         android:src="@drawable/ic_baseline_arrow_back_ios_new_24" />
 
     <TextView

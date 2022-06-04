@@ -19,6 +19,7 @@
     <color name="red_500">#FF0A0A</color>
     <color name="red_700">#A30000</color>
 
+    <color name="transparent">#00000000</color>
     <color name="pink_400">#ff4d6d</color>
     <color name="brown_400">#997b66</color>
     <color name="gray_300">#cdd7d6</color>

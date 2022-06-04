@@ -64,5 +64,11 @@
     <dimen name="dimen_250">250dp</dimen>
     <dimen name="dimenString_25">25sp</dimen>
     <dimen name="dimen_2">2dp</dimen>
+    <dimen name="dimen_4">4dp</dimen>
+    <dimen name="dimen_6">6dp</dimen>
+    <dimen name="dimen_69">69dp</dimen>
+    <dimen name="dimen_68">68dp</dimen>
+    <dimen name="dimen_67">67dp</dimen>
+    <dimen name="dimen_66">66dp</dimen>
 
 </resources>

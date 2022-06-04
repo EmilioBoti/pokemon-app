@@ -1,7 +1,9 @@
 package com.example.pokemonapp.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
+import androidx.palette.graphics.Palette;
+import androidx.palette.graphics.Target;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokemonapp.R;
@@ -20,6 +26,7 @@ import com.example.pokemonapp.utils.constants.Constants;
 import com.example.pokemonapp.utils.constants.Helpers;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PokemonsAdapter extends RecyclerView.Adapter<PokemonsAdapter.ViewHolder> {
     private LayoutInflater inflater;
@@ -63,6 +70,7 @@ public class PokemonsAdapter extends RecyclerView.Adapter<PokemonsAdapter.ViewHo
         public TextView namePoke, numPoke;
         public ImageView imgPoke;
         public RelativeLayout nameContainer;
+        private CardView cardView;
 
         public ViewHolder(View itemView, OnClickPokeListener listener){
             super(itemView);
@@ -70,10 +78,25 @@ public class PokemonsAdapter extends RecyclerView.Adapter<PokemonsAdapter.ViewHo
             imgPoke = itemView.findViewById(R.id.imgPoke);
             nameContainer = itemView.findViewById(R.id.datas);
             numPoke = itemView.findViewById(R.id.numPoke);
+            cardView = itemView.findViewById(R.id.card);
         }
 
         public void bindData(Pokemon pokemon) {
-            Helpers.loadImage(Constants.URL_IMG+pokemon.getId()+".png", imgPoke);
+            Helpers.loadFitImage(Constants.URL_IMG+pokemon.getId()+".png", imgPoke);
+
+            Bitmap bitmap = ((BitmapDrawable) imgPoke.getDrawable()).getBitmap();
+
+            Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+                @Override
+                public void onGenerated(@Nullable Palette palette) {
+                    Palette.Swatch vibrant = palette.getLightVibrantSwatch();
+
+                    if (vibrant != null){
+                        cardView.setCardBackgroundColor(vibrant.getRgb());
+                    }
+                }
+            });
+
             namePoke.setText(pokemon.getName().replaceAll("-", " "));
             numPoke.setText("No. "+pokemon.getId());
 
