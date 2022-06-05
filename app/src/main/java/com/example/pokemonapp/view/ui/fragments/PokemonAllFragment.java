@@ -18,11 +18,12 @@ import com.example.pokemonapp.businessLogic.listpokemon.IPokemon;
 import com.example.pokemonapp.businessLogic.listpokemon.PokePresenter;
 import com.example.pokemonapp.businessLogic.listpokemon.PokesProvider;
 import com.example.pokemonapp.models.Pokemon;
+import com.example.pokemonapp.utils.common.OnClickItemListener;
 import com.example.pokemonapp.utils.constants.Helpers;
 
 import java.util.ArrayList;
 
-public class PokemonAllFragment extends Fragment implements IPokemon.ViewPresenter, PokemonsAdapter.OnClickPokeListener {
+public class PokemonAllFragment extends Fragment implements IPokemon.ViewPresenter, OnClickItemListener {
     private RecyclerView listContainer;
     private Context context;
     private ProgressBar progressBar;
@@ -64,7 +65,19 @@ public class PokemonAllFragment extends Fragment implements IPokemon.ViewPresent
     }
 
     @Override
-    public void onClickPoke(int pos) {
+    public void showPokemons(ArrayList<Pokemon> list) {
+        if (getActivity() != null) {
+            PokemonAllFragment.this.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    callAdapter(list);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onClickItem(int pos) {
         Bundle data = new Bundle();
         data.putString("idPoke", String.valueOf(pos));
 
@@ -74,12 +87,7 @@ public class PokemonAllFragment extends Fragment implements IPokemon.ViewPresent
     }
 
     @Override
-    public void showPokemons(ArrayList<Pokemon> list) {
-        PokemonAllFragment.this.getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                callAdapter(list);
-            }
-        });
+    public void onClickItem(String name) {
+
     }
 }
