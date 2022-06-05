@@ -97,7 +97,7 @@ public class DetailPresenter implements IDetail.Presenter {
 
     @Override
     public void clickPoke(int id) {
-        viewPresenter.onclickItem(id);
+        viewPresenter.onClickItem(id);
     }
 
     private ArrayList<String> setElements(JSONArray array, String objName){

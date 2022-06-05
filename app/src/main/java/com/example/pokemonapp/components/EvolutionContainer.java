@@ -64,12 +64,12 @@ public class EvolutionContainer extends LinearLayout implements OnClickItemListe
     }
 
     @Override
-    public void onclickItem(int post) {
+    public void onClickItem(int post) {
         presenter.clickPoke(post);
     }
 
     @Override
-    public void onclickItem(String name) {
+    public void onClickItem(String name) {
 
     }
 }

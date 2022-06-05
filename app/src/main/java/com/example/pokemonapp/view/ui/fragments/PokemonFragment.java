@@ -218,14 +218,14 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter, 
     }
 
     @Override
-    public void onclickItem(int post) {
+    public void onClickItem(int post) {
         scrollViewContainer.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
         presenter.callPoke(String.valueOf(post));
     }
 
     @Override
-    public void onclickItem(String name) {
+    public void onClickItem(String name) {
 
     }
 }

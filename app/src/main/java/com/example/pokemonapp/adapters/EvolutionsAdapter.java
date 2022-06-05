@@ -73,7 +73,7 @@ public class    EvolutionsAdapter extends RecyclerView.Adapter<EvolutionsAdapter
                 @Override
                 public void onClick(View v) {
                     if(listener != null && getAbsoluteAdapterPosition() != RecyclerView.NO_POSITION){
-                        listener.onclickItem(pokemon.getId());
+                        listener.onClickItem(pokemon.getId());
                     }
                 }
             });
