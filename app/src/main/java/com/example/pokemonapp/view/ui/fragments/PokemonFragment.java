@@ -34,7 +34,9 @@ import com.example.pokemonapp.adapters.EvolutionsAdapter;
 import com.example.pokemonapp.businessLogic.pokeDetails.DetailPresenter;
 import com.example.pokemonapp.businessLogic.pokeDetails.DetailProvider;
 import com.example.pokemonapp.businessLogic.pokeDetails.IDetail;
+import com.example.pokemonapp.components.EvolutionContainer;
 import com.example.pokemonapp.models.Pokemon;
+import com.example.pokemonapp.utils.common.OnClickItemListener;
 import com.example.pokemonapp.utils.constants.Helpers;
 
 import org.json.JSONArray;
@@ -44,7 +46,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-public class PokemonFragment extends Fragment implements IDetail.ViewPresenter {
+public class PokemonFragment extends Fragment implements IDetail.ViewPresenter, OnClickItemListener {
     private ImageView pokeImage;
     private ImageButton goBack;
     private TextView namePoke, pokeDescription, titleBar;
@@ -55,6 +57,7 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter {
     private CardView descriptionMainContainer;
     private DetailProvider model;
     private DetailPresenter presenter;
+    private EvolutionContainer evolutionContainer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState){
@@ -102,6 +105,7 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter {
         scrollViewContainer = view.findViewById(R.id.scrollViewContainerr);
         descriptionMainContainer = view.findViewById(R.id.descriptionMainContainer);
         goBackContainer = view.findViewById(R.id.goBackContainer);
+        evolutionContainer = view.findViewById(R.id.evoContainer);
         model = new DetailProvider();
         presenter = new DetailPresenter(this, model);
     }
@@ -119,24 +123,7 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter {
     }
 
     private void evolutionAdapter(Context context, ArrayList<Pokemon> listPokemon) {
-        EvolutionsAdapter evolutionsAdapter = new EvolutionsAdapter(context, listPokemon);
-        evolutions.setHasFixedSize(true);
-        evolutions.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-        evolutions.setAdapter(evolutionsAdapter);
-
-        evolutionsAdapter.OnClickItemListener(new EvolutionsAdapter.OnClickItemListener() {
-            @Override
-            public void onclickItem(int post) {
-                scrollViewContainer.setVisibility(View.GONE);
-                progressBar.setVisibility(View.VISIBLE);
-                presenter.callPoke(String.valueOf(post));
-            }
-
-            @Override
-            public void onclickItem(String name) {
-
-            }
-        });
+        evolutionContainer.setAdapter(listPokemon);
     }
 
     private void updateColor(int color) {
@@ -164,14 +151,8 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter {
 
     @Override
     public void setEvolutions(ArrayList<Pokemon> list) {
-        if (getActivity() != null) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    callAdapter(getContext(), list);
-                }
-            });
-        }
+        callAdapter(getContext(), list);
+        evolutionContainer.setListener(this.presenter);
     }
 
     private void setContent(Pokemon pokemon) {
@@ -225,9 +206,7 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter {
     }
 
     private void getElem(ArrayList<String> type, LinearLayout layout , Float dimen) {
-        for (String elem : type) {
-            layout.addView(createTextView(elem, dimen));
-        }
+        for (String elem : type) layout.addView(createTextView(elem, dimen));
     }
 
     private TextView createTextView(String text, Float dimen) {
@@ -236,5 +215,17 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter {
         textView.setTextSize(dimen);
         textView.setText(text);
         return textView;
+    }
+
+    @Override
+    public void onclickItem(int post) {
+        scrollViewContainer.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+        presenter.callPoke(String.valueOf(post));
+    }
+
+    @Override
+    public void onclickItem(String name) {
+
     }
 }

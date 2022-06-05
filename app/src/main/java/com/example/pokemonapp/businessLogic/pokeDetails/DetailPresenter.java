@@ -19,7 +19,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class DetailPresenter implements IDetail.Presenter{
+public class DetailPresenter implements IDetail.Presenter {
     private IDetail.ViewPresenter viewPresenter;
     private IDetail.ModelPresenter modelPresenter;
     private Pokemon pokemon;
@@ -93,6 +93,11 @@ public class DetailPresenter implements IDetail.Presenter{
     @Override
     public void pokeEvolutions(String id) {
 
+    }
+
+    @Override
+    public void clickPoke(int id) {
+        viewPresenter.onclickItem(id);
     }
 
     private ArrayList<String> setElements(JSONArray array, String objName){

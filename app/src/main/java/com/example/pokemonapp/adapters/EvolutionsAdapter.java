@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokemonapp.R;
 import com.example.pokemonapp.models.Pokemon;
+import com.example.pokemonapp.utils.common.OnClickItemListener;
 import com.example.pokemonapp.utils.constants.Constants;
 import com.example.pokemonapp.utils.constants.Helpers;
 import com.squareup.picasso.Picasso;
@@ -24,12 +25,6 @@ public class    EvolutionsAdapter extends RecyclerView.Adapter<EvolutionsAdapter
     private ArrayList<Pokemon> listPokemons;
     private Context context;
     private OnClickItemListener listener;
-
-    public interface OnClickItemListener{
-        void onclickItem(int post);
-        void onclickItem(String name);
-
-    }
 
     public EvolutionsAdapter(Context context, ArrayList<Pokemon> listPokemons){
         this.inflater = LayoutInflater.from(context);
@@ -54,7 +49,7 @@ public class    EvolutionsAdapter extends RecyclerView.Adapter<EvolutionsAdapter
         return listPokemons.size();
     }
 
-    public void OnClickItemListener(OnClickItemListener listener){
+    public void onClickItemListener(OnClickItemListener listener){
         this.listener = listener;
     }
 
