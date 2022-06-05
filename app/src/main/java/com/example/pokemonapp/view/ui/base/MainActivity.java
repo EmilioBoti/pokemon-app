@@ -1,4 +1,4 @@
-package com.example.pokemonapp.view.base;
+package com.example.pokemonapp.view.ui.base;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GestureDetectorCompat;

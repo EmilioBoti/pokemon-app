@@ -13,7 +13,7 @@
         android:theme="@style/Theme.PokemonApp"
         >
         <activity
-            android:name=".view.base.MainActivity"
+            android:name=".view.ui.base.MainActivity"
             android:exported="true"
             >
             <intent-filter>

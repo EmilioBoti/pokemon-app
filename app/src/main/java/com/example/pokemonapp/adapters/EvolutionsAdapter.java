@@ -6,21 +6,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.pokemonapp.R;
 import com.example.pokemonapp.models.Pokemon;
 import com.example.pokemonapp.utils.common.OnClickItemListener;
 import com.example.pokemonapp.utils.constants.Constants;
 import com.example.pokemonapp.utils.constants.Helpers;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class    EvolutionsAdapter extends RecyclerView.Adapter<EvolutionsAdapter.ViewHolder> {
+public class EvolutionsAdapter extends RecyclerView.Adapter<EvolutionsAdapter.ViewHolder> {
     private LayoutInflater inflater;
     private ArrayList<Pokemon> listPokemons;
     private Context context;
@@ -64,11 +60,11 @@ public class    EvolutionsAdapter extends RecyclerView.Adapter<EvolutionsAdapter
             idPoke = itemview.findViewById(R.id.numPoke);
         }
 
-        public void bindData(Pokemon pokemon){
-            //pokeImage
+        public void bindData(Pokemon pokemon) {
             Helpers.loadImage(Constants.URL_IMG+pokemon.getId()+".png", pokeImage);
             pokeName.setText(pokemon.getName().replaceAll("-", " "));
             idPoke.setText("No. "+pokemon.getId());
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

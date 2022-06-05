@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollViewContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -44,9 +44,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/bg_fragment"
-                android:visibility="visible"
                 android:paddingHorizontal="@dimen/dimen_16"
-                >
+                android:visibility="visible">
 
                 <ImageView
                     android:id="@+id/pokeImage"
@@ -60,32 +59,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_10"
-                tools:text="@string/name"
                 android:textAlignment="center"
+                android:textSize="@dimen/dimenString_40"
                 android:textStyle="bold"
-                android:textSize="@dimen/dimenString_40" />
+                tools:text="@string/name" />
 
             <!--Description-->
-
-            <LinearLayout
-                android:id="@+id/descriptionContainer"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/pokeDescription"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dimen_50"
                 android:layout_marginTop="@dimen/dimen_30"
                 android:layout_marginRight="@dimen/dimen_50"
                 android:layout_marginBottom="@dimen/dimen_40"
-                android:orientation="vertical"
-                android:visibility="visible">
-
-                <TextView
-                    android:id="@+id/pokeDescription"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/aboutPoke"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/dimenString_15" />
-            </LinearLayout>
+                android:text="@string/aboutPoke"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dimenString_15" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/descriptionMainContainer"
@@ -102,143 +92,61 @@
                     android:id="@+id/description"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/dimen_30"
-                    android:layout_marginBottom="@dimen/dimen_30"
+                    android:layout_gravity="center|top"
+                    android:layout_marginVertical="@dimen/dimen_10"
                     android:columnCount="3"
                     android:orientation="horizontal"
-                    android:padding="@dimen/dimen_10"
                     android:rowCount="3">
 
-                    <LinearLayout
-                        style="@style/boxes"
-                        android:layout_width="@dimen/dimen_100"
+                    <com.example.pokemonapp.components.Property
+                        android:id="@+id/type"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="top"
-                        android:orientation="vertical">
+                        app:title="@string/type"
+                        android:gravity="top"
+                        />
 
-                        <TextView
-                            style="@style/titleStyle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/type" />
-
-                        <LinearLayout
-                            android:id="@+id/typePokemon"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        style="@style/boxes"
-                        android:layout_width="@dimen/dimen_100"
+                    <com.example.pokemonapp.components.Property
+                        android:id="@+id/abilities"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="top"
-                        android:layout_marginLeft="@dimen/dimen_30"
-                        android:layout_marginRight="@dimen/dimen_30"
-                        android:orientation="vertical">
+                        app:title="@string/abilities"
+                        android:gravity="top"
+                        app:spaceHorizontal="@dimen/dimen_10"
+                        />
 
-                        <TextView
-                            style="@style/titleStyle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/abilities" />
-
-                        <LinearLayout
-                            android:id="@+id/abilitiesPoke"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-
-                            />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        style="@style/boxes"
-                        android:layout_width="@dimen/dimen_100"
+                    <com.example.pokemonapp.components.Property
+                        android:id="@+id/weight"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="top"
-                        android:orientation="vertical">
+                        app:title="@string/weight"
+                        android:gravity="top"
+                        />
 
-                        <TextView
-                            style="@style/titleStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/weight" />
-
-                        <LinearLayout
-                            android:id="@+id/weight"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-
-                            />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="@dimen/dimen_100"
+                    <com.example.pokemonapp.components.Property
+                        android:id="@+id/baseExp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="top"
-                        android:orientation="vertical">
+                        app:title="@string/BaseExp"
+                        android:gravity="top"
+                        />
 
-                        <TextView
-                            style="@style/titleStyle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/BaseExp" />
-
-                        <LinearLayout
-                            android:id="@+id/expPoke"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        style="@style/boxes"
-                        android:layout_width="@dimen/dimen_100"
+                    <com.example.pokemonapp.components.Property
+                        android:id="@+id/habitat"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="top"
-                        android:layout_marginLeft="@dimen/dimen_30"
-                        android:layout_marginRight="@dimen/dimen_30"
-                        android:orientation="vertical">
+                        app:title="@string/habitat"
+                        app:spaceHorizontal="@dimen/dimen_10"
+                        android:gravity="top"
+                        />
 
-                        <TextView
-                            style="@style/titleStyle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/habitat" />
-
-                        <LinearLayout
-                            android:id="@+id/habitat"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="@dimen/dimen_100"
+                    <com.example.pokemonapp.components.Property
+                        android:id="@+id/height"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="top"
-                        android:orientation="vertical">
-
-                        <TextView
-                            style="@style/titleStyle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/height" />
-
-                        <LinearLayout
-                            android:id="@+id/height"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                        </LinearLayout>
-                    </LinearLayout>
+                        app:title="@string/height"
+                        android:gravity="top"
+                        />
                 </GridLayout>
             </androidx.cardview.widget.CardView>
 
@@ -246,8 +154,7 @@
                 android:id="@+id/evoContainer"
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
-                app:titleText = "Evolutions"
-                />
+                app:titleText="Evolutions" />
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </RelativeLayout>

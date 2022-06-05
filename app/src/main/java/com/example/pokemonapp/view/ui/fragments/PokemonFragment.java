@@ -4,7 +4,6 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Build;
 import android.os.Bundle;
 
 import android.view.Gravity;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,23 +24,18 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.palette.graphics.Palette;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokemonapp.R;
-import com.example.pokemonapp.adapters.EvolutionsAdapter;
 import com.example.pokemonapp.businessLogic.pokeDetails.DetailPresenter;
 import com.example.pokemonapp.businessLogic.pokeDetails.DetailProvider;
 import com.example.pokemonapp.businessLogic.pokeDetails.IDetail;
 import com.example.pokemonapp.components.EvolutionContainer;
+import com.example.pokemonapp.components.Property;
 import com.example.pokemonapp.databinding.FragmentPokemonBinding;
 import com.example.pokemonapp.models.Pokemon;
 import com.example.pokemonapp.utils.common.OnClickItemListener;
 import com.example.pokemonapp.utils.constants.Helpers;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -100,7 +93,6 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter, 
     }
 
     private void callAdapter(Context context, ArrayList<Pokemon> listPokemon) {
-
         if (getActivity() != null){
             PokemonFragment.this.getActivity().runOnUiThread(new Runnable() {
                 @Override
@@ -160,30 +152,23 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter, 
         animatorImg.setDuration(600);
         animatorImg.start();
 
-        binding.weight.removeAllViewsInLayout();
-        binding.expPoke.removeAllViewsInLayout();
-        binding.typePokemon.removeAllViewsInLayout();
-        binding.abilitiesPoke.removeAllViewsInLayout();
-        binding.habitat.removeAllViewsInLayout();
-        binding.height.removeAllViewsInLayout();
-
         double num = (pokemon.getWeight() / 4.54);
         String pound = String.format("%.02f", num);
 
         String n = pokemon.getName().replaceAll("-", " ");
         binding.pokeDescription.setText(pokemon.getDescription());
         binding.namePoke.setText(Helpers.ToUpperName(n));
-        binding.habitat.addView(createTextView(pokemon.getHabitat(), DIMEN));
-        binding.weight.addView(createTextView(pound+" pounds", DIMEN));
-        binding.height.addView(createTextView((pokemon.getHeight() * 10) + " cm", DIMEN));
-        binding.expPoke.addView(createTextView(String.valueOf(pokemon.getBaseExperience()), DIMEN));
 
-        getElem(pokemon.getTypes(), binding.typePokemon, DIMEN);
-        getElem(pokemon.getAbilities(), binding.abilitiesPoke, DIMEN);
+        binding.habitat.setViewContent(pokemon.getHabitat());
+        binding.weight.setViewContent(pound+" pounds");
+        binding.height.setViewContent((pokemon.getHeight() * 10) + " cm");
+        binding.baseExp.setViewContent(String.valueOf(pokemon.getBaseExperience()));
+        binding.abilities.setElements(pokemon.getAbilities());
+        binding.type.setElements(pokemon.getTypes());
     }
 
     private void settingColor() {
-        if (binding.pokeImage.getDrawable() != null){
+        if (binding.pokeImage.getDrawable() != null) {
             Bitmap bitmap = ((BitmapDrawable) binding.pokeImage.getDrawable()).getBitmap();
             Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
                 @Override
@@ -197,18 +182,6 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter, 
         }
     }
 
-    private void getElem(ArrayList<String> type, LinearLayout layout , Float dimen) {
-        for (String elem : type) layout.addView(createTextView(elem, dimen));
-    }
-
-    private TextView createTextView(String text, Float dimen) {
-        TextView textView = new TextView(getContext());
-        textView.setGravity(Gravity.CENTER_HORIZONTAL);
-        textView.setTextSize(dimen);
-        textView.setText(text);
-        return textView;
-    }
-
     @Override
     public void onClickItem(int post) {
         binding.scrollViewContainer.setVisibility(View.GONE);
@@ -217,7 +190,5 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter, 
     }
 
     @Override
-    public void onClickItem(String name) {
-
-    }
+    public void onClickItem(String name) { }
 }
