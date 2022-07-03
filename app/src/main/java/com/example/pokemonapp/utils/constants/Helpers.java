@@ -29,16 +29,12 @@ public class Helpers {
         fragmentTransaction.replace(R.id.fragment_container_view, fragment);
         fragmentTransaction.commit();
     }
-    public static String ToUpperName(String name){
+    public static String ToUpperName(String name) {
         String na = "";
 
-        for(int i = 0; i < name.length(); i++){
-            if(i == 0){
-                String f = String.valueOf(name.charAt(0)).toUpperCase();
-                na += f;
-            }else{
-                na += String.valueOf(name.charAt(i));
-            }
+        for(int i = 0; i < name.length(); i++) {
+            if(i == 0) na += String.valueOf(name.charAt(0)).toUpperCase();
+            else na += String.valueOf(name.charAt(i));
         }
         return na;
     }

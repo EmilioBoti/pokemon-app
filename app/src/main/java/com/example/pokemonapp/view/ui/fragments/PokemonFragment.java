@@ -6,32 +6,26 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.palette.graphics.Palette;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokemonapp.R;
 import com.example.pokemonapp.businessLogic.pokeDetails.DetailPresenter;
 import com.example.pokemonapp.businessLogic.pokeDetails.DetailProvider;
 import com.example.pokemonapp.businessLogic.pokeDetails.IDetail;
-import com.example.pokemonapp.components.EvolutionContainer;
-import com.example.pokemonapp.components.Property;
 import com.example.pokemonapp.databinding.FragmentPokemonBinding;
 import com.example.pokemonapp.models.Pokemon;
 import com.example.pokemonapp.utils.common.OnClickItemListener;
@@ -40,19 +34,13 @@ import com.example.pokemonapp.utils.constants.Helpers;
 import java.util.ArrayList;
 
 
-public class PokemonFragment extends Fragment implements IDetail.ViewPresenter, OnClickItemListener {
+public class PokemonFragment extends Fragment implements IDetail.ViewPresenter, OnClickItemListener, View.OnClickListener {
     private FragmentPokemonBinding binding;
-    private ImageView pokeImage;
     private ImageButton goBack;
-    private TextView namePoke, pokeDescription, titleBar;
-    private LinearLayout typesView, weight,height, baseExp, abilities, habitatLayout, goBackContainer;
-    private RecyclerView evolutions;
-    private ProgressBar progressBar;
-    private ScrollView scrollViewContainer;
-    private CardView descriptionMainContainer;
+    private TextView titleBar;
+    private LinearLayout goBackContainer;
     private DetailProvider model;
     private DetailPresenter presenter;
-    private EvolutionContainer evolutionContainer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
@@ -70,12 +58,12 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter, 
 
         titleBar.setText(R.string.pokeInfo);
 
-        //get datas from home's input(searcher)
         Bundle data = getArguments();
         String id = data.get("idPoke").toString();
         presenter.callPoke(id);
+
         //event to go back
-        goBack.setOnClickListener(new View.OnClickListener(){
+        goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view1) {
                 if (getActivity() != null) getActivity().onBackPressed();
@@ -97,13 +85,13 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter, 
             PokemonFragment.this.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    evolutionAdapter(context, listPokemon);
+                    evolutionAdapter(listPokemon);
                 }
             });
         }
     }
 
-    private void evolutionAdapter(Context context, ArrayList<Pokemon> listPokemon) {
+    private void evolutionAdapter(ArrayList<Pokemon> listPokemon) {
        binding.evoContainer.setAdapter(listPokemon);
     }
 
@@ -141,8 +129,6 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter, 
         binding.scrollViewContainer.setVisibility(View.VISIBLE);
         binding.scrollViewContainer.setSmoothScrollingEnabled(true);
         binding.scrollViewContainer.setScrollY(0);
-
-        final float DIMEN = 16f;
         binding.pokeImage.setTranslationY(-1000f);
         //load the image
         Helpers.loadImage(pokemon.getSpriteFront(), binding.pokeImage);
@@ -165,6 +151,32 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter, 
         binding.baseExp.setViewContent(String.valueOf(pokemon.getBaseExperience()));
         binding.abilities.setElements(pokemon.getAbilities());
         binding.type.setElements(pokemon.getTypes());
+
+        setAbilities(pokemon.getTypes());
+
+    }
+
+    private void setAbilities(ArrayList<String> list) {
+        binding.abilitiesContainer.removeAllViewsInLayout();
+        for ( String value: list) {
+            binding.abilitiesContainer.addView(createT(Helpers.ToUpperName(value)));
+        }
+    }
+
+    private TextView createT(String text) {
+
+        LinearLayout.LayoutParams margin = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        margin.rightMargin = 25;
+
+        TextView t = new TextView(getActivity());
+        t.setBackgroundResource(R.drawable.platform);
+        t.setPadding(20, 20, 20,20);
+        t.setText(text);
+        t.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
+        t.setTextSize(16f);
+        t.setLayoutParams(margin);
+        t.setOnClickListener(this);
+        return t;
     }
 
     private void settingColor() {
@@ -176,7 +188,7 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter, 
                     Palette.Swatch vibrant = palette.getLightVibrantSwatch();
                     if (vibrant != null) {
                         updateColor(vibrant.getRgb());
-                    }
+                    } else settingColor();
                 }
             });
         }
@@ -191,4 +203,18 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter, 
 
     @Override
     public void onClickItem(String name) { }
+
+    @Override
+    public void onClick(View v) {
+        TextView t = (TextView) v;
+
+        if (getActivity() != null ) {
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.fade_in,R.anim.slide_out ,R.anim.slide_in, R.anim.fade_out)
+                    .addToBackStack(null)
+                    .add(R.id.fragment_container_view, new HomeFragment())
+                    .commit();
+        }
+    }
 }

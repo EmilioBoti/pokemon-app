@@ -62,6 +62,7 @@
                 android:textAlignment="center"
                 android:textSize="@dimen/dimenString_40"
                 android:textStyle="bold"
+                android:textColor="@color/black"
                 tools:text="@string/name" />
 
             <!--Description-->
@@ -73,9 +74,27 @@
                 android:layout_marginTop="@dimen/dimen_30"
                 android:layout_marginRight="@dimen/dimen_50"
                 android:layout_marginBottom="@dimen/dimen_40"
-                android:text="@string/aboutPoke"
                 android:textColor="@color/black"
-                android:textSize="@dimen/dimenString_15" />
+                android:textAlignment="center"
+                android:textSize="@dimen/dimenString_15"
+                tools:text="@string/aboutPoke" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                >
+
+                <LinearLayout
+                    android:id="@+id/abilitiesContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="@dimen/dimen_20"
+                    android:paddingHorizontal="@dimen/dimen_20"
+                    android:layout_gravity="center"
+                    />
+            </HorizontalScrollView>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/descriptionMainContainer"
@@ -102,51 +121,45 @@
                         android:id="@+id/type"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:title="@string/type"
                         android:gravity="top"
-                        />
+                        app:title="@string/type" />
 
                     <com.example.pokemonapp.components.Property
                         android:id="@+id/abilities"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:title="@string/abilities"
                         android:gravity="top"
                         app:spaceHorizontal="@dimen/dimen_10"
-                        />
+                        app:title="@string/abilities" />
 
                     <com.example.pokemonapp.components.Property
                         android:id="@+id/weight"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:title="@string/weight"
                         android:gravity="top"
-                        />
+                        app:title="@string/weight" />
 
                     <com.example.pokemonapp.components.Property
                         android:id="@+id/baseExp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:title="@string/BaseExp"
                         android:gravity="top"
-                        />
+                        app:title="@string/BaseExp" />
 
                     <com.example.pokemonapp.components.Property
                         android:id="@+id/habitat"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:title="@string/habitat"
-                        app:spaceHorizontal="@dimen/dimen_10"
                         android:gravity="top"
-                        />
+                        app:spaceHorizontal="@dimen/dimen_10"
+                        app:title="@string/habitat" />
 
                     <com.example.pokemonapp.components.Property
                         android:id="@+id/height"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:title="@string/height"
                         android:gravity="top"
-                        />
+                        app:title="@string/height" />
                 </GridLayout>
             </androidx.cardview.widget.CardView>
 

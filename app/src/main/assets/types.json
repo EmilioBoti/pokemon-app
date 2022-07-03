@@ -1,0 +1,74 @@
+[
+  {
+    "name": "Normal",
+    "color": 0
+  },
+  {
+    "name": "Fire",
+    "color": 0
+  },
+  {
+    "name": "Water",
+    "color": 0
+  },
+  {
+    "name": "Grass",
+    "color": 0
+  },
+  {
+    "name": "Electric",
+    "color": 0
+  },
+  {
+    "name": "Ice",
+    "color": 0
+  },
+  {
+    "name": "Figthing",
+    "color": 0
+  },
+  {
+    "name": "Poison",
+    "color": 0
+  },
+  {
+    "name": "Ground",
+    "color": 0
+  },
+  {
+    "name": "Flying",
+    "color": 0
+  },
+  {
+    "name": "Psychic",
+    "color": 0
+  },
+  {
+    "name": "Bug",
+    "color": 0
+  },
+  {
+    "name": "Rock",
+    "color": 0
+  },
+  {
+    "name": "Ghost",
+    "color": 0
+  },
+  {
+    "name": "Dark",
+    "color": 0
+  },
+  {
+    "name": "Dragon",
+    "color": 0
+  },
+  {
+    "name": "Steel",
+    "color": 0
+  },
+  {
+    "name": "Fairy",
+    "color": 0
+  }
+]

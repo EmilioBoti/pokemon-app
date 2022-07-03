@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/bg_fragment"
     tools:context=".view.ui.fragments.HomeFragment"
-
     >
 
     <TextView
@@ -18,9 +17,7 @@
         android:text="@string/title"
         android:textColor="@color/black"
         android:textSize="@dimen/dimenString_36"
-        android:textStyle="bold">
-
-    </TextView>
+        android:textStyle="bold"/>
 
     <LinearLayout
         android:id="@+id/search_container"
@@ -40,6 +37,7 @@
             android:background="@drawable/customborder"
             android:inputType="text"
             app:queryHint="Search"
+            android:textColor="@color/black"
             />
 
         <ImageButton

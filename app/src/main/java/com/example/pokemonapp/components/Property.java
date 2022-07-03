@@ -10,7 +10,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+
 import com.example.pokemonapp.R;
+import com.example.pokemonapp.utils.constants.Helpers;
 
 import java.util.ArrayList;
 
@@ -45,7 +48,9 @@ public class Property extends LinearLayout {
 
     public void setElements(ArrayList<String> type) {
         container.removeAllViewsInLayout();
-        for (String elem : type) container.addView(createTextView(elem, DIMEN));
+        for (String elem : type) {
+            container.addView(createTextView(Helpers.ToUpperName(elem), DIMEN));
+        }
     }
 
     private TextView createTextView(String text, Float dimen) {
@@ -53,6 +58,7 @@ public class Property extends LinearLayout {
         textView.setGravity(Gravity.CENTER_HORIZONTAL);
         textView.setTextSize(dimen);
         textView.setText(text);
+        textView.setTextColor(ContextCompat.getColor(getContext(), R.color.black_overlay));
         return textView;
     }
 }

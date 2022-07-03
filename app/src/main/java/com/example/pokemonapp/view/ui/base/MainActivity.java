@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         callFragment();
 
     }
+
     private void callFragment() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
