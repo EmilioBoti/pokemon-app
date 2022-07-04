@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -60,15 +61,7 @@ public class DetailPresenter implements IDetail.Presenter {
                         double baseExp = Double.parseDouble(json.getString("base_experience"));
                         String species = json.getJSONObject("species").getString("name");
                         JSONArray movesArr = json.optJSONArray("moves");
-
-                        for(int i = 0; i < movesArr.length(); i++){
-                            JSONObject move = (JSONObject) movesArr.get(i);
-                            JSONObject m = move.getJSONObject("move");
-                            String moveName = m.getString("name");
-                            String url = m.getString("url");
-                            String idMove = url.substring(31, url.length()-1);
-                            moves.add(new Move(Integer.parseInt(idMove),moveName));
-                        }
+                        JSONArray stats = json.getJSONArray("stats");
 
                         pokemon.setId(Integer.parseInt(id));
                         pokemon.setName(name);
@@ -80,6 +73,7 @@ public class DetailPresenter implements IDetail.Presenter {
                         pokemon.setBaseExperience(baseExp);
                         pokemon.setHeight(Double.parseDouble(json.getString("height")));
                         pokemon.setMoves(moves);
+                        pokemon.setStats(getStats(stats));
 
                         DetailPresenter.this.setDesData(species);
                     } catch (JSONException e) {
@@ -89,7 +83,24 @@ public class DetailPresenter implements IDetail.Presenter {
             }
         });
     }
+    
+    private ArrayList<HashMap<String, Integer>> getStats(JSONArray statsArr) {
+        JSONArray stats = statsArr;
+        ArrayList listStats = new ArrayList<HashMap<String, Integer>>();
 
+        try {
+            if (stats != null) {
+                for (int i = 0; i < stats.length(); i++) {
+                    JSONObject obj = (JSONObject) stats.get(i);
+                    int num = obj.getInt("base_stat");
+                    JSONObject stat = obj.getJSONObject("stat");
+                    HashMap map = new HashMap<String, Integer>();
+                    listStats.add(map.put(stat.getString("name"), num));
+                }
+            }
+        } catch (JSONException err) { err.printStackTrace(); }
+        return listStats;
+    }
     @Override
     public void pokeEvolutions(String id) {
 

@@ -1,7 +1,9 @@
 package com.example.pokemonapp.utils.constants;
 
+import android.content.Context;
 import android.widget.ImageView;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -37,5 +39,70 @@ public class Helpers {
             else na += String.valueOf(name.charAt(i));
         }
         return na;
+    }
+
+    public static int getColorType(Context context, String type) {
+        int color = 0;
+
+        switch (type) {
+            case "normal":
+                color = ContextCompat.getColor(context, R.color.normal);
+                break;
+            case "fire":
+                color = ContextCompat.getColor(context, R.color.fire);
+                break;
+            case "water":
+                color = ContextCompat.getColor(context, R.color.water);
+                break;
+            case "grass":
+                color = ContextCompat.getColor(context, R.color.grass);
+                break;
+            case "electric":
+                color = ContextCompat.getColor(context, R.color.electric);
+                break;
+            case "ice":
+                color = ContextCompat.getColor(context, R.color.ice);
+                break;
+            case "fighting":
+                color = ContextCompat.getColor(context, R.color.figthing);
+                break;
+            case "poison":
+                color = ContextCompat.getColor(context, R.color.poison);
+                break;
+            case "ground":
+                color = ContextCompat.getColor(context, R.color.groung);
+                break;
+            case "flying":
+                color = ContextCompat.getColor(context, R.color.flying);
+                break;
+            case "psychic":
+                color = ContextCompat.getColor(context, R.color.psychic);
+                break;
+            case "bug":
+                color = ContextCompat.getColor(context, R.color.bug);
+                break;
+            case "rock":
+                color = ContextCompat.getColor(context, R.color.rock);
+                break;
+            case "ghost":
+                color = ContextCompat.getColor(context, R.color.ghost);
+                break;
+            case "dark":
+                color = ContextCompat.getColor(context, R.color.dark);
+                break;
+            case "dragon":
+                color = ContextCompat.getColor(context, R.color.dragon);
+                break;
+            case "steel":
+                color = ContextCompat.getColor(context, R.color.steel);
+                break;
+            case "fairy":
+                color = ContextCompat.getColor(context, R.color.fairy);
+                break;
+            default:
+                color = ContextCompat.getColor(context, R.color.gray_300);
+                break;
+        }
+        return color;
     }
 }

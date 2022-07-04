@@ -24,5 +24,7 @@
     <string name="moves">Moves</string>
     <string name="pokeInfo">Pokémon Info</string>
     <string name="moveInfo">Move Info</string>
+    <string name="idPoke">#0</string>
+    <string name="about">About</string>
 
 </resources>

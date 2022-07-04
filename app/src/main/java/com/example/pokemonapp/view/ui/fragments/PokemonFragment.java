@@ -96,7 +96,7 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter, 
     }
 
     private void updateColor(int color) {
-        binding.descriptionMainContainer.setCardBackgroundColor(color);
+        //binding.descriptionMainContainer.setCardBackgroundColor(color);
         goBackContainer.setBackgroundColor(color);
 
         if (getActivity() != null) {
@@ -132,10 +132,10 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter, 
         binding.pokeImage.setTranslationY(-1000f);
         //load the image
         Helpers.loadImage(pokemon.getSpriteFront(), binding.pokeImage);
-        settingColor();
+        settingColor(pokemon);
         //animation
         ObjectAnimator animatorImg = ObjectAnimator.ofFloat(binding.pokeImage, "translationY", 0f);
-        animatorImg.setDuration(600);
+        animatorImg.setDuration(400);
         animatorImg.start();
 
         double num = (pokemon.getWeight() / 4.54);
@@ -144,43 +144,16 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter, 
         String n = pokemon.getName().replaceAll("-", " ");
         binding.pokeDescription.setText(pokemon.getDescription());
         binding.namePoke.setText(Helpers.ToUpperName(n));
-
-        binding.habitat.setViewContent(pokemon.getHabitat());
-        binding.weight.setViewContent(pound+" pounds");
-        binding.height.setViewContent((pokemon.getHeight() * 10) + " cm");
-        binding.baseExp.setViewContent(String.valueOf(pokemon.getBaseExperience()));
-        binding.abilities.setElements(pokemon.getAbilities());
-        binding.type.setElements(pokemon.getTypes());
-
-        setAbilities(pokemon.getTypes());
-
+        binding.idPoke.setText("#"+pokemon.getId());
+        binding.containerType.setTypesList(pokemon.getTypes());
+        binding.containerType.setViewType();
     }
 
-    private void setAbilities(ArrayList<String> list) {
-        binding.abilitiesContainer.removeAllViewsInLayout();
-        for ( String value: list) {
-            binding.abilitiesContainer.addView(createT(Helpers.ToUpperName(value)));
-        }
-    }
-
-    private TextView createT(String text) {
-
-        LinearLayout.LayoutParams margin = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        margin.rightMargin = 25;
-
-        TextView t = new TextView(getActivity());
-        t.setBackgroundResource(R.drawable.platform);
-        t.setPadding(20, 20, 20,20);
-        t.setText(text);
-        t.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
-        t.setTextSize(16f);
-        t.setLayoutParams(margin);
-        t.setOnClickListener(this);
-        return t;
-    }
-
-    private void settingColor() {
+    private void settingColor(Pokemon pokemon) {
+        updateColor(Helpers.getColorType(getContext(), pokemon.getTypes().get(0)));
+        /*
         if (binding.pokeImage.getDrawable() != null) {
+
             Bitmap bitmap = ((BitmapDrawable) binding.pokeImage.getDrawable()).getBitmap();
             Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
                 @Override
@@ -191,7 +164,7 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter, 
                     } else settingColor();
                 }
             });
-        }
+        }*/
     }
 
     @Override
@@ -206,8 +179,6 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter, 
 
     @Override
     public void onClick(View v) {
-        TextView t = (TextView) v;
-
         if (getActivity() != null ) {
             getActivity().getSupportFragmentManager()
                     .beginTransaction()

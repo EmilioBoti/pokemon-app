@@ -50,6 +50,7 @@ dependencies {
     //load image
     implementation 'com.squareup.picasso:picasso:2.71828'
 
+    implementation("com.android.support:palette-v7:28.0.0")
     //animated img(gif)
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
 }

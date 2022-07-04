@@ -2,6 +2,7 @@ package com.example.pokemonapp.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Pokemon implements Serializable, Comparable {
     private int id;
@@ -12,6 +13,7 @@ public class Pokemon implements Serializable, Comparable {
     private double baseExperience;
     private ArrayList<String> abilities;
     private ArrayList<String> types;
+    private ArrayList<HashMap<String, Integer>> stats;
     private String urlEvolutions;
     private String description;
     private String color;
@@ -23,6 +25,14 @@ public class Pokemon implements Serializable, Comparable {
     public Pokemon (int id, String name){
         this.id = id;
         this.name = name;
+    }
+
+    public ArrayList<HashMap<String, Integer>> getStats() {
+        return stats;
+    }
+
+    public void setStats(ArrayList<HashMap<String, Integer>> stats) {
+        this.stats = stats;
     }
 
     public ArrayList<Move> getMoves() {
