@@ -41,15 +41,10 @@ public class HomeFragment extends Fragment implements IHome.ViewPresenter, View.
         searchView = view.findViewById(R.id.search);
         btnSearch = view.findViewById(R.id.btnSearch);
         pokemons = view.findViewById(R.id.pokemons);
-        //moves = view.findViewById(R.id.move);
-        //floatingActionButton = view.findViewById(R.id.ok);
-        //floatingActionButton2 = view.findViewById(R.id.ok2);
 
         //events click
         btnSearch.setOnClickListener(this);
         pokemons.setOnClickListener(this);
-        //moves.setOnClickListener(this);
-
     }
 
     @Override
@@ -62,9 +57,9 @@ public class HomeFragment extends Fragment implements IHome.ViewPresenter, View.
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                String queryValue = searchView.getQuery().toString().replaceAll(" ", "-");
+                String queryValue = query.trim().replaceAll(" ", "-");
                 if(!queryValue.isEmpty()){
-                    input = queryValue.toLowerCase();
+                    input = queryValue.toLowerCase().trim();
                     presenter.requestPoke(input);
                 }
                 return false;
@@ -81,7 +76,7 @@ public class HomeFragment extends Fragment implements IHome.ViewPresenter, View.
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.btnSearch) {
-            String queryValue = searchView.getQuery().toString().replaceAll(" ", "-");
+            String queryValue = searchView.getQuery().toString().trim().replaceAll(" ", "-");
             if(!queryValue.isEmpty()){
                 input = queryValue.toLowerCase();
                 presenter.requestPoke(input);
@@ -91,9 +86,6 @@ public class HomeFragment extends Fragment implements IHome.ViewPresenter, View.
             Helpers.callFragment(getParentFragmentManager(), pokemonAllFragment);
 
         }
-        /*else if (v.getId() == R.id.move){
-            Toast.makeText(getContext(), "This action is disabled for now.", Toast.LENGTH_SHORT).show();
-        }*/
     }
 
     @Override

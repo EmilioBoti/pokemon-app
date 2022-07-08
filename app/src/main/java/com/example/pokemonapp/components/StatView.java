@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.example.pokemonapp.R;
+import com.example.pokemonapp.utils.constants.Helpers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,7 +34,7 @@ public class StatView extends LinearLayout {
     }
 
     public void setContentStat(String key, int value, int color) {
-        statTitle.setText(key + ":");
+        statTitle.setText(Helpers.ToUpperName(key) + ":");
         statValue.setText(String.valueOf(value));
         bar.setProgress(value);
         bar.setProgressTintList(ColorStateList.valueOf(color));

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.example.pokemonapp.R;
+import com.example.pokemonapp.utils.constants.Helpers;
 
 public class AbilityView extends LinearLayout {
     private TextView abilityvalue;
@@ -27,7 +28,7 @@ public class AbilityView extends LinearLayout {
     }
 
     public void setViewAbility(String name, int color) {
-        abilityvalue.setText(name);
+        abilityvalue.setText(Helpers.ToUpperName(name));
         bottomBar.setBackgroundColor(color);
     }
 }
