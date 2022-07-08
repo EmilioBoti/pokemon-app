@@ -83,7 +83,7 @@ public class DetailPresenter implements IDetail.Presenter {
             }
         });
     }
-    
+
     private ArrayList<HashMap<String, Integer>> getStats(JSONArray statsArr) {
         JSONArray stats = statsArr;
         ArrayList listStats = new ArrayList<HashMap<String, Integer>>();
@@ -95,7 +95,8 @@ public class DetailPresenter implements IDetail.Presenter {
                     int num = obj.getInt("base_stat");
                     JSONObject stat = obj.getJSONObject("stat");
                     HashMap map = new HashMap<String, Integer>();
-                    listStats.add(map.put(stat.getString("name"), num));
+                    map.put(stat.getString("name"), num);
+                    listStats.add(map);
                 }
             }
         } catch (JSONException err) { err.printStackTrace(); }

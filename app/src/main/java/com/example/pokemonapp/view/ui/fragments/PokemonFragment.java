@@ -61,7 +61,6 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter, 
         Bundle data = getArguments();
         String id = data.get("idPoke").toString();
         presenter.callPoke(id);
-
         //event to go back
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,11 +141,16 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter, 
         String pound = String.format("%.02f", num);
 
         String n = pokemon.getName().replaceAll("-", " ");
-        binding.pokeDescription.setText(pokemon.getDescription());
         binding.namePoke.setText(Helpers.ToUpperName(n));
+        binding.about.setAboutPoke(pokemon.getDescription());
         binding.idPoke.setText("#"+pokemon.getId());
         binding.containerType.setTypesList(pokemon.getTypes());
         binding.containerType.setViewType();
+        binding.heightValue.setText((pokemon.getHeight() * 10) / 100 + " m");
+        binding.weightValue.setText(pound+" pounds");
+        binding.habitatValue.setText(pokemon.getHabitat());
+        binding.stats.setStatList(pokemon.getStats(), Helpers.getColorType(getContext(), pokemon.getTypes().get(0)));
+        binding.ability.setAbilityList(pokemon.getAbilities(), Helpers.getColorType(getContext(), pokemon.getTypes().get(0)));
     }
 
     private void settingColor(Pokemon pokemon) {

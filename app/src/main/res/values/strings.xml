@@ -13,18 +13,21 @@
     <string name="abilities">Abilities</string>
     <string name="name">name</string>
     <string name="titleEvolution">Evolutions</string>
-    <string name="weight">Weight</string>
+    <string name="weight">Weight:</string>
     <string name="description">Description</string>
     <string name="aboutPoke">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ullamcorper,
         est non ultricies sodales, sem sem lacinia felis, eget cursus diam quam eget nibh. Ut vitae turpiselit.</string>
-    <string name="habitat">Habitat</string>
+    <string name="habitat">Habitat:</string>
     <string name="pokemons">Pokemons</string>
     <string name="types">Types</string>
-    <string name="height">Height</string>
+    <string name="height">Height:</string>
     <string name="moves">Moves</string>
     <string name="pokeInfo">Pokémon Info</string>
     <string name="moveInfo">Move Info</string>
     <string name="idPoke">#0</string>
     <string name="about">About</string>
+    <string name="none">none</string>
+    <string name="known">Known</string>
+    <string name="stats">Stats</string>
 
 </resources>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dimen_5"
+        android:text="@string/about"
+        android:textColor="@color/black"
+        android:textSize="@dimen/dimenString_20" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimen_2"
+        android:background="@color/gray_300" />
+
+    <TextView
+        android:id="@+id/pokeDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_10"
+        android:layout_marginBottom="@dimen/dimen_40"
+        android:textColor="@color/black"
+        android:textSize="@dimen/dimenString_15"
+        android:text="@string/aboutPoke" />
+
+</LinearLayout>
