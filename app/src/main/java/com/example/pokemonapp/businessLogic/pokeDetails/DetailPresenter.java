@@ -58,7 +58,7 @@ public class DetailPresenter implements IDetail.Presenter {
                         JSONArray types = json.getJSONArray("types");
                         JSONArray abilities = json.getJSONArray("abilities");
                         double weight = Double.parseDouble(json.getString("weight"));
-                        double baseExp = Double.parseDouble(json.getString("base_experience"));
+                        String baseExp = json.getString("base_experience");
                         String species = json.getJSONObject("species").getString("name");
                         JSONArray movesArr = json.optJSONArray("moves");
                         JSONArray stats = json.getJSONArray("stats");
@@ -70,7 +70,6 @@ public class DetailPresenter implements IDetail.Presenter {
                         pokemon.setSpriteBack(sprite.getString("back_default"));
                         pokemon.setSpriteFront(officialArtwork.getString("front_default"));
                         pokemon.setWeight(weight);
-                        pokemon.setBaseExperience(baseExp);
                         pokemon.setHeight(Double.parseDouble(json.getString("height")));
                         pokemon.setMoves(moves);
                         pokemon.setStats(getStats(stats));
@@ -78,6 +77,7 @@ public class DetailPresenter implements IDetail.Presenter {
                         DetailPresenter.this.setDesData(species);
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        DetailPresenter.this.viewPresenter.error("Error");
                     }
                 }
             }
@@ -102,6 +102,7 @@ public class DetailPresenter implements IDetail.Presenter {
         } catch (JSONException err) { err.printStackTrace(); }
         return listStats;
     }
+
     @Override
     public void pokeEvolutions(String id) {
 
@@ -112,7 +113,7 @@ public class DetailPresenter implements IDetail.Presenter {
         viewPresenter.onClickItem(id);
     }
 
-    private ArrayList<String> setElements(JSONArray array, String objName){
+    private ArrayList<String> setElements(JSONArray array, String objName) {
         ArrayList<String> listElements = new ArrayList<>();
         try {
             for (int i = 0; i < array.length(); i++){
@@ -158,7 +159,6 @@ public class DetailPresenter implements IDetail.Presenter {
                         String id = urlId.substring(34, urlId.length()-1);
                         listPokemon.add(new Pokemon(Integer.parseInt(id), name));
                     }
-                    //print evolutions
                     viewPresenter.setViewData(pokemon);
                     setPokeEvolutions();
 
@@ -174,7 +174,7 @@ public class DetailPresenter implements IDetail.Presenter {
         });
     }
 
-    private String isNull(String isNull, JSONObject obj){
+    private String isNull(String isNull, JSONObject obj) {
         String habitat = "Unknow";
         try {
             if(!isNull.equals("null") || !isNull.equals("")){

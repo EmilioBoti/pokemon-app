@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
     android:layout_marginBottom="@dimen/dimen_100"
-    android:gravity="center"
     android:orientation="vertical"
     android:padding="@dimen/dimen_5"
     android:visibility="visible">
@@ -17,10 +16,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dimenString_10"
-        tools:text="@string/titleEvolution" />
+        tools:text="@string/titleEvolution"
+        android:layout_marginHorizontal="@dimen/dimen_30"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/evolutions"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        />
 </LinearLayout>

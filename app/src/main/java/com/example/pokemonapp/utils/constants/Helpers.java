@@ -16,7 +16,7 @@ public class Helpers {
     public static void loadImage(String url, ImageView pokeImage){
         Picasso.get()
                 .load(url)
-                //.placeholder(R.mipmap.ic_launcher_pokemon_zero_foreground)
+                .placeholder(R.mipmap.ic_launcher_pokemon_zero_foreground)
                 .into(pokeImage);
     }
     public static void loadFitImage(String url, ImageView pokeImage){
@@ -39,6 +39,15 @@ public class Helpers {
             else na += String.valueOf(name.charAt(i));
         }
         return na;
+    }
+
+    public static String formatTwoDigit(double weight) {
+        double num = ((weight / 4.54) / 2.205);
+        return String.format("%.02f", num) + " Kg";
+    }
+
+    public static String converToMeters(double height) {
+        return (height * 10) / 100 + " m";
     }
 
     public static int getColorType(Context context, String type) {

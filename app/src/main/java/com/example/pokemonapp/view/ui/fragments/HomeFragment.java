@@ -59,7 +59,8 @@ public class HomeFragment extends Fragment implements IHome.ViewPresenter, View.
             public boolean onQueryTextSubmit(String query) {
                 String queryValue = query.trim().replaceAll(" ", "-");
                 if(!queryValue.isEmpty()){
-                    input = queryValue.toLowerCase().trim();
+                    input = queryValue.toLowerCase();
+                    searchView.setQuery("", false);
                     presenter.requestPoke(input);
                 }
                 return false;
@@ -79,19 +80,18 @@ public class HomeFragment extends Fragment implements IHome.ViewPresenter, View.
             String queryValue = searchView.getQuery().toString().trim().replaceAll(" ", "-");
             if(!queryValue.isEmpty()){
                 input = queryValue.toLowerCase();
+                searchView.setQuery("", false);
                 presenter.requestPoke(input);
             }
         } else if(v.getId() == R.id.pokemons) {
             PokemonAllFragment pokemonAllFragment = new PokemonAllFragment();
             Helpers.callFragment(getParentFragmentManager(), pokemonAllFragment);
-
         }
     }
 
     @Override
     public void detailsPoke(String input) {
         Bundle dataInput = new Bundle();
-        //dataInput.putSerializable("poke", pokemon);
         dataInput.putString("idPoke", String.valueOf(input));
 
         PokemonFragment pokemonFragment = new PokemonFragment();

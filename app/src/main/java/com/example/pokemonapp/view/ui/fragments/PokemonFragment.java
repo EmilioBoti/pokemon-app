@@ -95,7 +95,6 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter, 
     }
 
     private void updateColor(int color) {
-        //binding.descriptionMainContainer.setCardBackgroundColor(color);
         goBackContainer.setBackgroundColor(color);
 
         if (getActivity() != null) {
@@ -123,6 +122,9 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter, 
         binding.evoContainer.setListener(this.presenter);
     }
 
+    @Override
+    public void error(String oldId) { }
+
     private void setContent(Pokemon pokemon) {
         binding.loader.setVisibility(View.GONE);
         binding.scrollViewContainer.setVisibility(View.VISIBLE);
@@ -137,17 +139,14 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter, 
         animatorImg.setDuration(400);
         animatorImg.start();
 
-        double num = (pokemon.getWeight() / 4.54);
-        String pound = String.format("%.02f", num);
-
         String n = pokemon.getName().replaceAll("-", " ");
         binding.namePoke.setText(Helpers.ToUpperName(n));
         binding.about.setAboutPoke(pokemon.getDescription());
         binding.idPoke.setText("#"+pokemon.getId());
         binding.containerType.setTypesList(pokemon.getTypes());
         binding.containerType.setViewType();
-        binding.heightValue.setText((pokemon.getHeight() * 10) / 100 + " m");
-        binding.weightValue.setText(pound+" pounds");
+        binding.heightValue.setText((Helpers.converToMeters(pokemon.getHeight())));
+        binding.weightValue.setText(Helpers.formatTwoDigit(pokemon.getWeight()));
         binding.habitatValue.setText(pokemon.getHabitat());
         binding.stats.setStatList(pokemon.getStats(), Helpers.getColorType(getContext(), pokemon.getTypes().get(0)));
         binding.ability.setAbilityList(pokemon.getAbilities(), Helpers.getColorType(getContext(), pokemon.getTypes().get(0)));
@@ -155,20 +154,6 @@ public class PokemonFragment extends Fragment implements IDetail.ViewPresenter, 
 
     private void settingColor(Pokemon pokemon) {
         updateColor(Helpers.getColorType(getContext(), pokemon.getTypes().get(0)));
-        /*
-        if (binding.pokeImage.getDrawable() != null) {
-
-            Bitmap bitmap = ((BitmapDrawable) binding.pokeImage.getDrawable()).getBitmap();
-            Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
-                @Override
-                public void onGenerated(@Nullable Palette palette) {
-                    Palette.Swatch vibrant = palette.getLightVibrantSwatch();
-                    if (vibrant != null) {
-                        updateColor(vibrant.getRgb());
-                    } else settingColor();
-                }
-            });
-        }*/
     }
 
     @Override

@@ -11,6 +11,7 @@ public interface IDetail {
     interface ViewPresenter extends OnClickItemListener {
         void setViewData(Pokemon pokemon);
         void setEvolutions(ArrayList<Pokemon> list);
+        void error(String error);
     }
     interface Presenter {
         void callPoke(String id);

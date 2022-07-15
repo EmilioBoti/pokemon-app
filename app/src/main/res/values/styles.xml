@@ -16,7 +16,7 @@
     </style>
     <style name="titleEvolution">
         <item name="android:layout_marginTop">@dimen/dimen_50</item>
-        <item name="android:textSize">@dimen/dimenString_30</item>
+        <item name="android:textSize">@dimen/dimenString_20</item>
         <item name="android:textColor">@color/black</item>>
         <item name="android:layout_centerHorizontal">false</item>
     </style>
